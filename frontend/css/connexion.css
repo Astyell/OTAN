@@ -1,0 +1,71 @@
+html body {
+    margin:0;
+    padding:0;
+    text-align: center; 
+    background-image: url("../img/hell2.jpg");
+    background-attachment: scroll;
+    background-repeat: no-repeat;
+    background-size: 100%, auto;
+    font-family: Optima, sans-serif, Verdana, Geneva, Tahoma, sans-serif;
+}
+
+
+fieldset {
+    position: absolute; /* postulat de départ */
+    top: 50%; left: 50%; /* à 50%/50% du parent référent */
+    transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
+    width: 350px;
+    height: 350px;
+    background-color: rgb(36, 0, 0);
+    border: solid 1px rgb(252, 240, 209); 
+    color: rgb(252, 240, 209);
+    border-radius: 5px;
+}
+
+#button {
+    width: 150px;
+    height: 30px;
+    border-radius: 2px;
+    text-align: center;
+    margin: 0 auto;
+    margin-bottom: 10px;
+    background-color: rgb(104, 0, 0);
+    color: rgb(252, 240, 209);
+    font-size: 18px;
+}
+
+#button:hover {
+    background-color: rgb(88, 0, 0);
+    color: aliceblue;
+}
+
+p {
+    text-align: left;
+    margin : 10px;
+}
+
+input {
+    width: 100%;
+    height: 25px    ;
+    margin : 5px 0px;
+    border-radius: 5px ;
+    border: solid gray 1px;
+}
+
+.small {
+    font-size: small;
+    text-align: left;
+    display: inline;
+}
+
+#error {
+    margin: 20px;
+}
+
+a {
+    color: rgb(252, 240, 209);
+}
+
+.hide {
+    text-decoration: none;
+}
