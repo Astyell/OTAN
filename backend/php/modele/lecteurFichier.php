@@ -34,7 +34,7 @@ function mettreDansDB($chemin_fichier)
 	//$db->insertIdentifiant('root', 'toor', true);
 	//$db->insertIdentifiant('toto', 'zuzu', false);
 
-	//annee
+	//TODO: annee
 	$annee = 1;
 	$db->insertAnnee($annee);
 
@@ -44,8 +44,10 @@ function mettreDansDB($chemin_fichier)
 	{
 		if( $data[0][$j] != null && strstr($data[0][$j], "BIN"))
 		{
+			//création compétence
 			if( strlen($data[0][$j]) == 5)
 			{
+				//création semestre si existe pas
 				if($semestre == '')
 				{
 					$semestre = substr($data[0][$j], 3, 1);
@@ -57,6 +59,7 @@ function mettreDansDB($chemin_fichier)
 				$db->insertCompetence($id_comp);
 				//echo "competaence " . $id_comp . "<br>";
 			}
+			//création ressources
 			if( strlen($data[0][$j]) == 7)
 			{
 				$id_res = $data[0][$j];
@@ -71,8 +74,22 @@ function mettreDansDB($chemin_fichier)
 		}
 	}
 
+	//déclaration de variables
+	$n_etud = '';
+	$nip = '';
+	$nom = '';
+	$prenom = '';
+	$bac = '';
+	$tp = '';
+	$td = '';
+	$nbAbsInjust = '';
+	$nbAbsJust = '';
+	$moy_gene = '';
+	$nb_UE = '';
+
 	for($i = 1; $i < count($data); $i++)
 	{
+		//création variable qui se reset
 		$bonus = 0.00;
 		$parcours = '';
 		$admission = '';
@@ -80,11 +97,13 @@ function mettreDansDB($chemin_fichier)
 
 		for($j = 0; $j < count($data[$i]); $j++)
 		{
+			//verification de bonus
 			if( $data[0][$j] != null && strstr($data[0][$j], "Bonus"))
 			{
 				$bonus = $data[$i][$j];
 			}
 
+			//mettre dans variables
 			switch($data[0][$j])
 			{
 				case 'etudid'   : $n_etud = $data[$i][$j]; break;
@@ -107,15 +126,18 @@ function mettreDansDB($chemin_fichier)
 			//echo $data[0][$j] . ' : '. $data[$i][$j] . '<br>';
 		}
 
+		//création etudiants
 		$db->insertEtudiant($n_etud, $nip, $nom, $prenom, $cursus, $bac);
 		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $nb_UE);
 		$db->insertEtuAnn($n_etud, $annee, $bonus, $parcours, $admission);
 	}
 
+	//repassable sur le doc pour avoir les etudiant, ressources et compétences deja créer
 	for($i = 1; $i < count($data); $i++)
 	{
 		for($j = 0; $j < count($data[$i]); $j++)
 		{
+			//recup n_etud
 			if($data[0][$j] == 'etudid')
 			{
 				$n_etud = $data[$i][$j]; 
@@ -123,6 +145,7 @@ function mettreDansDB($chemin_fichier)
 			
 			if($data[0][$j] != null && strstr($data[0][$j], "BIN"))
 			{
+				//création note comp
 				if( strlen($data[0][$j]) == 5)
 				{
 					$id_comp = $data[0][$j];
@@ -130,6 +153,7 @@ function mettreDansDB($chemin_fichier)
 
 					$db->insertNoteComp($n_etud, $id_comp, $moy_UE);
 				}
+				//création etu res
 				if( strlen($data[0][$j]) == 7)
 				{
 					$id_res = $data[0][$j];
