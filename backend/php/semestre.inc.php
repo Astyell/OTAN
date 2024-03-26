@@ -3,7 +3,7 @@
 class semestre 
 {
 	private int		$id_semestre;
-    private string	$id_annee;
+    private int		$id_annee;
 	
 	public function __construct($iS,$iA) 
 	{
