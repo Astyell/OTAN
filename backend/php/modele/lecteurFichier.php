@@ -9,7 +9,7 @@ require 'DB/DB.inc.php';
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
 // Chemin vers le fichier Excel
-$chemin_fichier = 'S1 FI moyennes.xlsx';
+$chemin_fichier = 'S1 FI jury.xlsx';
 $spreadsheet = IOFactory::load($chemin_fichier);
 
 // Sélectionner la première feuille de calcul
@@ -41,7 +41,7 @@ $db->insertAnnee($annee);
 $semestre = '';
 for($j = 0; $j < count($data[0]); $j++)
 {
-	if(strstr($data[0][$j], "BIN"))
+	if( $data[0][$j] != null && strstr($data[0][$j], "BIN"))
 	{
 		if( strlen($data[0][$j]) == 5)
 		{
@@ -75,12 +75,11 @@ for($i = 1; $i < count($data); $i++)
 	$bonus = 0.00;
 	$parcours = '';
 	$admission = '';
-
-	echo "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa" . $i;
+	$cursus = '';
 
 	for($j = 0; $j < count($data[$i]); $j++)
 	{
-		if(strstr($data[0][$j], "Bonus"))
+		if( $data[0][$j] != null && strstr($data[0][$j], "Bonus"))
 		{
 			$bonus = $data[$i][$j];
 		}
@@ -102,7 +101,7 @@ for($i = 1; $i < count($data); $i++)
 			case 'Just.' : $nbAbsJust = $data[$i][$j]; break;
 
 			case 'Parcours' : $parcours = $data[$i][$j]; break;
-			case 'Année' : $admission = $data[$i][$j]; break;
+			case 'Année' : $admission = $data[$i][$j]; $db->updateEtuAnn($n_etud, $annee, $admission); break;
 		}
 		echo $data[0][$j] . ' : '. $data[$i][$j] . '<br>';
 	}
@@ -121,7 +120,7 @@ for($i = 1; $i < count($data); $i++)
 			$n_etud = $data[$i][$j]; 
 		}
 		
-		if(strstr($data[0][$j], "BIN"))
+		if($data[0][$j] != null && strstr($data[0][$j], "BIN"))
 		{
 			if( strlen($data[0][$j]) == 5)
 			{

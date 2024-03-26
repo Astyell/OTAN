@@ -73,28 +73,35 @@ class DB
 	/************************************************************************/
 	private function execQuery($requete, $tparam, $nomClasse)
 	{
-		//on prépare la requête
-		$stmt = $this->connect->prepare($requete);
-		//on indique que l'on va récupére les tuples sous forme d'objets instance de Client
-		$stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $nomClasse);
-		//on exécute la requête
-		if ($tparam != null) {
-			$stmt->execute($tparam);
-		} else {
-			$stmt->execute();
+		try 
+		{
+			//on prépare la requête
+			$stmt = $this->connect->prepare($requete);
+			//on indique que l'on va récupére les tuples sous forme d'objets instance de Client
+			$stmt->setFetchMode(PDO::FETCH_CLASS | PDO::FETCH_PROPS_LATE, $nomClasse);
+			//on exécute la requête
+			if ($tparam != null) {
+				$stmt->execute($tparam);
+			} else {
+				$stmt->execute();
+			}
+			//récupération du résultat de la requête sous forme d'un tableau d'objets
+			$tab = array();
+			$tuple = $stmt->fetch(); //on récupère le premier tuple sous forme d'objet
+			if ($tuple) {
+				//au moins un tuple a été renvoyé
+				while ($tuple != false) {
+					$tab[] = $tuple; //on ajoute l'objet en fin de tableau
+					$tuple = $stmt->fetch(); //on récupère un tuple sous la forme
+					//d'un objet instance de la classe $nomClasse	       
+				} //fin du while	           	     
+			}
+			return $tab;
+		} catch (\Throwable $th) 
+		{
+			
 		}
-		//récupération du résultat de la requête sous forme d'un tableau d'objets
-		$tab = array();
-		$tuple = $stmt->fetch(); //on récupère le premier tuple sous forme d'objet
-		if ($tuple) {
-			//au moins un tuple a été renvoyé
-			while ($tuple != false) {
-				$tab[] = $tuple; //on ajoute l'objet en fin de tableau
-				$tuple = $stmt->fetch(); //on récupère un tuple sous la forme
-				//d'un objet instance de la classe $nomClasse	       
-			} //fin du while	           	     
-		}
-		return $tab;
+		
 	}
 
 	/************************************************************************/
@@ -109,9 +116,12 @@ class DB
 	/************************************************************************/
 	private function execMaj($ordreSQL, $tparam)
 	{
-		$stmt = $this->connect->prepare($ordreSQL);
-		$res = $stmt->execute($tparam); //execution de l'ordre SQL      	     
-		return $stmt->rowCount();
+		try 
+		{
+			$stmt = $this->connect->prepare($ordreSQL);
+			$res = $stmt->execute($tparam); //execution de l'ordre SQL      	     
+			return $stmt->rowCount();		
+		} catch (\Throwable $th) {}
 	}
 
 	/*************************************************************************
@@ -147,12 +157,9 @@ class DB
 
 	public function insertAnnee($id_annee)
 	{
-		try 
-		{
-			$requete = 'insert into annee values(?)';
-			$tparam = array($id_annee);
-			return $this->execMaj($requete, $tparam);
-		} catch (\Throwable $th) {}
+		$requete = 'insert into annee values(?)';
+		$tparam = array($id_annee);
+		return $this->execMaj($requete, $tparam);
 	}
 
 	/*-------------*/
@@ -218,12 +225,9 @@ class DB
 
 	public function insertRessource($id_res, $id_sem)
 	{
-		try 
-		{
-			$requete = 'insert into ressource values(?,?)';
-			$tparam = array($id_res, $id_sem);
-			return $this->execMaj($requete, $tparam);
-		} catch (\Throwable $th) {}
+		$requete = 'insert into ressource values(?,?)';
+		$tparam = array($id_res, $id_sem);
+		return $this->execMaj($requete, $tparam);
 	}
 
 	/*-------------*/
@@ -272,12 +276,9 @@ class DB
 
 	public function insertEtuRes($n_etud, $id_res, $moy)
 	{
-		try 
-		{
-			$requete = 'insert into etures values(?,?,?)';
-			$tparam = array($n_etud, $id_res, $moy);
-			return $this->execMaj($requete, $tparam);
-		} catch (\Throwable $th) {}
+		$requete = 'insert into etures values(?,?,?)';
+		$tparam = array($n_etud, $id_res, $moy);
+		return $this->execMaj($requete, $tparam);
 	}
 
 	/*-------------*/
@@ -294,6 +295,13 @@ class DB
 	{
 		$requete = 'insert into etuann values(?,?,?,?,?)';
 		$tparam = array($n_etud, $id_ann, $bonus, $parcours, $admission);
+		return $this->execMaj($requete, $tparam);
+	}
+
+	public function updateEtuAnn($n_etud, $id_ann, $admission)
+	{
+		$requete = 'update etuann set admission = ? where n_etud = ? and id_annee = ?';
+		$tparam = array($admission, $n_etud, $id_ann);
 		return $this->execMaj($requete, $tparam);
 	}
 
