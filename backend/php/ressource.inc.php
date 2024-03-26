@@ -3,8 +3,8 @@
 class ressource 
 {
 	private int		$id_ressource;
-    private string		$nomR;
-    private float		$coefR;
+    private string	$nomR;
+    private float	$coefR;
     private int		$id_semestre;
 	
 	public function __construct($iR,$nR,$cR,$iS) 
