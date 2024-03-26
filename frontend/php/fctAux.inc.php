@@ -31,17 +31,19 @@
         echo "</header>";
     }
 
-    function asideMenu()
+    function navMenu()
     {
-        echo "<header >";
-        echo "<div class=\"menuBar\">";
-        echo "<a href=\"importation.html\" class=\"imp\"> <img src=\"provisoir_imm.png\" title=\"importation\" alt=\"importationLogo\"></a>";
-        echo "<a href=\"exportation.html\" class=\"Exp\"> <img src=\"provisoir_imm.png\" title=\"exportation\" alt=\"exportationLogo\"></a>";
-        echo "<a href=\"templateAvisPoursuiteEtud.html\" class=\"avis\"> <img src=\"provisoir_imm.png\" title=\"template Avis Poursuite Etude\" alt=\"poursuiteEtudLogo\"></a>";
-        echo "<a href=\"connexion.html\" class=\"quiter\"> <img src=\"provisoir_imm.png\" title=\"déconnexion\" alt=\"quitterLogo\"></a>";
-        echo "</div>";
-        echo "<div id=\"ligne\"></div>";
-        echo "</header>";
+        //TODO : changer les a href pour appeler une fonctione quoi change les donnné de la page pour correspondre au semestre selectionner
+        echo "<nav class=\"menuVue\" >";
+        echo "<table  >";
+        echo "<tr > <th > <a href=\"menuS1.php\" class=\"menuVueA\"> S1 </a>  </th > </tr > ";
+        echo "<tr > <th > <a href=\"menuS2.php\" class=\"menuVueA\"> S2 </a> </th > </tr > ";
+        echo "<tr > <th > <a href=\"menuS3.php\" class=\"menuVueA\"> S3 </a> </th > </tr > ";
+        echo "<tr > <th > <a href=\"menuS4.php\" class=\"menuVueA\"> S4 </a> </th > </tr > ";
+        echo "<tr > <th > <a href=\"menuS5.php\" class=\"menuVueA\"> S5 </a> </th > </tr > ";
+        echo "<tr > <th > <a href=\"menuS6.php\" class=\"menuVueA\"> S6 </a> </th > </tr > ";
+        echo "</table > ";
+        echo "</nav>";
     }
 
 
