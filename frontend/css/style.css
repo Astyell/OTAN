@@ -1,0 +1,39 @@
+html, body{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    margin: 0;
+    padding: 0;
+    background-color: gray;
+}
+
+.menuBar{
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: row;
+}
+
+#ligne{
+    border:2px solid black; 
+}
+
+.imp{
+    margin-left: 0%;
+}
+.Exp{
+    margin-left: 5%;
+}
+.avis{
+    margin-left: 17%;
+}
+.quiter{
+    margin-left: 50%;
+}
+
+img{
+    height: 75px;
+    width: 75px;
+}
