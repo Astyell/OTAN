@@ -10,15 +10,15 @@ class ressource
 	public function __construct($iR,$nR,$cR,$iS) 
 	{
 		$this->id_ressource = $iR;
-		$this->nomR = $nR;
-		$this->coefR = $cR;
-        $this->id_semestre = $iS;
+		$this->nomR 		= $nR;
+		$this->coefR 		= $cR;
+        $this->id_semestre 	= $iS;
 	}
 
-	public function getId_ressource() { return $this->id_ressource; }
-	public function getNomR() { return $this->nomR;}
-	public function getCoefR() { return $this->coefR; }
-    public function getId_semestre() { return $this->id_semestre; }
+	public function getId_ressource	() { return $this->id_ressource; }
+	public function getNomR			() { return $this->nomR;}
+	public function getCoefR		() { return $this->coefR; }
+    public function getId_semestre	() { return $this->id_semestre; }
 
 	public function __toString() 
 	{

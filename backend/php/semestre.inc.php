@@ -7,12 +7,12 @@ class semestre
 	
 	public function __construct($iS,$iA) 
 	{
-		$this->id_semestre = $iS;
-		$this->id_annee = $iA;
+		$this->id_semestre 	= $iS;
+		$this->id_annee 	= $iA;
 	}
 
-	public function getId_semestre() { return $this->id_semestre; }
-	public function getId_annee() { return $this->id_annee;}
+	public function getId_semestre	() { return $this->id_semestre; }
+	public function getId_annee		() { return $this->id_annee;}
 
 	public function __toString() 
 	{

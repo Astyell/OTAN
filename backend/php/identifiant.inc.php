@@ -8,14 +8,14 @@ class identifiant
 	
 	public function __construct($i,$m,$eA=false) 
 	{
-		$this->identifiant = $i;
-		$this->mdp = $m;
-		$this->estAdmin = $eA;
+		$this->identifiant 	= $i;
+		$this->mdp 			= $m;
+		$this->estAdmin 	= $eA;
 	}
 
-	public function getIdentifiant() { return $this->identifiant; }
-	public function getMdp() { return $this->mdp;}
-	public function getEstAdmin() { return $this->estAdmin; }
+	public function getIdentifiant	() { return $this->identifiant; }
+	public function getMdp			() { return $this->mdp;}
+	public function getEstAdmin		() { return $this->estAdmin; }
 
 	public function __toString() 
 	{

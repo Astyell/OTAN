@@ -7,12 +7,12 @@ class competence
 	
 	public function __construct($iC,$nC) 
 	{
-		$this->id_competence = $iC;
-		$this->nomC = $nC;
+		$this->id_competence 	= $iC;
+		$this->nomC 			= $nC;
 	}
 
 	public function getId_competence() { return $this->id_competence; }
-	public function getN_Ip() { return $this->n_Ip;}
+	public function getN_Ip			() { return $this->n_Ip;}
 
 	public function __toString() 
 	{

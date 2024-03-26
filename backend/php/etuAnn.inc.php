@@ -10,17 +10,17 @@ class etuAnn
 	
 	public function __construct($nE,$iA,$b,$p,$a) 
 	{
-		$this->n_Etud = $nE;
-		$this->id_annee = $iA;
-		$this->bonus = $b;
-        $this->parcours = $p;
-		$this->admission = $a;
+		$this->n_Etud	 	= $nE;
+		$this->id_annee 	= $iA;
+		$this->bonus 		= $b;
+        $this->parcours 	= $p;
+		$this->admission 	= $a;
 	}
 
-	public function getN_Etud() { return $this->n_Etud; }
-	public function getId_annee() { return $this->id_annee;}
-	public function getBonus() { return $this->bonus; }
-    public function getParcours() { return $this->parcours; }
+	public function getN_Etud	() { return $this->n_Etud; }
+	public function getId_annee	() { return $this->id_annee;}
+	public function getBonus	() { return $this->bonus; }
+    public function getParcours	() { return $this->parcours; }
 	public function getAdmission() { return $this->admission;}
 
 	public function __toString() 

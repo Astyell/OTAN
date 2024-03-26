@@ -8,14 +8,14 @@ class noteComp
 	
 	public function __construct($nE,$iC,$mUE) 
 	{
-		$this->n_Etud = $nE;
-		$this->id_competence = $iC;
-		$this->moy_UE = $mUE;
+		$this->n_Etud 			= $nE;
+		$this->id_competence 	= $iC;
+		$this->moy_UE 			= $mUE;
 	}
 
-	public function getN_Etud() { return $this->n_Etud; }
+	public function getN_Etud		() { return $this->n_Etud; }
 	public function getId_competence() { return $this->id_competence;}
-	public function getMoy_UE() { return $this->moy_UE; }
+	public function getMoy_UE		() { return $this->moy_UE; }
 
 	public function __toString() 
 	{

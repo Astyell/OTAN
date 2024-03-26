@@ -7,11 +7,11 @@ class resCom
 	
 	public function __construct($iR,$iC) 
 	{
-		$this->id_ressource = $iR;
-		$this->id_competence = $iC;
+		$this->id_ressource 	= $iR;
+		$this->id_competence 	= $iC;
 	}
 
-	public function getId_ressource() { return $this->id_ressource; }
+	public function getId_ressource	() { return $this->id_ressource; }
 	public function getId_competence() { return $this->id_competence;}
 
 	public function __toString() 

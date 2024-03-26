@@ -11,20 +11,20 @@ class etuSem
 	
 	public function __construct($nE,$iS,$tp,$td,$naj,$nai) 
 	{
-		$this->n_Etud = $nE;
-		$this->id_Semestre = $iS;
-		$this->TP = $tp;
-        $this->TD = $td;
-		$this->nbAbsJusti = $naj;
-		$this->nbAbsInjust = $nai;
+		$this->n_Etud 		= $nE;
+		$this->id_Semestre 	= $iS;
+		$this->TP 			= $tp;
+        $this->TD 			= $td;
+		$this->nbAbsJusti 	= $naj;
+		$this->nbAbsInjust	= $nai;
 	}
 
-	public function getN_Etud() { return $this->n_Etud; }
-	public function getId_Semestre() { return $this->id_Semestre;}
-	public function getTP() { return $this->TP; }
-    public function getTD() { return $this->TD; }
-	public function getNbAbsJusti() { return $this->nbAbsJusti;}
-	public function getNbAbsInjustc() { return $this->nbAbsInjust; }
+	public function getN_Etud		() { return $this->n_Etud; }
+	public function getId_Semestre	() { return $this->id_Semestre;}
+	public function getTP			() { return $this->TP; }
+    public function getTD			() { return $this->TD; }
+	public function getNbAbsJusti	() { return $this->nbAbsJusti;}
+	public function getNbAbsInjustc	() { return $this->nbAbsInjust; }
 
 	public function __toString() 
 	{

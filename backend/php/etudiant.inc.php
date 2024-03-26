@@ -11,20 +11,20 @@ class etudiant
 	
 	public function __construct($nE,$nI,$nomE,$preE,$c,$b) 
 	{
-		$this->n_Etud = $nE;
-		$this->n_Ip = $nI;
-		$this->nom_Etu = $nomE;
-        $this->prenom_Etu = $preE;
-		$this->cursus = $c;
-		$this->bac = $b;
+		$this->n_Etud 		= $nE;
+		$this->n_Ip	 		= $nI;
+		$this->nom_Etu 		= $nomE;
+        $this->prenom_Etu	= $preE;
+		$this->cursus 		= $c;
+		$this->bac 			= $b;
 	}
 
-	public function getN_Etud() { return $this->n_Etud; }
-	public function getN_Ip() { return $this->n_Ip;}
-	public function getNom_Etu() { return $this->nom_Etu; }
-    public function getPrenom_Etu() { return $this->prenom_Etu; }
-	public function getCursus() { return $this->cursus;}
-	public function getBac() { return $this->bac; }
+	public function getN_Etud		() { return $this->n_Etud; }
+	public function getN_Ip			() { return $this->n_Ip;}
+	public function getNom_Etu		() { return $this->nom_Etu; }
+    public function getPrenom_Etu	() { return $this->prenom_Etu; }
+	public function getCursus		() { return $this->cursus;}
+	public function getBac			() { return $this->bac; }
 
 	public function __toString() 
 	{
