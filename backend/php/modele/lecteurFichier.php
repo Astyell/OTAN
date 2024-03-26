@@ -39,7 +39,7 @@ function mettreDansDB($chemin_fichier)
 	$db->insertAnnee($annee);
 
 	//création compétences et ressources
-	$semestre = '';
+	$semestre = null;
 	for($j = 0; $j < count($data[0]); $j++)
 	{
 		if( $data[0][$j] != null && strstr($data[0][$j], "BIN"))
@@ -75,17 +75,17 @@ function mettreDansDB($chemin_fichier)
 	}
 
 	//déclaration de variables
-	$n_etud = '';
-	$nip = '';
-	$nom = '';
-	$prenom = '';
-	$bac = '';
-	$tp = '';
-	$td = '';
-	$nbAbsInjust = '';
-	$nbAbsJust = '';
-	$moy_gene = '';
-	$nb_UE = '';
+	$n_etud = null;
+	$nip = null;
+	$nom = null;
+	$prenom = null;
+	$bac = null;
+	$tp = null;
+	$td = null;
+	$nbAbsInjust = null;
+	$nbAbsJust = null;
+	$moy_gene = null;
+	$nb_UE = null;
 
 	for($i = 1; $i < count($data); $i++)
 	{
