@@ -1,11 +1,11 @@
-# S.A.T.A.N.
+# O.T.A.N
 
-## Système d’application de Tableau et d’Analyse Numérique
+## Organisation de Tableau et d’Analyse Numérique
 
 - Matéo SA
 - Alizéa LEBARON
 - Justine BONDU
-- Sébastien CHAMPIIIIIIIIVILLARD
+- Sébastien CHAMPVILLARD
 
 
 
