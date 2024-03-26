@@ -5,7 +5,7 @@
 - Matéo SA
 - Alizéa LEBARON
 - Justine BONDU
-- Sébastien CHAMPIIIIIIIIVILLARD
+- Sébastien CHAMPVILLARD
 
 
 
