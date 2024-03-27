@@ -102,7 +102,7 @@ class DB
 			return $tab;
 		} catch (\Throwable $th) 
 		{
-			//echo "erreur " . $ordreSQL . " : " . $th . "<br><br>";
+			echo "erreur " . $requete . " : " . $th . "<br><br>";
 		}
 		
 	}
@@ -327,6 +327,12 @@ class DB
 		$tparam = array($id_res, $id_com, $coef);
 		return $this->execMaj($requete, $tparam);
 	}
+
+	/*-------------*/
+	/*  RES/COM    */
+	/*-------------*/
+
+	//public function get
 
 	//Client
 	/*
