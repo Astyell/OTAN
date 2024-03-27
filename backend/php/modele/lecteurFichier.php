@@ -3,8 +3,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+$chemin_du_fichier = __DIR__ . "/../DB/DB.inc.php";
+
 require 'vendor/autoload.php';
-require 'DB/DB.inc.php';
+require $chemin_du_fichier;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
