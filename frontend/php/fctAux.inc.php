@@ -19,13 +19,12 @@
 
     function headerMenu()
     {
-        //TODO : remplacer "provisoir_imm" par les vrai images
         echo "<header >";
         echo "<div class=\"menuBar\">";
-        echo "<a href=\"importation.html\" class=\"imp\"> <img src=\"../img/provisoir_imm.png\" title=\"importation\" alt=\"importationLogo\"></a>";
-        echo "<a href=\"exportation.html\" class=\"Exp\"> <img src=\"../img/provisoir_imm.png\" title=\"exportation\" alt=\"exportationLogo\"></a>";
+        echo "<a href=\"importation.html\" class=\"imp\"> <img src=\"../img/logo_telecharger.png\" title=\"importation\" alt=\"importationLogo\"></a>";
+        echo "<a href=\"exportation.html\" class=\"Exp\"> <img class=\"imaInvers\" src=\"../img/logo_telecharger.png\" title=\"exportation\" alt=\"exportationLogo\"></a>";
         echo "<a href=\"templateAvisPoursuiteEtud.html\" class=\"../img/avis\"> <img src=\"logo_avi.png\" title=\"template Avis Poursuite Etude\" alt=\"poursuiteEtudLogo\"></a>";
-        echo "<a href=\"connexion.html\" class=\"quiter\"> <img src=\"../img/provisoir_imm.png\" title=\"déconnexion\" alt=\"quitterLogo\"></a>";
+        echo "<a href=\"connexion.html\" class=\"quiter\"> <img src=\"../img/logo_deconnexion.png\" title=\"déconnexion\" alt=\"quitterLogo\"></a>";
         echo "</div>";
         echo "<hr class=\"ligne\">";
         echo "</header>";
