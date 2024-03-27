@@ -99,7 +99,7 @@ class DB
 			return $tab;
 		} catch (\Throwable $th) 
 		{
-			
+			//echo "erreur " . $ordreSQL . " : " . $th . "<br><br>";
 		}
 		
 	}
@@ -123,7 +123,7 @@ class DB
 			return $stmt->rowCount();		
 		} catch (\Throwable $th) 
 		{
-			 /*echo "erreur " . $ordreSQL . " : " . $th . "<br><br>";*/
+			//echo "erreur " . $ordreSQL . " : " . $th . "<br><br>";
 		}
 	}
 
