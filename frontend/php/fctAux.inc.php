@@ -28,7 +28,7 @@
         echo "<a href=\"templateAvisPoursuiteEtud.html\" class=\"../img/avis\"> <img src=\"logo_avi.png\" title=\"template Avis Poursuite Etude\" alt=\"poursuiteEtudLogo\"></a>";
         echo "<a href=\"connexion.html\" class=\"quiter\"> <img src=\"../img/provisoir_imm.png\" title=\"déconnexion\" alt=\"quitterLogo\"></a>";
         echo "</div>";
-        echo "<div id=\"ligne\"></div>";
+        echo "<hr class=\"ligne\">";
         echo "</header>";
     }
 
