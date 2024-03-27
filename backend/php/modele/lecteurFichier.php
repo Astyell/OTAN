@@ -39,13 +39,21 @@ function mettreDansDB($chemin_fichier)
 	$db->insertAnnee($annee);
 
 	//création compétences et ressources
+	$altern = 0;
 	$semestre = null;
+
 	for($j = 0; $j < count($data[0]); $j++)
 	{
 		if( $data[0][$j] != null && strstr($data[0][$j], "BIN"))
 		{
+			if( strstr($data[0][$j], "A"))//enleve les A pour les alternants
+			{
+				$data[0][$j] = rtrim($data[0][$j], "A");
+				$altern = 1;
+			}
+			
 			//création compétence
-			if( strlen($data[0][$j]) == 5)
+			if( strlen($data[0][$j]) == 5 )//Ex : BIN12 ou BIN12A pour alternant
 			{
 				//création semestre si existe pas
 				if($semestre == '')
@@ -60,7 +68,7 @@ function mettreDansDB($chemin_fichier)
 				//echo "competaence " . $id_comp . "<br>";
 			}
 			//création ressources
-			if( strlen($data[0][$j]) == 7)
+			if( strlen($data[0][$j]) == 7 )//Ex BINR121 ou BINR121A pour alternant
 			{
 				$id_res = $data[0][$j];
 				
@@ -121,15 +129,20 @@ function mettreDansDB($chemin_fichier)
 				case 'Just.' : $nbAbsJust = $data[$i][$j]; break;
 
 				case 'Parcours' : $parcours = $data[$i][$j]; break;
-				case 'Année' : $admission = $data[$i][$j]; $db->updateEtuAnn($n_etud, $annee, $admission); break;
+				case 'Année' : $admission = $data[$i][$j]; break;
 			}
 			//echo $data[0][$j] . ' : '. $data[$i][$j] . '<br>';
 		}
 
 		//création etudiants
 		$db->insertEtudiant($n_etud, $nip, $nom, $prenom, $cursus, $bac);
-		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $nb_UE);
+		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $nb_UE, $altern);
 		$db->insertEtuAnn($n_etud, $annee, $bonus, $parcours, $admission);
+
+		if($admission != null)
+		{
+			$db->updateEtuAnn($n_etud, $annee, $admission);
+		}
 	}
 
 	//repassable sur le doc pour avoir les etudiant, ressources et compétences deja créer
@@ -146,7 +159,7 @@ function mettreDansDB($chemin_fichier)
 			if($data[0][$j] != null && strstr($data[0][$j], "BIN"))
 			{
 				//création note comp
-				if( strlen($data[0][$j]) == 5)
+				if( strlen($data[0][$j]) == 5 )
 				{
 					$id_comp = $data[0][$j];
 					$moy_UE = $data[$i][$j];
@@ -154,7 +167,7 @@ function mettreDansDB($chemin_fichier)
 					$db->insertNoteComp($n_etud, $id_comp, $moy_UE);
 				}
 				//création etu res
-				if( strlen($data[0][$j]) == 7)
+				if( strlen($data[0][$j]) == 7 )
 				{
 					$id_res = $data[0][$j];
 					$moy_res = $data[$i][$j];

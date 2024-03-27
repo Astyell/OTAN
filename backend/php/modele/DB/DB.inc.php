@@ -121,7 +121,10 @@ class DB
 			$stmt = $this->connect->prepare($ordreSQL);
 			$res = $stmt->execute($tparam); //execution de l'ordre SQL      	     
 			return $stmt->rowCount();		
-		} catch (\Throwable $th) {}
+		} catch (\Throwable $th) 
+		{
+			 /*echo "erreur " . $ordreSQL . " : " . $th . "<br><br>";*/
+		}
 	}
 
 	/*************************************************************************
@@ -240,10 +243,10 @@ class DB
 		return $this->execQuery($requete, null, 'EtuSem');
 	}
 
-	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE)
+	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
 	{
-		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?)';
-		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE);
+		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?)';
+		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern);
 		return $this->execMaj($requete, $tparam);
 	}
 

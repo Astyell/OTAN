@@ -62,6 +62,7 @@ CREATE TABLE etuSem(
    nbAbsJusti VARCHAR(50) NOT NULL,
    moy_Gene DECIMAL(15,2) NOT NULL,
    nb_UE VARCHAR(50),
+   alternant BOOL,
    PRIMARY KEY(n_Etud, id_semestre),
    FOREIGN KEY(n_Etud) REFERENCES etudiant(n_Etud),
    FOREIGN KEY(id_semestre) REFERENCES semestre(id_semestre)
