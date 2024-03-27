@@ -1,5 +1,8 @@
 <?php
 
+$chemin_du_fichier = __DIR__ . "/DB.inc.php";
+echo $chemin_du_fichier;
+
 class DB
 {
 	private static $instance = null; //mémorisation de l'instance de DB pour appliquer le pattern Singleton

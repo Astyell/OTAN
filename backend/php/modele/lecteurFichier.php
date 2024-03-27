@@ -4,7 +4,9 @@ error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
 require 'vendor/autoload.php';
-require 'DB/DB.inc.php';
+include('/home/etudiant/la221049/public_html/s4/OTAN/backend/php/DB/DB.inc.php');
+
+//require 'DB/DB.inc.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
