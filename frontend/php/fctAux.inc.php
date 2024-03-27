@@ -3,7 +3,6 @@
 	{
         echo "<!DOCTYPE html>\n";
         echo "<html lang='fr'>\n";
-
 		echo "<head>\n";
 		echo "<meta charset='UTF-8'>\n";
 		echo "<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'  />\n";
@@ -32,17 +31,34 @@
         echo "</header>";
     }
 
-    function navMenu()
+    function navMenu()//TODO : retacher une fonction celonn le bouton cliquer pour changer l'affichage
     {
-        //TODO : changer les a href pour appeler une fonctione quoi change les donnné de la page pour correspondre au semestre selectionner
-        echo "<nav class=\"menuVue\" >";
+        /* Ce menu est composé d'un tableau séparé en 6 parti chacune de ses parties représente un semestre.
+		Chaque semestre comporte un bouton jury, et les semestres impairs ont, en plus un bouton commission.*/
+        echo '<!-- Ce menu est composé d\'un tableau séparé en 6 parti chacune de ses parties représente un semestre. -->';
+		echo '<!-- Chaque semestre comporte un bouton jury, et les semestres impairs ont, en plus un bouton commission. -->';
+		echo "<nav class=\"menuVue\" >";
         echo "<table  >";
-        echo "<tr > <th > <a href=\"menuS1.php\" class=\"menuVueA\"> S1 </a>  </th > </tr > ";
-        echo "<tr > <th > <a href=\"menuS2.php\" class=\"menuVueA\"> S2 </a> </th > </tr > ";
-        echo "<tr > <th > <a href=\"menuS3.php\" class=\"menuVueA\"> S3 </a> </th > </tr > ";
-        echo "<tr > <th > <a href=\"menuS4.php\" class=\"menuVueA\"> S4 </a> </th > </tr > ";
-        echo "<tr > <th > <a href=\"menuS5.php\" class=\"menuVueA\"> S5 </a> </th > </tr > ";
-        echo "<tr > <th > <a href=\"menuS6.php\" class=\"menuVueA\"> S6 </a> </th > </tr > ";
+		echo "<tbody><tr>";
+		echo "<TD ROWSPAN=2>S1</TD> ";
+		echo "<td ><button class=\"BcommJur\">Commission</button></td>";
+		echo "</tr> <tr>";
+		echo "<td ><button class=\"BcommJur\">Jury</button></td>";
+		echo "</tr> <tr> <td>S2</td>";
+		echo "<td ><button class=\"BJurPair\">Jury</button></td>";
+		echo "</tr> <tr> <TD ROWSPAN=2>S3</TD> ";
+		echo "<td ><button class=\"BcommJur\">Commission</button></td>";
+		echo "</tr> <tr>";
+		echo "<td ><button class=\"BcommJur\">Jury</button></td>";
+		echo "</tr> <tr> <td>S4</td>";
+		echo "<td ><button class=\"BJurPair\">Jury</button></td>";
+		echo "</tr> <tr> <TD ROWSPAN=2>S5</TD> ";
+		echo "<td ><button class=\"BcommJur\">Commission</button></td>";
+		echo "</tr> <tr>";
+		echo "<td ><button class=\"BcommJur\">Jury</button></td>";
+		echo "</tr> <tr> <td>S6</td>";
+		echo "<td ><button class=\"BJurPair\" >Jury</button></td>";
+		echo "</tr></tbody>";
         echo "</table > ";
         echo "</nav>";
     }
