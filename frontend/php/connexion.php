@@ -34,19 +34,24 @@
 			$identifiant = $_POST['id'];
 			$mdp = $_POST['mdp'];
 
-			//Récupération de l'identifiant que nous voulons
-			$ID   = $DB->getAllIdentifiantWithID($identifiant)->getIdentifiant  ();
-			$MDP  = $DB->getAllIdentifiantWithID($identifiant)->getMdp      	();
+			//echo("$identifiant $mdp"); //debug
 
-			//On vérifie s'il existe bien
-			if (empty($ID))
+			//Récupération de l'identifiant que nous voulons s'il existe
+			try 
 			{
+				$ID   = $DB->getAllIdentifiantWithID($identifiant)->getIdentifiant();
+				echo("Id = $ID");
+				$MDP  = $DB->getAllIdentifiantWithID($identifiant)->getMdp();
+				echo("MDP = $MDP");
+			} 
+			catch (\Throwable $th) 
+			{
+				echo ($th);
+				echo("Il repassera par là");
 				$valid = false;
 			}
-			else
-			{
 
-			}
+			
 			
 		}
 
@@ -54,7 +59,7 @@
 
 	<fieldset>
             <h2><a href="https://www.youtube.com/watch?v=Oe3FG4EOgyU" class="hide">Connexion</a></h2>
-			<form action="sae203.php" method="post">
+			<form action="connexion.php" method="post">
 
 				<p>
 					<strong>Identifiant</strong> : <input type="text" id="id" name="id" placeholder="Entrez votre identifiant..." required autofocus></br></br>

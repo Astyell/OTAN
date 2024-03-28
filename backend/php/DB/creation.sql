@@ -1,5 +1,4 @@
 DROP TABLE identifiant CASCADE;
-
 DROP TABLE etudiant CASCADE;
 DROP TABLE annee CASCADE;
 DROP TABLE competence CASCADE;
@@ -106,3 +105,5 @@ CREATE TABLE resCom(
    FOREIGN KEY(id_competence) REFERENCES competence(id_competence)
 );
 
+INSERT INTO identifiant VALUES ('admin', 'admin', true );
+INSERT INTO identifiant VALUES ('user' , 'user' , false);

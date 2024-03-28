@@ -212,7 +212,7 @@ class DB
 	{
 		$requete = 'select * from identifiant where identifiant = ?';
 
-		return $this->execQuery($requete, $id, 'Identifiant');
+		return $this->execQuery($requete,array($id),'Identifiant');
 	}
 
 	public function insertIdentifiant($id, $mdp, $estAdmin)

@@ -14,7 +14,7 @@ class identifiant
 
 	private string		$identifiant;
 	private string		$mdp;
-    private boolean		$estAdmin;
+    private bool		$estAdmin;
 
 	/* -------------------------------------- */
 	/*              Constructeur              */
