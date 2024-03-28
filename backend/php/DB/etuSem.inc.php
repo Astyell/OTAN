@@ -12,37 +12,49 @@ class etuSem
 	/*               Attributs                */
 	/* -------------------------------------- */
 
-	private string		$n_Etud;
-    private int			$id_Semestre;
-    private string		$TP;
-    private string		$TD;
-    private string		$nbAbsJusti;
-    private string		$nbAbsInjust;
-
+	private string		$n_etud;
+    private int			$id_semestre;
+    private string		$tp;
+    private string		$td;
+	private string		$nbabsinjust;
+    private string		$nbabsjust;
+	private float		$moy_gene;
+	private float		$bonus;
+	private int 		$nb_ue;
+	private bool		$alternant;
+    
 	/* -------------------------------------- */
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($nE,$iS,$tp,$td,$naj,$nai) 
+	public function __construct($nE,$iS,$tp,$td,$nai,$naj, $moy, $bon, $ue, $alter ) 
 	{
-		$this->n_Etud 		= $nE;
-		$this->id_Semestre 	= $iS;
-		$this->TP 			= $tp;
-        $this->TD 			= $td;
-		$this->nbAbsJusti 	= $naj;
-		$this->nbAbsInjust	= $nai;
+		$this->n_etud 		= $nE;
+		$this->id_semestre 	= $iS;
+		$this->tp 			= $tp;
+        $this->td 			= $td;
+		$this->nbabsinjust 	= $naj;
+		$this->nbabsjust	= $nai;
+		$this->moy_gene		= $moy;
+		$this->bonus		= $bon;
+		$this->nb_ue		= $ue;
+		$this->alternant	= $alter;
 	}
 
 	/* -------------------------------------- */
 	/*                Accesseur               */
 	/* -------------------------------------- */
 
-	public function getN_Etud		() { return $this->n_Etud; }
-	public function getId_Semestre	() { return $this->id_Semestre;}
-	public function getTP			() { return $this->TP; }
-    public function getTD			() { return $this->TD; }
-	public function getNbAbsJusti	() { return $this->nbAbsJusti;}
-	public function getNbAbsInjustc	() { return $this->nbAbsInjust; }
+	public function getN_Etud		() { return $this->n_etud; }
+	public function getId_Semestre	() { return $this->id_semestre;}
+	public function getTP			() { return $this->tp; }
+    public function getTD			() { return $this->td; }
+	public function getNbAbsJusti	() { return $this->nbabsjust;}
+	public function getNbAbsInjustc	() { return $this->nbabsinjust; }
+	public function getMoyGeneral	() { return $this->moy_gene; }
+	public function getBonus		() { return $this->bonus; }
+	public function getNbUe			() { return $this->nb_ue; }
+	public function getAlternant	() { return $this->alternant; }
 
 	/* -------------------------------------- */
 	/*                 Méthode                */
@@ -50,12 +62,16 @@ class etuSem
 
 	public function __toString() 
 	{
-		$res = "n_Etud:".$this->n_Etud."\n";
-		$res = $res ."id_Semestre:".$this->id_Semestre."\n";
-		$res = $res ."TP:".$this->TP."\n";
-        $res = $res ."TD:".$this->TD."\n";
-		$res = $res ."nbAbsJusti:".$this->nbAbsJusti."\n";
-        $res = $res ."nbAbsInjust:".$this->nbAbsInjust."\n";
+		$res = "n_Etud:".$this->n_etud."\n";
+		$res = $res ."id_Semestre:".$this->id_semestre."\n";
+		$res = $res ."TP:".$this->tp."\n";
+        $res = $res ."TD:".$this->td."\n";
+		$res = $res ."nbAbsJusti:".$this->nbabsjust."\n";
+        $res = $res ."nbAbsInjust:".$this->nbabsinjust."\n";
+		$res = $res ."moy_gene:".$this->moy_gene."\n";
+		$res = $res ."bonus:".$this->bonus."\n";
+		$res = $res ."nb_ue:".$this->nb_ue."\n";
+		$res = $res ."alternant:".$this->alternant."\n";
 		$res = $res ."<br/>";
 		return $res;
 	}

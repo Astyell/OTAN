@@ -60,6 +60,7 @@ CREATE TABLE etuSem(
    nbAbsInjust VARCHAR(50),
    nbAbsJusti VARCHAR(50) NOT NULL,
    moy_Gene DECIMAL(15,2) NOT NULL,
+   bonus DECIMAL(15,2),
    nb_UE VARCHAR(50),
    alternant BOOL,
    PRIMARY KEY(n_Etud, id_semestre),
@@ -88,7 +89,6 @@ CREATE TABLE etuRes(
 CREATE TABLE etuAnn(
    n_Etud VARCHAR(50),
    id_annee INT,
-   bonus DECIMAL(15,2),
    parcours VARCHAR(50) NOT NULL,
    admission VARCHAR(50),
    PRIMARY KEY(n_Etud, id_annee),

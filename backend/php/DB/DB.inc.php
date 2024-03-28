@@ -5,7 +5,6 @@ $chemin_du_fichier = __DIR__ . "/DB.inc.php";
 require 'annee.inc.php';
 require 'competence.inc.php';
 require 'etuAnn.inc.php';
-require 'etuComSem.inc.php';
 require 'etudiant.inc.php';
 require 'etuRes.inc.php';
 require 'etuSem.inc.php';
@@ -14,6 +13,7 @@ require 'noteComp.inc.php';
 require 'resCom.inc.php';
 require 'ressource.inc.php';
 require 'semestre.inc.php';
+require 'vueCommission.inc.php';
 
 class DB
 {
@@ -90,6 +90,8 @@ class DB
 	{
 		try 
 		{
+			//echo $requete . " " . $tparam . " ". $nomClasse . "<br>";
+			
 			//on prépare la requête
 			$stmt = $this->connect->prepare($requete);
 			//on indique que l'on va récupére les tuples sous forme d'objets instance de Client
@@ -114,7 +116,7 @@ class DB
 			return $tab;
 		} catch (\Throwable $th) 
 		{
-			//echo "erreur " . $ordreSQL . " : " . $th . "<br><br>";
+			echo "erreur " . $requete . " : " . $th . "<br><br>";
 		}
 		
 	}
@@ -266,10 +268,10 @@ class DB
 		return $this->execQuery($requete, null, 'EtuSem');
 	}
 
-	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
+	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $bonus, $nb_UE, $altern)
 	{
-		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?)';
-		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern);
+		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?)';
+		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $bonus, $nb_UE, $altern);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -317,10 +319,10 @@ class DB
 		return $this->execQuery($requete, null, 'EtuAnn');
 	}
 
-	public function insertEtuAnn($n_etud, $id_ann, $bonus, $parcours, $admission)
+	public function insertEtuAnn($n_etud, $id_ann, $parcours, $admission)
 	{
-		$requete = 'insert into etuann values(?,?,?,?,?)';
-		$tparam = array($n_etud, $id_ann, $bonus, $parcours, $admission);
+		$requete = 'insert into etuann values(?,?,?,?)';
+		$tparam = array($n_etud, $id_ann, $parcours, $admission);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -347,6 +349,22 @@ class DB
 		$tparam = array($id_res, $id_com, $coef);
 		return $this->execMaj($requete, $tparam);
 	}
+
+	/*-------------*/
+	/*  VUES       */
+	/*-------------*/
+
+	public function getVueCommission($semestre)
+	{
+		$requete = 'select nom_etu as nom, prenom_etu as prenom, cursus, nb_ue as ue, moy_gene as moy 
+					from etudiant e join etuSem s on e.n_etud = s.n_etud 
+					where id_semestre = ? 
+					order by moy_gene desc;';
+		$tparam = array($semestre);
+		return $this->execQuery($requete, $tparam, 'vueCommission');
+	}
+
+	//public function get
 
 	//Client
 	/*

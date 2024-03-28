@@ -2,41 +2,95 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-// Inclure l'autoloader de Composer
+$chemin = __DIR__;
+require ( $chemin . "/../DB/DB.inc.php");
+//require ( $chemin . "/../DB/vueCommission.inc.php" );
+
 require 'vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-// Créer une nouvelle instance de classe Spreadsheet
-$spreadsheet = new Spreadsheet();
+creerPvComm(6);
 
-// Sélectionner la feuille de calcul active
-$feuille = $spreadsheet->getActiveSheet();
+function creerPvComm($semestre)
+{
+    // Création d'une nouvelle instance de classe Spreadsheet
+    $spreadsheet = new Spreadsheet();
 
-// Remplir la feuille de calcul avec des données
-$feuille->setCellValue('A1', 'Nom');
-$feuille->setCellValue('B1', 'Âge');
-$feuille->setCellValue('A2', 'John');
-$feuille->setCellValue('B2', 30);
-$feuille->setCellValue('A3', 'Jane');
-$feuille->setCellValue('B3', 25);
+    // Sélection de la feuille active
+    $sheet = $spreadsheet->getActiveSheet();
 
-// Créer un objet Writer
-$writer = new Xlsx($spreadsheet);
+    //Titre feuille
+    $sheet->getStyle('E2:E4')->getFont()->setBold(true);
+    $sheet->getStyle('E2:E4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle('E2:E4')->getFont()->setSize(18);
 
-// Enregistrer le fichier Excel dans un répertoire
-$nom_fichier = 'exemple.xlsx';
-$writer->save($nom_fichier);
+    $sheet->setCellValue('E2', 'Semestre ' . $semestre . " - BUT INFO");
+    $sheet->setCellValue('E3', '2023 - 2024');//a changer ?
+    $sheet->setCellValue('E4', 'COMMISION DU 1er Février 2024');//a changer ?
 
-// Modifier les permissions du fichier (optionnel)
-chmod($nom_fichier, 0644); // Modifie les permissions à 0644 (lecture/écriture pour le propriétaire, lecture seule pour les autres)
+    //Nom des colonnes
+    $sheet->getStyle('A8:CA8')->getFont()->setBold(true);
 
-// Télécharger le fichier Excel
-header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-header('Content-Disposition: attachment;filename="' . $nom_fichier . '"');
-header('Cache-Control: max-age=0');
-readfile($nom_fichier); // Envoyer le contenu du fichier directement au navigateur
 
-echo "c bon";
-?>
+    $db = DB::getInstance();
+    $etudiants = $db->getVueCommission($semestre);
+    
+    
+    $ligne = 10;
+    foreach($etudiants as $etud)
+    {
+        $colonne = 'B';
+        for($compteur = 0; $compteur < 5; $compteur++)
+        {
+            $sheet->setCellValue($colonne . $ligne, $etud->getInfo($compteur) );
+            $colonne++;
+        }
+        $ligne++;
+    }
+
+
+    // Données à insérer (exemples)
+    /*$data = [
+        ['Dupont', 'Jean', 30],
+        ['Durand', 'Marie', 25],
+        ['Martin', 'Pierre', 35],
+    ];
+
+    // Insérer les données dans les cellules suivantes
+    $row = 2; // Commencer à la ligne 2 après les titres
+    foreach ($data as $rowData) {
+        $col = 'A';
+        foreach ($rowData as $cellData) {
+            $sheet->setCellValue($col . $row, $cellData);
+            $col++;
+        }
+        $row++;
+    }*/
+
+
+
+    /*$highestColumn = $sheet->getHighestColumn();
+
+    // Ajuster automatiquement la largeur des colonnes en fonction du contenu
+    foreach (range('A', $highestColumn) as $columnID) {
+        $sheet->getColumnDimension($columnID)->setAutoSize(true);
+    }*/
+
+    telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
+}
+
+function telecharger($nomfichier, $spreadsheet)
+{
+    //Téléchargement fichier
+    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
+
+    header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+    header('Content-Disposition: attachment;filename="'.$nomfichier.'"');
+    header('Cache-Control: max-age=0');
+
+    $writer->save('php://output');
+}
+

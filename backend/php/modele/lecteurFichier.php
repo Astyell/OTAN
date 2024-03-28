@@ -3,10 +3,10 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-require 'vendor/autoload.php';
-include('/home/etudiant/la221049/public_html/s4/OTAN/backend/php/DB/DB.inc.php');
+$chemin_du_fichier = __DIR__ . "/../DB/DB.inc.php";
 
-//require 'DB/DB.inc.php';
+require 'vendor/autoload.php';
+require $chemin_du_fichier;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
@@ -138,8 +138,8 @@ function mettreDansDB($chemin_fichier)
 
 		//création etudiants
 		$db->insertEtudiant($n_etud, $nip, $nom, $prenom, $cursus, $bac);
-		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $nb_UE, $altern);
-		$db->insertEtuAnn($n_etud, $annee, $bonus, $parcours, $admission);
+		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $bonus, $nb_UE, $altern);
+		$db->insertEtuAnn($n_etud, $annee, $parcours, $admission);
 
 		if($admission != null)
 		{

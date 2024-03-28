@@ -18,7 +18,7 @@ class annee
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($iA) 
+	public function __construct($iA=-1) 
 	{
 		$this->id_annee = $iA;
 	}
