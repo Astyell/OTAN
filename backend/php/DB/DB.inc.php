@@ -5,7 +5,6 @@ $chemin_du_fichier = __DIR__ . "/DB.inc.php";
 require 'annee.inc.php';
 require 'competence.inc.php';
 require 'etuAnn.inc.php';
-require 'etuComSem.inc.php';
 require 'etudiant.inc.php';
 require 'etuRes.inc.php';
 require 'etuSem.inc.php';
