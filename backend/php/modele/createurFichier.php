@@ -11,8 +11,10 @@ require 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
-creerPvComm(6);
+
+creerPvComm(1);
 
 function creerPvComm($semestre)
 {
@@ -21,6 +23,9 @@ function creerPvComm($semestre)
 
     // Sélection de la feuille active
     $sheet = $spreadsheet->getActiveSheet();
+
+    //recup de la base de donnée
+    $db = DB::getInstance();
 
     //Titre feuille
     $sheet->getStyle('E2:E4')->getFont()->setBold(true);
@@ -33,11 +38,38 @@ function creerPvComm($semestre)
 
     //Nom des colonnes
     $sheet->getStyle('A8:CA8')->getFont()->setBold(true);
+    $sheet->setCellValue('A8', 'Rg');
+    $sheet->setCellValue('B8', 'Nom');
+    $sheet->setCellValue('C8', 'Prénom');
+    $sheet->setCellValue('D8', 'Cursus');
+    $sheet->setCellValue('E8', 'UEs');
+    $sheet->setCellValue('F8', 'Moy');
 
+    //Mettre nom competence et ressource
+    $nomColonne = $db->getVueNomColonne($semestre);
 
-    $db = DB::getInstance();
-    $etudiants = $db->getVueCommission($semestre);
+    $ligne = 8;
+    $colonne = 'G';
+
+    $comp = null;
+    foreach($nomColonne as $nom)
+    {
+        if($comp != $nom->getCompetence())
+        {
+            $comp = $nom->getCompetence();
+            $sheet->setCellValue($colonne . $ligne, $comp);
+            $sheet->setCellValue(++$colonne . $ligne, "Bonus " . $comp);
+            $colonne++;
+        }
+        
+        $sheet->setCellValue($colonne . $ligne, $nom->getRessource());
+        
+        //echo $comp . "  " .$nom->getRessource() . "<br>";
+        $colonne++;
+    }
     
+    //Mettre info étudiants
+    $etudiants = $db->getVueCommission($semestre);
     
     $ligne = 10;
     foreach($etudiants as $etud)
@@ -45,39 +77,48 @@ function creerPvComm($semestre)
         $colonne = 'B';
         for($compteur = 0; $compteur < 5; $compteur++)
         {
+            $sheet->setCellValue('A' . $ligne, ($ligne - 9) . "/" . count($etudiants));
             $sheet->setCellValue($colonne . $ligne, $etud->getInfo($compteur) );
             $colonne++;
         }
         $ligne++;
     }
 
+    //Mettre notes ressources
+    $moyRessources = $db->getVueMoyRessource($semestre);
 
-    // Données à insérer (exemples)
-    /*$data = [
-        ['Dupont', 'Jean', 30],
-        ['Durand', 'Marie', 25],
-        ['Martin', 'Pierre', 35],
-    ];
-
-    // Insérer les données dans les cellules suivantes
-    $row = 2; // Commencer à la ligne 2 après les titres
-    foreach ($data as $rowData) {
-        $col = 'A';
-        foreach ($rowData as $cellData) {
-            $sheet->setCellValue($col . $row, $cellData);
-            $col++;
+    $numEtud = $moyRessources[0]->getNetud();
+    $ligne = 10;
+    foreach($moyRessources as $moyRes)
+    {
+        if ( !strstr($numEtud, $moyRes->getNetud()) ) 
+        {
+            $ligne++;
         }
-        $row++;
-    }*/
 
+        $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
 
+        for ($col = 1; $col <= $lastCol; $col++) 
+        {
+            $currentCol = Coordinate::stringFromColumnIndex($col);
+            
+            if( $sheet->getCell($currentCol . 8)->getValue() != null && strstr ($sheet->getCell($currentCol . 8)->getValue(), $moyRes->getRessource() ) ) 
+            {
+                $sheet->setCellValue($currentCol . $ligne, $moyRes->getMoy());  
+            }
+        }
 
-    /*$highestColumn = $sheet->getHighestColumn();
+        $numEtud = $moyRes->getNetud();
+    }
 
     // Ajuster automatiquement la largeur des colonnes en fonction du contenu
-    foreach (range('A', $highestColumn) as $columnID) {
-        $sheet->getColumnDimension($columnID)->setAutoSize(true);
-    }*/
+    $lastColumnIndex = $sheet->getHighestDataColumn();
+    for ($col = 'A'; $col <= $lastColumnIndex; $col++) 
+    {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+
 
     telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
 }

@@ -1,4 +1,9 @@
 <?php
+	/** connexion.php
+	* @author  : Alizéa Lebaron
+	* @since   : 27/03/2024
+	* @version : 1.0.0 - 28/03/2024
+	*/
 
 	// Gestion des Erreurs
 	error_reporting(E_ALL);
@@ -9,6 +14,7 @@
 
 	// Importation des fichiers nécessaire
 	include('../../backend/php/DB/DB.inc.php');
+	include('fctAux.inc.php');
 
 	$DB = DB::getInstance();
 ?>
@@ -32,20 +38,37 @@
 		if (!empty($_POST))
 		{
 			$identifiant = $_POST['id'];
-			$mdp = $_POST['mdp'];
+			$mdp = verifMDP($_POST['mdp']);
 
-			//Récupération de l'identifiant que nous voulons
-			$ID   = $DB->getAllIdentifiantWithID($identifiant)->getIdentifiant  ();
-			$MDP  = $DB->getAllIdentifiantWithID($identifiant)->getMdp      	();
-
-			//On vérifie s'il existe bien
-			if (empty($ID))
+			//Récupération de l'identifiant que nous voulons s'il existe
+			try 
 			{
+				$mdpDB = $DB->getAllIdentifiantWithID($identifiant)[0]->getMDP         ();
+				$droit = $DB->getAllIdentifiantWithID($identifiant)[0]->getEstAdmin	   ();
+				
+			} 
+			catch (\Throwable $th) 
+			{
+				// La donnée n'est pas présente dans la base de donnée
 				$valid = false;
 			}
-			else
-			{
 
+			if ($mdp != $mdpDB)
+			{
+				//Le mot de passe est invalide
+				$valid = false;
+			}
+
+			// Si après toutes les vérifications valid est toujours true alors on peut se connecter
+			if ($valid)
+			{
+				// On enregistre les données importantes dans la session
+                $_SESSION['id'] = $identifiant;
+				$_SESSION['droit'] = $droit;
+
+				// On amène à la page de visualisation
+                header('Location: visualisation.php');
+                exit();
 			}
 			
 		}
@@ -54,18 +77,25 @@
 
 	<fieldset>
             <h2><a href="https://www.youtube.com/watch?v=Oe3FG4EOgyU" class="hide">Connexion</a></h2>
-			<form action="sae203.php" method="post">
+			<form action="connexion.php" method="post">
 
 				<p>
-					<strong>Identifiant</strong> : <input type="text" id="id" name="id" placeholder="Entrez votre identifiant..." required autofocus></br></br>
-					<strong>Mot de passe</strong> : <input type="password" id="mdp" name="mdp" placeholder="Entrez votre mot de passe..." required></br><br>
+					<input class="text" type="text" id="id" name="id" placeholder="Identifiant" required autofocus></br></br>
+					<input class="text" type="password" id="mdp" name="mdp" placeholder="Mot de passe" required></br><br>
 				</p>
+				
                 <input type="submit" id="button" value="Connexion"></br>
 
 			</form>
 			
         <div id="error">
             
+			<?php
+
+				if (!$valid) {echo "<p>L'identifiant ou le mot de passe est incorrect.</p>";}
+
+			?>
+
         </div>
 	</fieldset>
 	
