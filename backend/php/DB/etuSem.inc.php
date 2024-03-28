@@ -20,14 +20,14 @@ class etuSem
     private string		$nbabsjust;
 	private float		$moy_gene;
 	private float		$bonus;
-	private int 		$nb_ue;
+	private String 		$nb_ue;
 	private bool		$alternant;
     
 	/* -------------------------------------- */
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($nE,$iS,$tp,$td,$nai,$naj, $moy, $bon, $ue, $alter ) 
+	public function __construct($nE="",$iS=1,$tp="",$td="",$nai="",$naj="", $moy=1, $bon=1, $ue="", $alter=true ) 
 	{
 		$this->n_etud 		= $nE;
 		$this->id_semestre 	= $iS;
