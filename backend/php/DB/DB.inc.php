@@ -13,8 +13,10 @@ require 'noteComp.inc.php';
 require 'resCom.inc.php';
 require 'ressource.inc.php';
 require 'semestre.inc.php';
+
 require 'vueCommission.inc.php';
 require 'vueNomColonne.inc.php';
+require 'vueMoyRessource.inc.php';
 
 class DB
 {
@@ -373,6 +375,19 @@ class DB
 					order by id_competence';
 		$tparam = array($semestre);
 		return $this->execQuery($requete, $tparam, 'vueNomColonne');
+	}
+
+	public function getVueMoyRessource($semestre)
+	{
+		$requete = 'select distinct e.n_etud, r.id_ressource, moy, moy_gene 
+					from rescom r join ressource c on r.id_ressource = c.id_ressource 
+					join etures x on r.id_ressource = x.id_ressource 
+					join etudiant e on x.n_etud = e.n_etud 
+					join etusem s on e.n_etud = s.n_etud 
+					where s.id_semestre = ? and s.id_semestre = c.id_semestre 
+					order by moy_gene desc';
+		$tparam = array($semestre);
+		return $this->execQuery($requete, $tparam, 'vueMoyRessource');
 	}
 
 	//public function get
