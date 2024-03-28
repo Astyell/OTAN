@@ -76,6 +76,14 @@
         echo "</nav>\n";
     }
 
+    function deuxBoutons($gauche,$droite)  
+    {
+        echo "<table>\n";
+        echo "<td><button class=\"gauche\">$gauche</button></td>\n";
+        echo "<td><button class=\"droite\">$droite</button></td>\n";
+        echo "</table>\n";
+    }
+
 
 
     function pied() 
