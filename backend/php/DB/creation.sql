@@ -1,5 +1,4 @@
 DROP TABLE identifiant CASCADE;
-
 DROP TABLE etudiant CASCADE;
 DROP TABLE annee CASCADE;
 DROP TABLE competence CASCADE;
