@@ -13,6 +13,7 @@ require 'noteComp.inc.php';
 require 'resCom.inc.php';
 require 'ressource.inc.php';
 require 'semestre.inc.php';
+require 'vueCommission.inc.php';
 
 class DB
 {
@@ -355,7 +356,7 @@ class DB
 
 	public function getVueCommission($semestre)
 	{
-		$requete = 'select nom_etu, prenom_etu, cursus, nb_ue, moy_gene 
+		$requete = 'select nom_etu as nom, prenom_etu as prenom, cursus, nb_ue as ue, moy_gene as moy 
 					from etudiant e join etuSem s on e.n_etud = s.n_etud 
 					where id_semestre = ? 
 					order by moy_gene desc;';
