@@ -1,59 +1,37 @@
 <?php
 
-/** semestre.inc.php
+/** vueNomColonne.inc.php
 * @author  : Matéo
 * @since   : 28/03/2024
 * @version : 1.0.0 - 28/03/2024
 */
 
-class vueCommission 
+class vueNomColonne 
 {
 	/* -------------------------------------- */
 	/*               Attributs                */
 	/* -------------------------------------- */
 
-	private String 	$nom;
-	private String	$prenom;
-	private String	$cursus;
-	private String	$ue;
-	private float	$moy;
+	private String 	$id_competence;
+	private String	$id_ressource;
 
 
 	/* -------------------------------------- */
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($n="",$p="",$c="",$u="",$m=0.0) 
+	public function __construct($iC="",$iR="") 
 	{
-		$this->nom 		= $n;
-		$this->prenom 	= $p;
-		$this->cursus 	= $c;
-		$this->ue 		= $u;
-		$this->moy	 	= $m;
+		$this->id_competence 	= $iC;
+		$this->id_ressource 	= $iR;
 	}
 
 	/* -------------------------------------- */
 	/*                Accesseur               */
 	/* -------------------------------------- */
 
-	public function getNom		() { return $this->nom;}
-	public function getPrenom	() { return $this->prenom;}
-	public function getCursus	() { return $this->cursus;}
-	public function getUE		() { return $this->ue;}
-	public function getMoy		() { return $this->moy;}
-
-	public function getInfo($num)
-	{
-		switch ($num) 
-		{
-			case 0 : return $this->nom;
-			case 1 : return $this->prenom;
-			case 2 : return $this->cursus;
-			case 3 : return $this->ue;
-			case 4 : return $this->moy;
-		}
-		return null;
-	}
+	public function getCompetence	() { return $this->id_competence;}
+	public function getRessource	() { return $this->id_ressource;}
 
 	/* -------------------------------------- */
 	/*                 Méthode                */

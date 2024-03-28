@@ -2,17 +2,17 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$chemin_du_fichier = __DIR__ . "/../DB/DB.inc.php";
+$chemin = __DIR__;
+require ( $chemin . "/../DB/DB.inc.php");
+//require ( $chemin . "/../DB/vueCommission.inc.php" );
 
 require 'vendor/autoload.php';
-require $chemin_du_fichier;
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 
-creerPvComm(1);
-echo "yay";
+creerPvComm(6);
 
 function creerPvComm($semestre)
 {
@@ -21,6 +21,9 @@ function creerPvComm($semestre)
 
     // Sélection de la feuille active
     $sheet = $spreadsheet->getActiveSheet();
+
+    //recup de la base de donnée
+    $db = DB::getInstance();
 
     //Titre feuille
     $sheet->getStyle('E2:E4')->getFont()->setBold(true);
@@ -33,18 +36,48 @@ function creerPvComm($semestre)
 
     //Nom des colonnes
     $sheet->getStyle('A8:CA8')->getFont()->setBold(true);
+    $sheet->setCellValue('A8', 'Rg');
+    $sheet->setCellValue('B8', 'Nom');
+    $sheet->setCellValue('C8', 'Prénom');
+    $sheet->setCellValue('D8', 'Cursus');
+    $sheet->setCellValue('E8', 'UEs');
+    $sheet->setCellValue('F8', 'Moy');
 
+    $nomColonne = $db->getVueNomColonne($semestre);
 
-    $db = DB::getInstance();
-    //$etudiants = $db->getAllEtudiant();
-    $test = $db->getAllAnnee();
+    $ligne = 8;
+    $colonne = 'G';
 
-    foreach($test as $etud)
+    $comp = null;
+    foreach($nomColonne as $nom)
     {
-        echo $etud;
+        if($comp != $nom->getCompetence())
+        {
+            $comp = $nom->getCompetence();
+            $sheet->setCellValue($colonne . $ligne, $comp);
+            $sheet->setCellValue(++$colonne . $ligne, "Bonus " . $comp);
+        }
+        else
+        {
+            $sheet->setCellValue($colonne . $ligne, $nom->getRessource());
+        }
+        $colonne++;
     }
-
-    //$sheet->setCellValue('E2', 'Semestre ' . $semestre . " - BUT INFO");
+    
+    $etudiants = $db->getVueCommission($semestre);
+    
+    $ligne = 10;
+    foreach($etudiants as $etud)
+    {
+        $colonne = 'B';
+        for($compteur = 0; $compteur < 5; $compteur++)
+        {
+            $sheet->setCellValue('A' . $ligne, ($ligne - 9) . "/" . count($etudiants));
+            $sheet->setCellValue($colonne . $ligne, $etud->getInfo($compteur) );
+            $colonne++;
+        }
+        $ligne++;
+    }
 
 
     // Données à insérer (exemples)
@@ -67,14 +100,15 @@ function creerPvComm($semestre)
 
 
 
-    /*$highestColumn = $sheet->getHighestColumn();
-
     // Ajuster automatiquement la largeur des colonnes en fonction du contenu
-    foreach (range('A', $highestColumn) as $columnID) {
-        $sheet->getColumnDimension($columnID)->setAutoSize(true);
-    }*/
+    $lastColumnIndex = $sheet->getHighestDataColumn();
+    for ($col = 'A'; $col <= $lastColumnIndex; $col++) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
 
-    //telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
+
+
+    telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
 }
 
 function telecharger($nomfichier, $spreadsheet)
