@@ -1,0 +1,75 @@
+<?php
+
+/** etuSem.inc.php
+* @author  : Alizéa Lebaron, Justine BONDU
+* @since   : 27/03/2024
+* @version : 1.0.0 - 27/03/2024
+*/
+
+class etuSem
+{
+	/* -------------------------------------- */
+	/*               Attributs                */
+	/* -------------------------------------- */
+
+	private string		$n_etud;
+    private int			$id_semestre;
+    private string		$tp;
+    private string		$td;
+	private string		$nbabsinjust;
+    private string		$nbabsjust;
+	private float		$moy_gene;
+	private int 		$nb_ue;
+	private bool		$alternant;
+    
+	/* -------------------------------------- */
+	/*              Constructeur              */
+	/* -------------------------------------- */
+	
+	public function __construct($nE,$iS,$tp,$td,$nai,$naj, $moy, $ue, $alter ) 
+	{
+		$this->n_etud 		= $nE;
+		$this->id_semestre 	= $iS;
+		$this->tp 			= $tp;
+        $this->td 			= $td;
+		$this->nbabsinjust 	= $naj;
+		$this->nbabsjust	= $nai;
+		$this->moy_gene		= $moy;
+		$this->nb_ue		= $ue;
+		$this->alternant	= $alter;
+	}
+
+	/* -------------------------------------- */
+	/*                Accesseur               */
+	/* -------------------------------------- */
+
+	public function getN_Etud		() { return $this->n_etud; }
+	public function getId_Semestre	() { return $this->id_semestre;}
+	public function getTP			() { return $this->tp; }
+    public function getTD			() { return $this->td; }
+	public function getNbAbsJusti	() { return $this->nbabsjust;}
+	public function getNbAbsInjustc	() { return $this->nbabsinjust; }
+	public function getMoyGeneral	() { return $this->moy_gene; }
+	public function getNbUe			() { return $this->nb_ue; }
+	public function getAlternant	() { return $this->alternant; }
+
+	/* -------------------------------------- */
+	/*                 Méthode                */
+	/* -------------------------------------- */
+
+	public function __toString() 
+	{
+		$res = "n_Etud:".$this->n_etud."\n";
+		$res = $res ."id_Semestre:".$this->id_semestre."\n";
+		$res = $res ."TP:".$this->tp."\n";
+        $res = $res ."TD:".$this->td."\n";
+		$res = $res ."nbAbsJusti:".$this->nbabsjust."\n";
+        $res = $res ."nbAbsInjust:".$this->nbabsinjust."\n";
+		$res = $res ."moy_gene:".$this->moy_gene."\n";
+		$res = $res ."nb_ue:".$this->nb_ue."\n";
+		$res = $res ."alternant:".$this->alternant."\n";
+		$res = $res ."<br/>";
+		return $res;
+	}
+}
+?>

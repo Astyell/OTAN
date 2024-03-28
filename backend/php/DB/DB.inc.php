@@ -1,7 +1,19 @@
 <?php
 
 $chemin_du_fichier = __DIR__ . "/DB.inc.php";
-echo $chemin_du_fichier;
+
+require 'annee.inc.php';
+require 'competence.inc.php';
+require 'etuAnn.inc.php';
+require 'etuComSem.inc.php';
+require 'etudiant.inc.php';
+require 'etuRes.inc.php';
+require 'etuSem.inc.php';
+require 'identifiant.inc.php';
+require 'noteComp.inc.php';
+require 'resCom.inc.php';
+require 'ressource.inc.php';
+require 'semestre.inc.php';
 
 class DB
 {
@@ -78,6 +90,8 @@ class DB
 	{
 		try 
 		{
+			//echo $requete . " " . $tparam . " ". $nomClasse . "<br>";
+			
 			//on prépare la requête
 			$stmt = $this->connect->prepare($requete);
 			//on indique que l'on va récupére les tuples sous forme d'objets instance de Client
@@ -193,6 +207,14 @@ class DB
 	{
 		$requete = 'select * from identifiant';
 		return $this->execQuery($requete, null, 'Identifiant');
+	}
+
+	//Utilisée dans connexion.php
+	public function getAllIdentifiantWithID($id)
+	{
+		$requete = 'select * from identifiant where identifiant = ?';
+
+		return $this->execQuery($requete, $id, 'Identifiant');
 	}
 
 	public function insertIdentifiant($id, $mdp, $estAdmin)

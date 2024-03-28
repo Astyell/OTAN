@@ -36,13 +36,13 @@ function creerPvComm($semestre)
 
 
     $db = DB::getInstance();
-    $etudiants = $db->getAllEtudiant();
+    //$etudiants = $db->getAllEtudiant();
+    $test = $db->getAllAnnee();
 
-    foreach($etudiants as $etud)
+    foreach($test as $etud)
     {
         echo $etud;
     }
-    //echo $etudiants;
 
     //$sheet->setCellValue('E2', 'Semestre ' . $semestre . " - BUT INFO");
 
