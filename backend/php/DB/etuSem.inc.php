@@ -19,6 +19,7 @@ class etuSem
 	private string		$nbabsinjust;
     private string		$nbabsjust;
 	private float		$moy_gene;
+	private float		$bonus;
 	private int 		$nb_ue;
 	private bool		$alternant;
     
@@ -26,7 +27,7 @@ class etuSem
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($nE,$iS,$tp,$td,$nai,$naj, $moy, $ue, $alter ) 
+	public function __construct($nE,$iS,$tp,$td,$nai,$naj, $moy, $bon, $ue, $alter ) 
 	{
 		$this->n_etud 		= $nE;
 		$this->id_semestre 	= $iS;
@@ -35,6 +36,7 @@ class etuSem
 		$this->nbabsinjust 	= $naj;
 		$this->nbabsjust	= $nai;
 		$this->moy_gene		= $moy;
+		$this->bonus		= $bon;
 		$this->nb_ue		= $ue;
 		$this->alternant	= $alter;
 	}
@@ -50,6 +52,7 @@ class etuSem
 	public function getNbAbsJusti	() { return $this->nbabsjust;}
 	public function getNbAbsInjustc	() { return $this->nbabsinjust; }
 	public function getMoyGeneral	() { return $this->moy_gene; }
+	public function getBonus		() { return $this->bonus; }
 	public function getNbUe			() { return $this->nb_ue; }
 	public function getAlternant	() { return $this->alternant; }
 
@@ -66,6 +69,7 @@ class etuSem
 		$res = $res ."nbAbsJusti:".$this->nbabsjust."\n";
         $res = $res ."nbAbsInjust:".$this->nbabsinjust."\n";
 		$res = $res ."moy_gene:".$this->moy_gene."\n";
+		$res = $res ."bonus:".$this->bonus."\n";
 		$res = $res ."nb_ue:".$this->nb_ue."\n";
 		$res = $res ."alternant:".$this->alternant."\n";
 		$res = $res ."<br/>";

@@ -268,10 +268,10 @@ class DB
 		return $this->execQuery($requete, null, 'EtuSem');
 	}
 
-	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
+	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $bonus, $nb_UE, $altern)
 	{
-		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?)';
-		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern);
+		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?)';
+		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $bonus, $nb_UE, $altern);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -319,10 +319,10 @@ class DB
 		return $this->execQuery($requete, null, 'EtuAnn');
 	}
 
-	public function insertEtuAnn($n_etud, $id_ann, $bonus, $parcours, $admission)
+	public function insertEtuAnn($n_etud, $id_ann, $parcours, $admission)
 	{
-		$requete = 'insert into etuann values(?,?,?,?,?)';
-		$tparam = array($n_etud, $id_ann, $bonus, $parcours, $admission);
+		$requete = 'insert into etuann values(?,?,?,?)';
+		$tparam = array($n_etud, $id_ann, $parcours, $admission);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -351,8 +351,18 @@ class DB
 	}
 
 	/*-------------*/
-	/*  RES/COM    */
+	/*  VUES       */
 	/*-------------*/
+
+	public function getVueCommission($semestre)
+	{
+		$requete = 'select nom_etu, prenom_etu, cursus, nb_ue, moy_gene 
+					from etudiant e join etuSem s on e.n_etud = s.n_etud 
+					where id_semestre = ? 
+					order by moy_gene desc;';
+		$tparam = array($semestre);
+		return $this->execQuery($requete, $tparam, 'vueCommission');
+	}
 
 	//public function get
 

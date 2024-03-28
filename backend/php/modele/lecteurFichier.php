@@ -138,8 +138,8 @@ function mettreDansDB($chemin_fichier)
 
 		//création etudiants
 		$db->insertEtudiant($n_etud, $nip, $nom, $prenom, $cursus, $bac);
-		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $nb_UE, $altern);
-		$db->insertEtuAnn($n_etud, $annee, $bonus, $parcours, $admission);
+		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $bonus, $nb_UE, $altern);
+		$db->insertEtuAnn($n_etud, $annee, $parcours, $admission);
 
 		if($admission != null)
 		{
