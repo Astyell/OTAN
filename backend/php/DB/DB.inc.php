@@ -14,6 +14,7 @@ require 'resCom.inc.php';
 require 'ressource.inc.php';
 require 'semestre.inc.php';
 require 'vueCommission.inc.php';
+require 'vueNomColonne.inc.php';
 
 class DB
 {
@@ -359,9 +360,19 @@ class DB
 		$requete = 'select nom_etu as nom, prenom_etu as prenom, cursus, nb_ue as ue, moy_gene as moy 
 					from etudiant e join etuSem s on e.n_etud = s.n_etud 
 					where id_semestre = ? 
-					order by moy_gene desc;';
+					order by moy_gene desc';
 		$tparam = array($semestre);
 		return $this->execQuery($requete, $tparam, 'vueCommission');
+	}
+
+	public function getVueNomColonne($semestre)
+	{
+		$requete = 'select id_competence, r.id_ressource
+					from rescom r join ressource c on r.id_ressource = c.id_ressource 
+					where id_semestre = ? 
+					order by id_competence';
+		$tparam = array($semestre);
+		return $this->execQuery($requete, $tparam, 'vueNomColonne');
 	}
 
 	//public function get

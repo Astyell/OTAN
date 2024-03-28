@@ -106,5 +106,5 @@ CREATE TABLE resCom(
    FOREIGN KEY(id_competence) REFERENCES competence(id_competence)
 );
 
-INSERT INTO identifiant VALUES ('admin', 'admin', true );
-INSERT INTO identifiant VALUES ('user' , 'user' , false);
+INSERT INTO identifiant VALUES ('admin', '0ab1c08d8e5ab67ba2d800707dacade52b36ffee' , true );
+INSERT INTO identifiant VALUES ('user' , 'c04d6802b955449841f14bfd926b3fa6001c2d2a' , false);
