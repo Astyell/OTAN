@@ -13,8 +13,12 @@ require 'noteComp.inc.php';
 require 'resCom.inc.php';
 require 'ressource.inc.php';
 require 'semestre.inc.php';
+
 require 'vueCommission.inc.php';
 require 'vueNomColonne.inc.php';
+require 'vueMoyRessource.inc.php';
+require 'vueMoyCompetence.inc.php';
+
 
 class DB
 {
@@ -193,10 +197,10 @@ class DB
 		return $this->execQuery($requete, null, 'Competence');
 	}
 
-	public function insertCompetence($id)
+	public function insertCompetence($id, $sem)
 	{
-		$requete = 'insert into competence values(?)';
-		$tparam = array($id);
+		$requete = 'insert into competence values(?,?)';
+		$tparam = array($id, $sem);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -375,88 +379,25 @@ class DB
 		return $this->execQuery($requete, $tparam, 'vueNomColonne');
 	}
 
-	//public function get
-
-	//Client
-	/*
-	public function getClient($idcli)
+	public function getVueMoyRessource($semestre)
 	{
-		$requete = 'select * from client where ncli = ?';
-		return $this->execQuery($requete, array($idcli), 'Client');
+		$requete = 'select distinct e.n_etud, r.id_ressource, moy, moy_gene 
+					from rescom r join ressource c on r.id_ressource = c.id_ressource 
+					join etures x on r.id_ressource = x.id_ressource 
+					join etudiant e on x.n_etud = e.n_etud 
+					join etusem s on e.n_etud = s.n_etud 
+					where s.id_semestre = ? and s.id_semestre = c.id_semestre 
+					order by moy_gene desc';
+		$tparam = array($semestre);
+		return $this->execQuery($requete, $tparam, 'vueMoyRessource');
 	}
 
-	public function updateAdrClient($idcli, $adr)
+	public function getVueMoyCompetence($semestre)
 	{
-		$requete = 'update client set ville = ? where ncli = ?';
-		$tparam = array($adr, $idcli);
-		return $this->execMaj($requete, $tparam);
+		$requete = '';
+		$tparam = array($semestre);
+		return $this->execQuery($requete, $tparam, 'vueMoyRessource');
 	}
-
-	public function deleteClient($idcli)
-	{
-		$requete = 'delete from client where ncli = ?';
-		$tparam = array($idcli);
-		return $this->execMaj($requete, $tparam);
-	}
-
-	//Produit
-	public function getProduits()
-	{
-		$requete = 'select * from produit';
-		return $this->execQuery($requete, null, 'Produit');
-	}
-
-	public function getProduitsTri($choixTri)
-	{
-		$requete = 'select * from produit order by ' . $choixTri;
-		return $this->execQuery($requete, null, 'Produit');
-	}
-
-	public function insertProduit($idpro, $lib, $coul, $qs)
-	{
-		//try{
-		$requete = 'insert into produit values(?,?,?,?)';
-		$tparam = array($idpro, $lib, $coul, $qs);
-		return $this->execMaj($requete, $tparam);
-		//}catch(PDOException e){}
-		//return null;
-	}
-
-	public function deleteProduit($idpro)
-	{
-		self::$instance->deleteAchat($idpro);
-		$requete = 'delete from produit where np = ?';
-		$tparam = array($idpro);
-		return $this->execMaj($requete, $tparam);
-	}
-
-	public function updateProduit($idpro, $nom, $coul, $qs)
-	{
-		$requete = 'update produit set lib = ?, coul = ?, qs = ? where np = ?';
-		$tparam = array($nom, $coul, $qs, $idpro);
-		return $this->execMaj($requete, $tparam);
-	}
-
-	//Achat
-	public function getAchats()
-	{
-		$requete = 'select * from achat';
-		return $this->execQuery($requete, null, 'Achat');
-	}
-
-	public function insertAchat($idcli, $idpro, $qa)
-	{
-		$requete = 'insert into achat values(?,?,?)';
-		$tparam = array($idcli, $idpro, $qa);
-		return $this->execMaj($requete, $tparam);
-	}
-
-	public function deleteAchat($idpro)
-	{
-		$requete = 'delete from achat where np = ?';
-		$tparam = array($idpro);
-		return $this->execMaj($requete, $tparam);
-	}*/
 
 }
 

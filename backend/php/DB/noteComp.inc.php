@@ -13,7 +13,7 @@ class noteComp
 	/* -------------------------------------- */
 
 	private string		$n_etud;
-	private int			$id_competence;
+	private String			$id_competence;
     private float		$moy_ue;
 
 	/* -------------------------------------- */
