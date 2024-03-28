@@ -1,5 +1,5 @@
 <?php
-	function enTeteMenu() 
+	function enTeteVisuali() 
 	{
         echo "<!DOCTYPE html>\n";
         echo "<html lang='fr'>\n";
@@ -17,7 +17,7 @@
         echo "<br>\n";
 	}
 
-    function headerMenu()
+    function headerMenuVisuali()
     {
         echo "<header >";
         echo "<div class=\"menuBar\">";
@@ -30,7 +30,7 @@
         echo "</header>";
     }
 
-    function navMenu()//TODO : retacher une fonction celonn le bouton cliquer pour changer l'affichage
+    function navMenuVisuali()//TODO : retacher une fonction celonn le bouton cliquer pour changer l'affichage
     {
         /* Ce menu est composé d'un tableau séparé en 6 parti chacune de ses parties représente un semestre.
 		Chaque semestre comporte un bouton jury, et les semestres impairs ont, en plus un bouton commission.*/
