@@ -1,4 +1,9 @@
 <?php
+	/** connexion.php
+	* @author  : Alizéa Lebaron
+	* @since   : 27/03/2024
+	* @version : 1.0.0 - 28/03/2024
+	*/
 
 	// Gestion des Erreurs
 	error_reporting(E_ALL);
@@ -75,9 +80,10 @@
 			<form action="connexion.php" method="post">
 
 				<p>
-					<strong>Identifiant</strong> : <input type="text" id="id" name="id" placeholder="Entrez votre identifiant..." required autofocus></br></br>
-					<strong>Mot de passe</strong> : <input type="password" id="mdp" name="mdp" placeholder="Entrez votre mot de passe..." required></br><br>
+					<input class="text" type="text" id="id" name="id" placeholder="Identifiant" required autofocus></br></br>
+					<input class="text" type="password" id="mdp" name="mdp" placeholder="Mot de passe" required></br><br>
 				</p>
+				
                 <input type="submit" id="button" value="Connexion"></br>
 
 			</form>
