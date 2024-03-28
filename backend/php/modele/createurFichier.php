@@ -112,10 +112,11 @@ function creerPvComm($semestre)
     }
 
     // Ajuster automatiquement la largeur des colonnes en fonction du contenu
-    $lastColumnIndex = $sheet->getHighestDataColumn();
-    for ($col = 'A'; $col <= $lastColumnIndex; $col++) 
+    $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
+    for ($col = 1; $col <= $lastCol; $col++) 
     {
-        $sheet->getColumnDimension($col)->setAutoSize(true);
+        $currentCol = Coordinate::stringFromColumnIndex($col);
+        $sheet->getColumnDimension($currentCol)->setAutoSize(true);
     }
 
 

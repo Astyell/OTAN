@@ -13,14 +13,16 @@ class competence
 	/* -------------------------------------- */
 
 	private int		$id_competence;
+	private int		$id_semestre;
 
 	/* -------------------------------------- */
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($iC) 
+	public function __construct($iC="",$iS="") 
 	{
 		$this->id_competence 	= $iC;
+		$this->id_semestre 	= $iS;
 	}
 
 	/* -------------------------------------- */
