@@ -26,9 +26,18 @@ CREATE TABLE annee(
    PRIMARY KEY(id_annee)
 );
 
+CREATE TABLE semestre(
+   id_semestre INT,
+   id_annee INT NOT NULL,
+   PRIMARY KEY(id_semestre),
+   FOREIGN KEY(id_annee) REFERENCES annee(id_annee)
+);
+
 CREATE TABLE competence(
    id_competence VARCHAR(50),
-   PRIMARY KEY(id_competence)
+   id_semestre INT,
+   PRIMARY KEY(id_competence),
+   FOREIGN KEY(id_semestre) REFERENCES semestre(id_semestre)
 );
 
 CREATE TABLE identifiant(
@@ -36,13 +45,6 @@ CREATE TABLE identifiant(
    mdp VARCHAR(50) NOT NULL,
    estAdmin BOOL NOT NULL,
    PRIMARY KEY(identifiant)
-);
-
-CREATE TABLE semestre(
-   id_semestre INT,
-   id_annee INT NOT NULL,
-   PRIMARY KEY(id_semestre),
-   FOREIGN KEY(id_annee) REFERENCES annee(id_annee)
 );
 
 CREATE TABLE ressource(
