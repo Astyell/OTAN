@@ -12,7 +12,7 @@
 
 
     echo "<br>";
-    echo "<section class=\"corp\">";
+    echo "<section class=\"corpV\">";
     corps();
     echo "</section>";
 
@@ -22,9 +22,8 @@
 
     function corps() 
 	{
-        echo "<section class=\"copr\">";
 		$db = DB::getInstance();
-
+        echo "chalut, faut me compléter";
         
 	}
 ?>

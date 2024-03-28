@@ -10,16 +10,30 @@
 		echo "<title>Menu</title>\n";
 		echo "</head>\n";
         echo "<body>\n";
-		echo "<header>\n";
-        echo "<h1>Menu</h1>\n";
-        echo "</header>\n";
         echo "<br>\n";
+	}
+
+    function enTete1_2() 
+	{
+        echo "<!DOCTYPE html>\n";
+        echo "<html lang='fr'>\n";
+		echo "<head>\n";
+		echo "<meta charset='UTF-8'>\n";
+		echo "<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'  />\n";
+        echo "<link rel='stylesheet' href='../css/style.css' type='text/css' />\n";
+
+	}
+
+    function enTete2_2() 
+	{
+        echo "</head>\n";
+        echo "<body>\n";
         echo "<br>\n";
 	}
 
     function headerMenuVisuali()
     {
-        echo "<header >";
+        echo "<header class=\"headerVisu\">";
         echo "<div class=\"menuBar\">";
         echo "<a href=\"importation.html\" class=\"imp\"> <img src=\"../img/logo_telecharger.png\" title=\"importation\" alt=\"importationLogo\"></a>";
         echo "<a href=\"exportation.html\" class=\"Exp\"> <img class=\"imaInvers\" src=\"../img/logo_telecharger.png\" title=\"exportation\" alt=\"exportationLogo\"></a>";
