@@ -22,6 +22,9 @@ function creerPvComm($semestre)
     // Sélection de la feuille active
     $sheet = $spreadsheet->getActiveSheet();
 
+    //recup de la base de donnée
+    $db = DB::getInstance();
+
     //Titre feuille
     $sheet->getStyle('E2:E4')->getFont()->setBold(true);
     $sheet->getStyle('E2:E4')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
@@ -33,11 +36,35 @@ function creerPvComm($semestre)
 
     //Nom des colonnes
     $sheet->getStyle('A8:CA8')->getFont()->setBold(true);
+    $sheet->setCellValue('A8', 'Rg');
+    $sheet->setCellValue('B8', 'Nom');
+    $sheet->setCellValue('C8', 'Prénom');
+    $sheet->setCellValue('D8', 'Cursus');
+    $sheet->setCellValue('E8', 'UEs');
+    $sheet->setCellValue('F8', 'Moy');
 
+    $nomColonne = $db->getVueNomColonne($semestre);
 
-    $db = DB::getInstance();
-    $etudiants = $db->getVueCommission($semestre);
+    $ligne = 8;
+    $colonne = 'G';
+
+    $comp = null;
+    foreach($nomColonne as $nom)
+    {
+        if($comp != $nom->getCompetence())
+        {
+            $comp = $nom->getCompetence();
+            $sheet->setCellValue($colonne . $ligne, $comp);
+            $sheet->setCellValue(++$colonne . $ligne, "Bonus " . $comp);
+        }
+        else
+        {
+            $sheet->setCellValue($colonne . $ligne, $nom->getRessource());
+        }
+        $colonne++;
+    }
     
+    $etudiants = $db->getVueCommission($semestre);
     
     $ligne = 10;
     foreach($etudiants as $etud)
@@ -45,6 +72,7 @@ function creerPvComm($semestre)
         $colonne = 'B';
         for($compteur = 0; $compteur < 5; $compteur++)
         {
+            $sheet->setCellValue('A' . $ligne, ($ligne - 9) . "/" . count($etudiants));
             $sheet->setCellValue($colonne . $ligne, $etud->getInfo($compteur) );
             $colonne++;
         }
@@ -72,12 +100,13 @@ function creerPvComm($semestre)
 
 
 
-    /*$highestColumn = $sheet->getHighestColumn();
-
     // Ajuster automatiquement la largeur des colonnes en fonction du contenu
-    foreach (range('A', $highestColumn) as $columnID) {
-        $sheet->getColumnDimension($columnID)->setAutoSize(true);
-    }*/
+    $lastColumnIndex = $sheet->getHighestDataColumn();
+    for ($col = 'A'; $col <= $lastColumnIndex; $col++) {
+        $sheet->getColumnDimension($col)->setAutoSize(true);
+    }
+
+
 
     telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
 }
