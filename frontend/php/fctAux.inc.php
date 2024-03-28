@@ -89,4 +89,12 @@
         echo "</body>\n";
         echo "</html>\n";
 	}
+
+	function verifMDP($mdp) 
+    { 
+        define('PREFIXE_SHA1', 'O&5Li_rZ*/78'); //Afin de sécuriser le mot de passe on ajoute un constant devant qui sera aussi haché
+        $mdp_sha1 = sha1(PREFIXE_SHA1.$mdp); //Cryptage du mdp
+
+        return $mdp_sha1;
+    }
 ?>

@@ -9,6 +9,7 @@
 
 	// Importation des fichiers nécessaire
 	include('../../backend/php/DB/DB.inc.php');
+	include('fctAux.inc.php');
 
 	$DB = DB::getInstance();
 ?>
@@ -32,26 +33,38 @@
 		if (!empty($_POST))
 		{
 			$identifiant = $_POST['id'];
-			$mdp = $_POST['mdp'];
-
-			//echo("$identifiant $mdp"); //debug
+			$mdp = verifMDP($_POST['mdp']);
 
 			//Récupération de l'identifiant que nous voulons s'il existe
 			try 
 			{
-				$ID   = $DB->getAllIdentifiantWithID($identifiant)->getIdentifiant();
-				echo("Id = $ID");
-				$MDP  = $DB->getAllIdentifiantWithID($identifiant)->getMdp();
-				echo("MDP = $MDP");
+				$mdpDB = $DB->getAllIdentifiantWithID($identifiant)[0]->getMDP         ();
+				$droit = $DB->getAllIdentifiantWithID($identifiant)[0]->getEstAdmin	   ();
+				
 			} 
 			catch (\Throwable $th) 
 			{
-				echo ($th);
-				echo("Il repassera par là");
+				// La donnée n'est pas présente dans la base de donnée
 				$valid = false;
 			}
 
-			
+			if ($mdp != $mdpDB)
+			{
+				//Le mot de passe est invalide
+				$valid = false;
+			}
+
+			// Si après toutes les vérifications valid est toujours true alors on peut se connecter
+			if ($valid)
+			{
+				// On enregistre les données importantes dans la session
+                $_SESSION['id'] = $identifiant;
+				$_SESSION['droit'] = $droit;
+
+				// On amène à la page de visualisation
+                header('Location: visualisation.php');
+                exit();
+			}
 			
 		}
 
@@ -71,6 +84,12 @@
 			
         <div id="error">
             
+			<?php
+
+				if (!$valid) {echo "<p>L'identifiant ou le mot de passe est incorrect.</p>";}
+
+			?>
+
         </div>
 	</fieldset>
 	
