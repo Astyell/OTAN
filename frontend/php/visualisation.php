@@ -12,7 +12,7 @@
 
 
     echo "<br>";
-    echo "<section class=\"\">";
+    echo "<section class=\"corp\">";
     corps();
     echo "</section>";
 
