@@ -19,7 +19,7 @@ class semestre
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($iS,$iA) 
+	public function __construct($iS=-1,$iA=-1) 
 	{
 		$this->id_semestre 	= $iS;
 		$this->id_annee 	= $iA;

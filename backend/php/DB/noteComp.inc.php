@@ -12,28 +12,28 @@ class noteComp
 	/*               Attributs                */
 	/* -------------------------------------- */
 
-	private string		$n_Etud;
+	private string		$n_etud;
 	private int			$id_competence;
-    private float		$moy_UE;
+    private float		$moy_ue;
 
 	/* -------------------------------------- */
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($nE,$iC,$mUE) 
+	public function __construct($nE="",$iC=-1,$mUE=0.0) 
 	{
-		$this->n_Etud 			= $nE;
+		$this->n_etud 			= $nE;
 		$this->id_competence 	= $iC;
-		$this->moy_UE 			= $mUE;
+		$this->moy_ue 			= $mUE;
 	}
 
 	/* -------------------------------------- */
 	/*                Accesseur               */
 	/* -------------------------------------- */
 
-	public function getN_Etud		() { return $this->n_Etud; }
+	public function getN_Etud		() { return $this->n_etud; }
 	public function getId_competence() { return $this->id_competence;}
-	public function getMoy_UE		() { return $this->moy_UE; }
+	public function getMoy_UE		() { return $this->moy_ue; }
 
 	/* -------------------------------------- */
 	/*                 Méthode                */
@@ -41,9 +41,9 @@ class noteComp
 
 	public function __toString() 
 	{
-		$res = "n_Etud:".$this->n_Etud."\n";
+		$res = "n_Etud:".$this->n_etud."\n";
 		$res = $res ."id_competence:".$this->id_competence."\n";
-		$res = $res ."moy_UE:".$this->moy_UE."\n";
+		$res = $res ."moy_UE:".$this->moy_ue."\n";
 		$res = $res ."<br/>";
 		return $res;
 	}

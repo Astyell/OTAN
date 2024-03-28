@@ -12,10 +12,10 @@ class etudiant
 	/*               Attributs                */
 	/* -------------------------------------- */
 
-	private string		$n_Etud;
-    private string		$n_Ip;
-    private string		$nom_Etu;
-    private string		$prenom_Etu;
+	private string		$n_etud;
+    private string		$n_ip;
+    private string		$nom_etu;
+    private string		$prenom_etu;
     private string		$cursus;
     private string		$bac;
 
@@ -23,12 +23,12 @@ class etudiant
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($nE,$nI,$nomE,$preE,$c,$b) 
+	public function __construct($nE="",$nI="",$nomE="",$preE="",$c="",$b="") 
 	{
-		$this->n_Etud 		= $nE;
-		$this->n_Ip	 		= $nI;
-		$this->nom_Etu 		= $nomE;
-        $this->prenom_Etu	= $preE;
+		$this->n_etud 		= $nE;
+		$this->n_ip	 		= $nI;
+		$this->nom_etu 		= $nomE;
+        $this->prenom_etu	= $preE;
 		$this->cursus 		= $c;
 		$this->bac 			= $b;
 	}
@@ -37,10 +37,10 @@ class etudiant
 	/*                Accesseur               */
 	/* -------------------------------------- */
 
-	public function getN_Etud		() { return $this->n_Etud; }
-	public function getN_Ip			() { return $this->n_Ip;}
-	public function getNom_Etu		() { return $this->nom_Etu; }
-    public function getPrenom_Etu	() { return $this->prenom_Etu; }
+	public function getn_etud		() { return $this->n_etud; }
+	public function getN_Ip			() { return $this->n_ip;}
+	public function getNom_Etu		() { return $this->nom_etu; }
+    public function getPrenom_Etu	() { return $this->prenom_etu; }
 	public function getCursus		() { return $this->cursus;}
 	public function getBac			() { return $this->bac; }
 
@@ -50,10 +50,10 @@ class etudiant
 
 	public function __toString() 
 	{
-		$res = "n_Etud:".$this->n_Etud."\n";
-		$res = $res ."n_Ip:".$this->n_Ip."\n";
-		$res = $res ."nom_Etu:".$this->nom_Etu."\n";
-        $res = $res ."prenom_Etu:".$this->prenom_Etu."\n";
+		$res = "n_etud:".$this->n_etud."\n";
+		$res = $res ."n_Ip:".$this->n_ip."\n";
+		$res = $res ."nom_Etu:".$this->nom_etu."\n";
+        $res = $res ."prenom_Etu:".$this->prenom_etu."\n";
 		$res = $res ."cursus:".$this->cursus."\n";
         $res = $res ."bac:".$this->bac."\n";
 		$res = $res ."<br/>";
