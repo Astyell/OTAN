@@ -1,0 +1,84 @@
+hr{
+	margin-top: 0%;
+}
+
+.refTD{
+	width: 250px;
+}
+
+.GrefTD{
+	width: 650px;
+}
+table, th, td {
+	border: 1px solid black;
+	border-collapse: collapse;
+	font-size: small;
+  }
+
+.tdGrand{
+	min-width: 80px;
+}
+
+.tdPetit{
+	min-width: 60px;
+}
+
+.left_logo{
+	float: left;
+}
+
+.drt{
+	text-align: right;
+}
+
+.right_logo{
+	padding-left: 30px;
+	float: right;
+}
+
+.titre{
+	text-align: center;
+	
+}
+
+h3,h5{
+	margin-bottom: 0%;
+}
+
+.fantom{
+	border: none;
+	min-width: 250px;
+}
+
+.grisG{
+	background-color: rgb(221, 218, 218);
+	font-weight: bold;
+	text-align: center;
+}
+
+.grisP{
+		background-color: rgb(221, 218, 218);
+		text-align: center;
+}
+
+.A4{
+	margin: auto;
+	height: 297mm;
+	width: 210mm;
+	border: 1px dotted black;
+	padding: 5%;
+}
+
+.txtCent{
+	text-align: center;
+}
+
+.tableAvis{
+	text-align: center;
+	
+}
+
+.BUT12{
+	min-width: 525px;
+}
+
