@@ -99,7 +99,7 @@
 		echo "</tr>\n";
 		echo "</table>\n<br>\n";
 		echo "Attention, les avis de pourquite d'étude sont nominatifs et nécessitent de modifier le modèle en amont.\n<br><br>\n";
-		echo "<input type=\"submit\" name=\"valider\" value=\"Valider\">\n";
+		echo "<input type=\"submit\" class=\"Valid\" name=\"valider\" value=\"Valider\">\n";
 		echo "</form>\n";
 	}
 	

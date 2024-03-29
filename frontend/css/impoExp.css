@@ -42,3 +42,14 @@ table td{
     margin: 0;
     padding: 0;
 }
+
+.Valid{
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+    height: 50px;
+    font-size: 20px;
+    color: rgb(147, 142, 150);
+    background-color: #574444;
+    border: 1px solid #441212;
+}
