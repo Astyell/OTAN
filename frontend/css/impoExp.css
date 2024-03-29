@@ -1,5 +1,12 @@
 
-
+.titreP{
+    margin: 0;
+    padding: 0;
+    font-size: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
 .encad{
     background-color: lightslategray;
     background-color: rgb(147, 142, 150);
