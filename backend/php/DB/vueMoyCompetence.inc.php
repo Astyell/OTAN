@@ -15,19 +15,17 @@ class vueMoyCompetence
 	private String 	$n_etud;
 	private String	$id_competence;
 	private float	$moy_ue;
-	private float	$bonus;
 
 
 	/* -------------------------------------- */
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($n="",$iR="",$m=0.0, $mo=0.0) 
+	public function __construct($n="",$iR="",$m=0.0) 
 	{
 		$this->n_etud		 	= $n;
 		$this->id_competence 	= $iR;
 		$this->moy_ue			= $m;
-		$this->bonus		 	= $mo;
 	}
 
 	/* -------------------------------------- */
@@ -37,7 +35,6 @@ class vueMoyCompetence
 	public function getNetud		() { return $this->n_etud;}
 	public function getCompetence	() { return $this->id_competence;}
 	public function getMoy			() { return $this->moy_ue;}
-	public function getBonus		() { return $this->bonus;}
 
 
 

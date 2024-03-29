@@ -12,6 +12,7 @@ class vueCommission
 	/*               Attributs                */
 	/* -------------------------------------- */
 
+	private String 	$n_ip;
 	private String 	$nom;
 	private String	$prenom;
 	private String	$cursus;
@@ -23,8 +24,9 @@ class vueCommission
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($n="",$p="",$c="",$u="",$m=0.0) 
+	public function __construct($i="",$n="",$p="",$c="",$u="",$m=0.0) 
 	{
+		$this->n_ip		= $i;
 		$this->nom 		= $n;
 		$this->prenom 	= $p;
 		$this->cursus 	= $c;
@@ -36,6 +38,7 @@ class vueCommission
 	/*                Accesseur               */
 	/* -------------------------------------- */
 
+	public function getNip		() { return $this->n_ip;}
 	public function getNom		() { return $this->nom;}
 	public function getPrenom	() { return $this->prenom;}
 	public function getCursus	() { return $this->cursus;}

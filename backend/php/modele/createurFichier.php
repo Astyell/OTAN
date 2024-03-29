@@ -4,19 +4,19 @@ ini_set('display_errors', 1);
 
 $chemin = __DIR__;
 require ( $chemin . "/../DB/DB.inc.php");
-//require ( $chemin . "/../DB/vueCommission.inc.php" );
 
 require 'vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
+use PhpOffice\PhpSpreadsheet\Style\Border;
 
 
-creerPvComm(5);
+creerPvComm(1,1);
 
-function creerPvComm($semestre)
+//TODO: mettre coeff et changer date ??
+function creerPvComm($semestre, $annee)
 {
     // Création d'une nouvelle instance de classe Spreadsheet
     $spreadsheet = new Spreadsheet();
@@ -33,8 +33,8 @@ function creerPvComm($semestre)
     $sheet->getStyle('E2:E4')->getFont()->setSize(18);
 
     $sheet->setCellValue('E2', 'Semestre ' . $semestre . " - BUT INFO");
-    $sheet->setCellValue('E3', '2023 - 2024');//a changer ?
-    $sheet->setCellValue('E4', 'COMMISION DU 1er Février 2024');//a changer ?
+    $sheet->setCellValue('E3', $annee . ' - ' . ($annee + 1));//a changer ?
+    $sheet->setCellValue('E4', 'COMMISION DU <date>');//a changer ?
 
     //Nom des colonnes
     $sheet->getStyle('A8:CA8')->getFont()->setBold(true);
@@ -46,7 +46,7 @@ function creerPvComm($semestre)
     $sheet->setCellValue('F8', 'Moy');
 
     //Mettre nom competence et ressource
-    $nomColonne = $db->getVueNomColonne($semestre);
+    $nomColonne = $db->getVueNomColonne($semestre, $annee);
 
     $ligne = 8;
     $colonne = 'G';
@@ -69,7 +69,7 @@ function creerPvComm($semestre)
     }
     
     //Mettre info étudiants
-    $etudiants = $db->getVueCommission($semestre);
+    $etudiants = $db->getVueCommission($semestre, $annee);
     
     $ligne = 10;
     foreach($etudiants as $etud)
@@ -85,8 +85,9 @@ function creerPvComm($semestre)
     }
 
     //Mettre notes ressources
-    $moyRessources = $db->getVueMoyRessource($semestre);
-    $moyCompetences = $db->getVueMoyCompetence($semestre);
+    $moyRessources = $db->getVueMoyRessource($semestre, $annee);
+    $moyCompetences = $db->getVueMoyCompetence($semestre, $annee);
+    $bonusEtud = $db->getAllEtuSemWithSem($semestre, $annee);
 
     $numEtud = $moyRessources[0]->getNetud();
     $ligne = 10;
@@ -112,9 +113,6 @@ function creerPvComm($semestre)
         $numEtud = $moyRes->getNetud();
 
         //mettre les note et bonus de competences
-        
-        //c pas opti mais tkt
-        //TODO:voir probleme car bonus mal mis
         foreach ($moyCompetences as $moyComp) 
         {
             if( strstr($numEtud, $moyComp->getNetud()) )
@@ -124,28 +122,131 @@ function creerPvComm($semestre)
                 for ($col = 1; $col <= $lastCol; $col++) 
                 {
                     $currentCol = Coordinate::stringFromColumnIndex($col);
-                    $currentCol2 = Coordinate::stringFromColumnIndex($col + 1);
                     
                     if( $sheet->getCell($currentCol . 8)->getValue() != null && strstr ($sheet->getCell($currentCol . 8)->getValue(), $moyComp->getCompetence() )
                         && !strstr ($sheet->getCell($currentCol . 8)->getValue(), "Bonus" ) ) 
                     {
-                        echo $sheet->getCell($currentCol . 8)->getValue() ."<br>";
-                        echo $moyComp->getMoy() . "   " . $moyComp->getBonus() . "<br>";
-                        
-                        $sheet->setCellValue($currentCol . $ligne, $moyComp->getMoy());  
-                        $sheet->setCellValue($currentCol2 . $ligne, $moyComp->getBonus());  
+                        $moyen = $moyComp->getMoy();
+                        $sheet->setCellValue($currentCol . $ligne, $moyComp->getMoy());
+
+                        //ajouter couleur
+                        switch (true) 
+                        {
+                            case ($moyen > 10): $couleur = '00FF00'; break;
+                            case ($moyen > 8):  $couleur = 'FFFF00'; break;
+                            case ($moyen > 0):  $couleur = 'FF0000'; break;
+                            default:            $couleur = 'FFFFFF'; break;
+                        }
+                        $sheet->getStyle($currentCol . $ligne)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB($couleur); 
+                    }
+                }
+            }
+        }
+
+        foreach ($bonusEtud as $bonus) 
+        {
+            if( strstr($numEtud, $bonus->getN_Etud()) )
+            {
+                $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
+
+                for ($col = 1; $col <= $lastCol; $col++) 
+                {
+                    $currentCol = Coordinate::stringFromColumnIndex($col);
+                    
+                    if( $sheet->getCell($currentCol . 8)->getValue() != null && strstr ($sheet->getCell($currentCol . 8)->getValue(), "Bonus" ) ) 
+                    {
+                        $sheet->setCellValue($currentCol . $ligne, $bonus->getBonus());  
                     }
                 }
             }
         }
     }
 
-    
-
-
+    $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
+   
+    // Appliquer les bordures à la plage de cellules
+    $sheet->getStyle('A8:'. Coordinate::stringFromColumnIndex($lastCol) . (9 + count($etudiants)))->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
     // Ajuster automatiquement la largeur des colonnes en fonction du contenu
+    for ($col = 1; $col <= $lastCol; $col++) 
+    {
+        $currentCol = Coordinate::stringFromColumnIndex($col);
+        $sheet->getColumnDimension($currentCol)->setAutoSize(true);
+    }
+
+    //telecharger
+    telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
+}
+
+
+//creerPvJury(5, 1);
+
+function creerPvJury($semestre, $annee)
+{
+    // Création d'une nouvelle instance de classe Spreadsheet
+    $spreadsheet = new Spreadsheet();
+
+    // Sélection de la feuille active
+    $sheet = $spreadsheet->getActiveSheet();
+
+    //recup de la base de donnée
+    $db = DB::getInstance();
+
+    //Titre feuille
+    $sheet->getStyle('F2:F5')->getFont()->setBold(true);
+    $sheet->getStyle('F2:F5')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
+    $sheet->getStyle('F2:F5')->getFont()->setSize(18);
+
+    $sheet->setCellValue('F2', "BUT " . ($semestre/2) . " INFORMATIQUE");
+    $sheet->setCellValue('F3', 'Semestre ' . $semestre);//a changer ?
+    $sheet->setCellValue('F4', '2023 - 2024');//a changer ?
+    $sheet->setCellValue('F5', 'JURY DU <date>');//a changer ?
+
+    //Nom des colonnes
+    $sheet->getStyle('A7:CA8')->getFont()->setBold(true);
+    $sheet->setCellValue('A8', 'code_nip');
+    $sheet->setCellValue('B8', 'Rg');
+    $sheet->setCellValue('C8', 'Nom');
+    $sheet->setCellValue('D8', 'Prénom');
+    $sheet->setCellValue('E8', 'Parcours');
+    //$sheet->setCellValue('F8', 'Cursus');
+
+    //ajout info étudiant
+    $etudiants = $db->getVueCommission($semestre, $annee);
+
+    $ligne = 9;
+    foreach($etudiants as $etud)
+    {
+        $numSemestre = 'S' . $semestre;
+        if( strstr ( $etud->getCursus(), $numSemestre ) )
+        {
+            $lastPosition = strrpos($etud->getCursus(), $numSemestre);
+            if ($lastPosition !== false) {
+                $cursus = substr($etud->getCursus(), 0, $lastPosition + strlen($numSemestre));
+            }
+
+            $sheet->setCellValue('A' . $ligne, $etud->getNip());
+            $sheet->setCellValue('B' . $ligne, ($ligne - 8) . "/" . count($etudiants));
+            $sheet->setCellValue('C' . $ligne, $etud->getNom());
+            $sheet->setCellValue('D' . $ligne, $etud->getPrenom());
+            $sheet->setCellValue('E' . $ligne, 'A'); //TODO: tkt parcours = A
+            $sheet->setCellValue('F' . $ligne, $cursus);
+
+            $ligne++;
+        } 
+    }
+
+
+
+
+
+
     $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
+   
+    // Appliquer les bordures à la plage de cellules
+    $sheet->getStyle('A8:'. Coordinate::stringFromColumnIndex($lastCol) . (9 + count($etudiants)))->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+
+    // Ajuster automatiquement la largeur des colonnes en fonction du contenu
     for ($col = 1; $col <= $lastCol; $col++) 
     {
         $currentCol = Coordinate::stringFromColumnIndex($col);
@@ -153,9 +254,11 @@ function creerPvComm($semestre)
     }
 
 
-
-    //telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
+    telecharger("PV Jury S" . $semestre . ".xlsx", $spreadsheet);
 }
+
+
+
 
 function telecharger($nomfichier, $spreadsheet)
 {
