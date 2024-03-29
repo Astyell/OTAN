@@ -1,7 +1,7 @@
 /** 
  * @author  : Justine BONDU, Alizéa LEBARON
  * @since   : 27/03/2024
- * @version : V1.0.3 - 29/03/2024
+ * @version : V1.1.0 - 29/03/2024
  */
 
 /* -------------------------------------------------------- */
@@ -15,8 +15,22 @@ html, body
 }
 
 /* -------------------------------------------------------- */
-/* -------------- Menu sur page visualisation ------------- */
+/*                     Bandeau de choix                     */
 /* -------------------------------------------------------- */
+
+.select
+{
+    padding: 0.5vh 0vh;
+    background-color: rgb(201, 201, 201);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.select form
+{
+    margin: 0 auto;
+}
 
 
 /* ------------------- @ Font-family -------------------- */
