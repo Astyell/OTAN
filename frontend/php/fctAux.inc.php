@@ -1,5 +1,11 @@
 <?php
 
+/** fctAux.inc.php
+	* @author  : Alizéa Lebaron, Justine BONDU
+	* @since   : 26/03/2024
+	* @version : 1.1.1 - 29/03/2024
+	*/
+
 function incHeaderAdmin ()
 {
     $sRet = '<header>' .
@@ -8,7 +14,7 @@ function incHeaderAdmin ()
             '<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>' .
             '<li><img src="../img/icone/import.png" alt="import">         <a href="choixFichier.php">Importer</a></li>' . 
             '<li><img src="../img/icone/export.png" alt="export">         <a href="exporter.php">Exporter</a></li>' .
-            '<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude"><a href="#">Fiche poursuite d\'étude</a></li>' .
+            '<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude"><a href="avis.php">Fiche poursuite d\'étude</a></li>' .
             '<li><img src="../img/icone/power.png"  alt="deconnexion">    <a href="deconnexion.php">Déconnexion</a></li>' .
         '</ul>' .
     '</nav>' .
@@ -23,7 +29,7 @@ function incHeaderUser ()
         '<ul>' .
             '<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>' .
             '<li><img src="../img/icone/export.png" alt="export">         <a href="exporter.php">Exporter</a></li>' .
-            '<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude" ><a href="#">Fiche poursuite d\'étude</a></li>' .
+            '<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude" ><a href="avis.php">Fiche poursuite d\'étude</a></li>' .
             '<li><img src="../img/icone/power.png"  alt="deconnexion">    <a href="deconnexion.php">Déconnexion</a></li>' .
         '</ul>' .
     '</nav>' .
