@@ -1,0 +1,18 @@
+
+.titreP{
+    margin: 0;
+    padding: 0;
+    font-size: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+.encad{
+    background-color: lightslategray;
+    background-color: rgb(147, 142, 150);
+    border: 1px solid black;
+    width: 50%;
+    margin-left: 20%;
+    margin-right: 20%;
+    padding: 5%;
+}

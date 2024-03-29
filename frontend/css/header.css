@@ -1,0 +1,112 @@
+/** header.css
+ * @author  : Justine BONDU, Alizéa LEBARON
+ * @since   : 29/03/2024
+ * @version : V1.0.1 - 29/03/2024
+ */
+
+/* -------------------------------------------------------- */
+/* ---------------- Initialisation de base ---------------- */
+/* -------------------------------------------------------- */
+
+html, body
+{
+    margin: 0;
+    padding: 0;
+}
+
+/* -------------------------------------------------------- */
+/*             Bandeau sur page visualisation               */
+/* -------------------------------------------------------- */
+
+.navbar 
+{
+    background-color: #5a0101;
+    height: 8vh;
+    padding: 1vh 2vh;
+    display: flex;
+    align-items: center;
+}
+
+.navbar ul 
+{
+    /* On réinitialise le style des listes à puces */
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+
+    /* Ajout des paramètres pour aligner les puces */
+
+    display: flex; /* Ajout de flex pour contrôler l'alignement */
+    justify-content: center; /* Pour centrer les éléments */
+    flex-grow: 1; /* Pour que le contenu s'étende sur toute la largeur */
+}
+
+.navbar ul li 
+{
+    display: inline-block;
+    margin-right: 20px; 
+    text-align: center; 
+    flex-direction: column; 
+
+    border-bottom: #5a0101 1px solid; /* On ajout déjà la bordure pour la faire apparaître pendant le hover */
+    transition: ease 1s;
+}
+
+.navbar ul li:hover 
+{
+    border-bottom: #f59031 1px solid;
+    color: #f59031;
+}
+
+.navbar ul li:hover a
+{
+    color: #f59031;
+}
+
+.navbar ul .off
+{
+    margin-right: 0; /* Supprimer la marge à droite du dernier élément */
+}
+
+.navbar ul .center
+{
+    margin-right: auto; /* Centrer le lien 3 et son image */
+    margin-left: auto; /* Aligner à droite le lien 4 et son image */
+}
+
+.navbar ul li a 
+{
+    margin-top: 1vh;
+    color: #fbca9b;
+    text-decoration: none;
+    display: block; /* Convertir en bloc pour occuper tout l'espace disponible */
+    font-family: 'NexaHeavy';
+    transition: ease 1s;
+}
+
+.navbar ul li img 
+{
+    vertical-align: middle; /* Alignement vertical */
+    width: 25px; 
+    height: 25px; 
+}
+
+.navbar ul li a .icon
+{
+    vertical-align: middle; /* Alignement vertical */
+    width: 55px; 
+    height: 55px; 
+}
+
+.navbar ul li .accueil
+{
+    margin-top: 0;
+}
+
+/* ------------------- @ Font-family -------------------- */
+
+@font-face 
+{
+    font-family: 'NexaHeavy';
+    src: url('fonts/Nexa-Heavy.ttf') format('TrueType');
+}

@@ -11,7 +11,7 @@ html body
     padding:0;
     
     /* Fond d'écran de la page */
-    background-image: url("../img/fond_connexion.jpeg");
+    background-image: url("../img/fond/fond_connexion.jpeg");
     background-attachment: scroll;
     background-repeat: no-repeat;
     background-size: 100%, auto;
