@@ -47,8 +47,6 @@
 		// Vérifier si le formulaire a été soumis et si un fichier a été envoyé
 		if(isset($_POST['submit']) && isset($_FILES['file']) && isset($_POST['nombre'])) 
 		{
-
-
 			// Récupérer le nom du fichier
 			$file_name = $_FILES['file']['name'];
 
