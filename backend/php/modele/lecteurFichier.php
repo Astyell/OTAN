@@ -138,7 +138,7 @@ function mettreDansDB($chemin_fichier)
 
 		//création etudiants
 		$db->insertEtudiant($n_etud, $nip, $nom, $prenom, $cursus, $bac);
-		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $bonus, $nb_UE, $altern);
+		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $nb_UE, $altern);
 		$db->insertEtuAnn($n_etud, $annee, $parcours, $admission);
 
 		if($admission != null)
@@ -146,10 +146,11 @@ function mettreDansDB($chemin_fichier)
 			$db->updateEtuAnn($n_etud, $annee, $admission);
 		}
 
-		/*if($bonus != null)
+		//TODO: voir si les trucs avec  bonus sont doublés
+		if($bonus != null)
 		{
-			$db->updateEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $bonus, $nb_UE, $altern);
-		}*/
+			$db->updateEtuSem($n_etud, $semestre, $bonus);
+		}
 	}
 
 	//repassable sur le doc pour avoir les etudiant, ressources et compétences deja créer

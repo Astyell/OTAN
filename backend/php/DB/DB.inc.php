@@ -273,10 +273,17 @@ class DB
 		return $this->execQuery($requete, null, 'EtuSem');
 	}
 
-	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $bonus, $nb_UE, $altern)
+	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
 	{
 		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?)';
-		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $bonus, $nb_UE, $altern);
+		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, 0, $nb_UE, $altern);
+		return $this->execMaj($requete, $tparam);
+	}
+
+	public function updateEtuSem($n_etud, $id_sem, $bonus)
+	{
+		$requete = 'update etusem set bonus = ? where n_etud = ? and id_semestre = ?';
+		$tparam = array($bonus, $n_etud, $id_sem);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -394,9 +401,13 @@ class DB
 
 	public function getVueMoyCompetence($semestre)
 	{
-		$requete = '';
+		$requete = 'select distinct n.n_etud, c.id_competence, moy_ue, bonus  
+					from notecomp n join competence c on n.id_competence = c.id_competence 
+					join etusem x on x.id_semestre = c.id_semestre 
+					where c.id_semestre = ? 
+					order by n.n_etud';
 		$tparam = array($semestre);
-		return $this->execQuery($requete, $tparam, 'vueMoyRessource');
+		return $this->execQuery($requete, $tparam, 'vueMoyCompetence');
 	}
 
 }

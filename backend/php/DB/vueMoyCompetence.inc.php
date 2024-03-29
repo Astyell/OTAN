@@ -14,7 +14,7 @@ class vueMoyCompetence
 
 	private String 	$n_etud;
 	private String	$id_competence;
-	private float	$moy;
+	private float	$moy_ue;
 	private float	$bonus;
 
 
@@ -26,7 +26,7 @@ class vueMoyCompetence
 	{
 		$this->n_etud		 	= $n;
 		$this->id_competence 	= $iR;
-		$this->moy			 	= $m;
+		$this->moy_ue			= $m;
 		$this->bonus		 	= $mo;
 	}
 
@@ -36,7 +36,7 @@ class vueMoyCompetence
 
 	public function getNetud		() { return $this->n_etud;}
 	public function getCompetence	() { return $this->id_competence;}
-	public function getMoy			() { return $this->moy;}
+	public function getMoy			() { return $this->moy_ue;}
 	public function getBonus		() { return $this->bonus;}
 
 

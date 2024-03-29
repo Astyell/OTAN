@@ -14,7 +14,7 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
 
-creerPvComm(1);
+creerPvComm(5);
 
 function creerPvComm($semestre)
 {
@@ -86,6 +86,7 @@ function creerPvComm($semestre)
 
     //Mettre notes ressources
     $moyRessources = $db->getVueMoyRessource($semestre);
+    $moyCompetences = $db->getVueMoyCompetence($semestre);
 
     $numEtud = $moyRessources[0]->getNetud();
     $ligne = 10;
@@ -109,7 +110,39 @@ function creerPvComm($semestre)
         }
 
         $numEtud = $moyRes->getNetud();
+
+        //mettre les note et bonus de competences
+        
+        //c pas opti mais tkt
+        //TODO:voir probleme car bonus mal mis
+        foreach ($moyCompetences as $moyComp) 
+        {
+            if( strstr($numEtud, $moyComp->getNetud()) )
+            {
+                $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
+
+                for ($col = 1; $col <= $lastCol; $col++) 
+                {
+                    $currentCol = Coordinate::stringFromColumnIndex($col);
+                    $currentCol2 = Coordinate::stringFromColumnIndex($col + 1);
+                    
+                    if( $sheet->getCell($currentCol . 8)->getValue() != null && strstr ($sheet->getCell($currentCol . 8)->getValue(), $moyComp->getCompetence() )
+                        && !strstr ($sheet->getCell($currentCol . 8)->getValue(), "Bonus" ) ) 
+                    {
+                        echo $sheet->getCell($currentCol . 8)->getValue() ."<br>";
+                        echo $moyComp->getMoy() . "   " . $moyComp->getBonus() . "<br>";
+                        
+                        $sheet->setCellValue($currentCol . $ligne, $moyComp->getMoy());  
+                        $sheet->setCellValue($currentCol2 . $ligne, $moyComp->getBonus());  
+                    }
+                }
+            }
+        }
     }
+
+    
+
+
 
     // Ajuster automatiquement la largeur des colonnes en fonction du contenu
     $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
@@ -121,7 +154,7 @@ function creerPvComm($semestre)
 
 
 
-    telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
+    //telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
 }
 
 function telecharger($nomfichier, $spreadsheet)
