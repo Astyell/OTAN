@@ -63,17 +63,12 @@ html, body
     color: #f59031;
 }
 
-.navbar ul li:last-child 
+.navbar ul .off
 {
     margin-right: 0; /* Supprimer la marge à droite du dernier élément */
 }
 
-.navbar ul li:last-child 
-{
-    margin-right: 0; /* Supprimer la marge à droite du dernier élément */
-}
-
-.navbar ul li:nth-child(4) 
+.navbar ul .center
 {
     margin-right: auto; /* Centrer le lien 3 et son image */
     margin-left: auto; /* Aligner à droite le lien 4 et son image */

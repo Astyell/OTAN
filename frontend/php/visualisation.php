@@ -1,8 +1,8 @@
 <?php
-	/** connexion.php
+	/** visualisation.php
 	* @author  : Alizéa Lebaron, Justine BONDU
 	* @since   : 26/03/2024
-	* @version : 1.0.3 - 29/03/2024
+	* @version : 1.0.4 - 29/03/2024
 	*/
 
 	// Affichage des erreurs
@@ -42,8 +42,10 @@
 <body>
 
 	<?php
-		// Afficher le header
-		incHeader();
+		// Afficher le header en fonction de l'utilisateur
+		if ($droit) { incHeaderAdmin(); }
+		else        { incHeaderUser (); }
+		
 	?>
 	
 	<!-- Ce menu est composé d\'un tableau séparé en 6 parti chacune de ses parties représente un semestre. -->
@@ -51,30 +53,29 @@
 	
 	<div class = "select" >
 
-		<label>Veuillez choisir un ou plusieurs animaux :</label>
+		<form action="visualisation.php" method="get">
+
+			<label>Fichier à visualiser :</label>
 			<select name="fichier">
 				<optgroup label="Année 1">
-				<option value="1_S1_Moyenne">S1 - Moyenne</option>
-				<option value="1_S1_Jury"   >S1 - Jury   </option>
-				<option value="1_S2_Moyenne">S2 - Moyenne</option>
-				<option value="1_S2_Jury"   >S2 - Jury   </option>
+				<option value="1_S1_Comission">S1 - Comission</option>
+				<option value="1_S1_Jury"     >S1 - Jury     </option>
+				<option value="1_S2_Jury"     >S2 - Jury     </option>
 				</optgroup>
 				<optgroup label="Année 2">
-				<option value="2_S3_Moyenne">S3 - Moyenne</option>
-				<option value="2_S3_Jury"   >S3 - Jury   </option>
-				<option value="2_S4_Moyenne">S4 - Moyenne</option>
-				<option value="2_S4_Jury"   >S4 - Jury   </option>
+				<option value="2_S3_Comission">S3 - Comission</option>
+				<option value="2_S3_Jury"     >S3 - Jury     </option>
+				<option value="2_S4_Jury"     >S4 - Jury     </option>
 				</optgroup>
 				<optgroup label="Année 3">
-				<option value="3_S5_Moyenne">S5 - Moyenne</option>
-				<option value="3_S5_Jury"   >S5 - Jury   </option>
-				<option value="3_S6_Moyenne">S6 - Moyenne</option>
-				<option value="3_S6_Jury"   >S6 - Jury   </option>
+				<option value="3_S5_Comission">S5 - Comission</option>
+				<option value="3_S5_Jury"     >S5 - Jury     </option>
 				</optgroup>
 			</select>
-		
-		
 
+			<input type="submit" value="Consulter">
+
+		</form>
 
 	</div>
 

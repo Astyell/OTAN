@@ -1,6 +1,6 @@
 <?php
 
-    function incHeader ()
+    function incHeaderAdmin ()
     {
         $sRet = '<header>' .
 		'<nav class="navbar">' .
@@ -8,7 +8,23 @@
 				'<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>' .
 				'<li><img src="../img/icone/import.png" alt="import">         <a href="choixFichier.php">Importer</a></li>' . 
 				'<li><img src="../img/icone/export.png" alt="export">         <a href="#">Exporter</a></li>' .
-				'<li><img src="../img/icone/doc.png"    alt="poursuite etude"><a href="#">Fiche poursuite d\'étude</a></li>' .
+				'<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude"><a href="#">Fiche poursuite d\'étude</a></li>' .
+				'<li><img src="../img/icone/power.png"  alt="deconnexion">    <a href="deconnexion.php">Déconnexion</a></li>' .
+			'</ul>' .
+		'</nav>' .
+        '</header>';
+
+        echo $sRet;
+    }
+
+    function incHeaderUser ()
+    {
+        $sRet = '<header>' .
+		'<nav class="navbar">' .
+			'<ul>' .
+				'<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>' .
+				'<li><img src="../img/icone/export.png" alt="export">         <a href="#">Exporter</a></li>' .
+				'<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude" ><a href="#">Fiche poursuite d\'étude</a></li>' .
 				'<li><img src="../img/icone/power.png"  alt="deconnexion">    <a href="deconnexion.php">Déconnexion</a></li>' .
 			'</ul>' .
 		'</nav>' .
