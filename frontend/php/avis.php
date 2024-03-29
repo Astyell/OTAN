@@ -1,3 +1,34 @@
+<?php
+	/** avis.php
+	* @author  : Alizéa Lebaron, Sébastien Champvillard
+	* @since   : 27/03/2024
+	* @version : 1.1.0 - 29/03/2024
+	*/
+
+	// Affichage des erreurs
+	error_reporting(E_ALL);
+	ini_set('display_errors', 1);
+
+	// Importation
+	include ("fctAux.inc.php");
+	require ("../../backend/php/DB/DB.inc.php");
+
+	// Début de la session
+    session_start();
+
+	// Vérification que la session existe bien
+	// if (!isset($_SESSION['id'])) 
+	// {
+    //     header('Location: connexion.php');
+    //     exit();
+    // }
+
+	// Récupération des données
+	// $ID    = $_SESSION [   'id'];
+	// $droit = $_SESSION ['droit'];
+
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 
@@ -5,19 +36,28 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../css/avis.css">
-	<title>Avis_Poursuite_etudes_modele</title>
+	<link rel="stylesheet" href="../css/header.css">
+	<title>O.T.A.N. - Avis de Poursuite d'Études</title>
 </head>
 
 <body>
+
+	<?php
+		incHeaderAdmin();
+
+		incUpAvis ();
+	?>
+
+
 	<div class="A4">
 	<div class="logos">
-		<h1 class="left_logo">Logo 1</h1>
-		<h1 class="right_logo">Logo 2</h1>
+		<h1 class="left_logo"  >Logo1<img src="" alt="" id="logo1"></h1>
+		<h1 class="right_logo" >Logo2<img src="" alt="" id="logo2"></h1>
 	</div>
 
 	<br><br><br>
 	<div class="titre">
-		<h4>Fiche Avis Poursuite d'Études - Promotion 2021-2022 <br>
+		<h4>Fiche Avis Poursuite d'Études - Promotion <b id="annee">2021 - 2022</b> <br>
 			Département Informatique IUT Le Havre</h4>
 	</div>
 
@@ -81,7 +121,7 @@
 				<td class="grisP">Rang</td>
 			</tr>
 			<tr>
-				<td>UE1 – Réaliser des applications</td>
+				<td>UE1 - Réaliser des applications</td>
 
 				<td class="tdPetit"></td>
 				<td class="tdPetit"></td>
@@ -89,7 +129,7 @@
 				<td class="tdPetit"></td>
 			</tr>
 			<tr>
-				<td>UE2 – Optimiser des applications</td>
+				<td>UE2 - Optimiser des applications</td>
 
 				<td></td>
 				<td></td>
@@ -97,7 +137,7 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td>UE3 – Administrer des systèmes</td>
+				<td>UE3 - Administrer des systèmes</td>
 
 				<td></td>
 				<td></td>
@@ -105,7 +145,7 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td>UE4 – Gérer des données</td>
+				<td>UE4 - Gérer des données</td>
 
 				<td></td>
 				<td></td>
@@ -113,7 +153,7 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td>UE5 – Conduire des projets</td>
+				<td>UE5 - Conduire des projets</td>
 
 				<td></td>
 				<td></td>
@@ -121,7 +161,7 @@
 				<td></td>
 			</tr>
 			<tr>
-				<td>UE6 – Collaborer</td>
+				<td>UE6 - Collaborer</td>
 
 				<td></td>
 				<td></td>
@@ -174,42 +214,42 @@
 				
 			</tr>
 			<tr>
-				<td>UE1 – Réaliser des applications</td>
+				<td>UE1 - Réaliser des applications</td>
 
 				<td class="tdGrand"></td> 
 				<td class="tdGrand"></td>
 				
 			</tr>
 			<tr>
-				<td>UE2 – Optimiser des applications</td>
+				<td>UE2 - Optimiser des applications</td>
 
 				<td></td>
 				<td></td>
 				
 			</tr>
 			<tr>
-				<td>UE3 – Administrer des systèmes</td>
+				<td>UE3 - Administrer des systèmes</td>
 
 				<td></td>
 				<td></td>
 				
 			</tr>
 			<tr>
-				<td>UE4 – Gérer des données</td>
+				<td>UE4 - Gérer des données</td>
 
 				<td></td>
 				<td></td>
 				
 			</tr>
 			<tr>
-				<td>UE5 – Conduire des projets</td>
+				<td>UE5 - Conduire des projets</td>
 
 				<td></td>
 				<td></td>
 				
 			</tr>
 			<tr>
-				<td>UE6 – Collaborer</td>
+				<td>UE6 - Collaborer</td>
 
 				<td></td>
 				<td></td>
@@ -239,7 +279,7 @@
 		</tbody>
 	</table>
 
-	<h5 class="txtCent">Avis de l’équipe pédagogique pour la poursuite d’études après le BUT3</h5>
+	<h5 class="txtCent">Avis de l'équipe pédagogique pour la poursuite d'études après le BUT3</h5>
 	<hr>
 
 
@@ -295,9 +335,9 @@
 		</tbody>
 	</table>
 
-	<h6 class="drt">Signature du chef de Département</h6>
-	<h6 class="drt">Nom du chef de Dept </h6>
-	<h6 class="drt">Signature et cachet du Dept </h6>
+	<h6 class="drt"              > Signature du chef de Département        </h6>
+	<h6 class="drt" id="chefDept"> Nom du chef de Dept                     </h6>
+	<h6 class="drt" id="signDept"> Signature et cachet <img src="" alt=""> </h6>
 	
 	</div>
 </body>
