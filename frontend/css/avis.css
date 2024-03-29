@@ -1,73 +1,158 @@
-hr{
-	margin-top: 0%;
+/* connexion.css
+*  @author  : Alizéa LEBARON, Sébastien CHAMPVILLARD
+*  @since   : 27/03/2024
+*  @version : V1.0.1 - 29/03/2024
+*/
+
+/* ---------------------------------------------------- */
+/*               Modification de la fiche               */
+/* ---------------------------------------------------- */
+
+#modifier 
+{
+    width: 250mm;
+    margin: 0 auto;
+	margin-top: 2vh;
+    padding: 10px;
+	border: 1px dotted black;
+    background-color: #ffffff;
 }
 
-.refTD{
-	width: 250px;
-}
-
-.GrefTD{
-	width: 650px;
-}
-table, th, td {
-	border: 1px solid black;
-	border-collapse: collapse;
-	font-size: small;
-  }
-
-.tdGrand{
-	min-width: 80px;
-}
-
-.tdPetit{
-	min-width: 60px;
-}
-
-.left_logo{
-	float: left;
-}
-
-.drt{
-	text-align: right;
-}
-
-.right_logo{
-	padding-left: 30px;
-	float: right;
-}
-
-.titre{
-	text-align: center;
-	
-}
-
-h3,h5{
-	margin-bottom: 0%;
-}
-
-.fantom{
-	border: none;
-	min-width: 250px;
-}
-
-.grisG{
-	background-color: rgb(221, 218, 218);
-	font-weight: bold;
+.modifTitre
+{
 	text-align: center;
 }
 
-.grisP{
-		background-color: rgb(221, 218, 218);
-		text-align: center;
+form 
+{
+    display: flex;
+    flex-direction: column;
 }
 
-.A4{
+label 
+{
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"], input[type="file"] 
+{
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #c9c9c9;
+    font-size: 16px;
+    width: 98%;
+	margin-bottom: 10px;
+}
+
+input[type="submit"] 
+{
+    background-color: #6b0000;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+	transition: ease-in-out 0.5s;
+}
+
+input[type="submit"]:hover 
+{
+    background-color: #3f0000;
+}
+
+/* ---------------------------------------------------- */
+/*                  Aperçu de la fiche                  */
+/* ---------------------------------------------------- */
+
+.A4
+{
 	margin: auto;
+	margin-top: 2vh;
 	height: 297mm;
 	width: 210mm;
 	border: 1px dotted black;
 	padding: 5%;
 }
+
+hr
+{
+	margin-top: 0%;
+}
+
+.refTD
+{
+	width: 250px;
+}
+
+.GrefTD
+{
+	width: 650px;
+}
+
+table, th, td 
+{
+	border: 1px solid black;
+	border-collapse: collapse;
+	font-size: small;
+}
+
+.tdGrand
+{
+	min-width: 80px;
+}
+
+.tdPetit
+{
+	min-width: 60px;
+}
+
+.left_logo
+{
+	float: left;
+}
+
+.drt
+{
+	text-align: right;
+}
+
+.right_logo
+{
+	padding-left: 30px;
+	float: right;
+}
+
+.titre
+{
+	text-align: center;
+	
+}
+
+h3,h5
+{
+	margin-bottom: 0%;
+}
+
+.fantom
+{
+	border: none;
+	min-width: 250px;
+}
+
+.grisG
+{
+	background-color: rgb(221, 218, 218);
+	font-weight: bold;
+	text-align: center;
+}
+
+.grisP
+{
+		background-color: rgb(221, 218, 218);
+		text-align: center;
+}
+
 
 .txtCent{
 	text-align: center;

@@ -31,6 +31,28 @@ function incHeaderUser ()
     echo $sRet;
 }
 
+function incUpAvis ()
+{
+    $sAv = '<div id="modifier">'.
+		'<h2 class="modifTitre">Modification de la fiche</h2>' .
+		'<form action="avis.php" method="post">' .
+			'<label for="logo1">Choisir le logo 1 :</label>' .
+			'<input type="file" id="logo1" name="logo1" accept="image/*">' .
+			'<label for="logo2">Choisir le logo 2 :</label>' .
+			'<input type="file" id="logo2" name="logo2" accept="image/*">' .
+            '<label for="anneeProm">Année de la promo :</label>' .
+			'<input type="text" id="anneeProm" name="anneeProm" accept="image/*">' .
+			'<label for="nomChef">Nom du chef du département :</label>' .
+			'<input type="text" id="nomChef" name="nomChef" accept="image/*">' .
+			'<label for="signChefDep">Choisir la signature du chef du département :</label>' .
+			'<input type="file" id="signChefDep" name="signChefDep" accept="image/*">' .
+			'<input type="submit" value="Envoyer">' .
+		'</form>' .
+	'</div>';
+
+    echo $sAv;
+}
+
     function enTete1_2() 
 	{
         echo "<!DOCTYPE html>\n";

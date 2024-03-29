@@ -33,7 +33,8 @@ class DB
 	{
 		// Connexion à la base de données
 		$connStr = 'pgsql:host=localhost port=5432 dbname=sm220306'; // A MODIFIER ! 
-		try {
+		try 
+		{
 			// Connexion à la base
 			$this->connect = new PDO($connStr, 'sm220306', 'mateo2705'); //A MODIFIER !
 			// Configuration facultative de la connexion
