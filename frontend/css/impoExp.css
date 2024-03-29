@@ -20,15 +20,15 @@
 
 table{
     width: 100%;
-    border: 5px solid rgb(153, 119, 119);
+    border: 5px solid #574444;
     border-collapse: collapse;
 }
 table th{
-    border: 5px solid rgb(153, 119, 119);
-    background-color: rgb(147, 142, 150);
+    border: 5px solid #574444;
+    background-color: rgb(124, 118, 126);
 }
 table td{
-    border: 2px solid rgb(153, 119, 119);
+    border: 2px solid #574444;
     background-color: rgb(147, 142, 150);
 }
 
