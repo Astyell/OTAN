@@ -24,7 +24,7 @@
 		echo "<head>\n";
 		echo "<meta charset='UTF-8'>\n";
 		echo "<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'  />\n";
-        echo "<link rel='stylesheet' href='../css/style.css' type='text/css' />\n";
+        //echo "<link rel='stylesheet' href='../css/style.css' type='text/css' />\n";
 
 	}
 
@@ -32,7 +32,6 @@
 	{
         echo "</head>\n";
         echo "<body>\n";
-        echo "<br>\n";
 	}
 
 
