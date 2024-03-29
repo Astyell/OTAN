@@ -2,8 +2,11 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$chemin = __DIR__;
-require ( $chemin . "/../DB/DB.inc.php");
+$chemin = (__DIR__ . "/../DB/DB.inc.php");
+require $chemin;
+
+
+//require 'lecteurFichier.php';
 
 require 'vendor/autoload.php';
 
@@ -16,6 +19,10 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 creerPvComm(1,1);
 
 //TODO: mettre coeff et changer date ??
+
+/**************/
+/* COMMISSION */
+/**************/
 function creerPvComm($semestre, $annee)
 {
     // Création d'une nouvelle instance de classe Spreadsheet
@@ -175,12 +182,16 @@ function creerPvComm($semestre, $annee)
     }
 
     //telecharger
-    telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
+    telecharger("PV Commission S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);//manque mois et année
 }
 
 
 //creerPvJury(5, 1);
+//creerPvJury(2, 1);
 
+/**************/
+/*    JURY    */
+/**************/
 function creerPvJury($semestre, $annee)
 {
     // Création d'une nouvelle instance de classe Spreadsheet
@@ -197,10 +208,10 @@ function creerPvJury($semestre, $annee)
     $sheet->getStyle('F2:F5')->getAlignment()->setHorizontal(Alignment::HORIZONTAL_CENTER);
     $sheet->getStyle('F2:F5')->getFont()->setSize(18);
 
-    $sheet->setCellValue('F2', "BUT " . ($semestre/2) . " INFORMATIQUE");
-    $sheet->setCellValue('F3', 'Semestre ' . $semestre);//a changer ?
-    $sheet->setCellValue('F4', '2023 - 2024');//a changer ?
-    $sheet->setCellValue('F5', 'JURY DU <date>');//a changer ?
+    $sheet->setCellValue('F2', "BUT " . (int)($semestre/2) . " INFORMATIQUE");
+    $sheet->setCellValue('F3', 'Semestre ' . $semestre);
+    $sheet->setCellValue('F4', $annee . ' - ' . ($annee + 1));
+    $sheet->setCellValue('F5', 'JURY DU <date>');
 
     //Nom des colonnes
     $sheet->getStyle('A7:CA8')->getFont()->setBold(true);
@@ -236,8 +247,47 @@ function creerPvJury($semestre, $annee)
         } 
     }
 
+    $nbAnnee = ceil($semestre/2);//= 1, 2 ou 3
 
+    $tour = 0;
+    for($i = $nbAnnee; $i > 0; $i--)
+    {
+        if(($i % 2) == 1)
+        {
+            if($tour == 0)
+            {
+                //Nom des colonnes de ce semestre
+                $nomComp = $db->getAllCompetenceWithSem($semestre, $annee);
 
+                $j = 'G';
+
+                $sheet->setCellValue(++$j . 8, "Moy");
+                foreach($nomComp as $nom)
+                {
+                    $sheet->setCellValue(++$j . 8, $nom->getId_competence());
+                }
+            }
+        }
+        else
+        {
+            if($tour == 0)
+            {
+                //Nom des colonnes de ce semestre
+                $nomComp = $db->getAllCompetenceWithSem($semestre, $annee);
+                $nomComp2 = $db->getAllCompetenceWithSem($semestre - 1, $annee);
+
+                $j = 'G';
+
+                $sheet->setCellValue(++$j . 8, "Moy");
+                for($o = 0; $o < count($nomComp); $o++)
+                {
+                    $sheet->setCellValue(++$j . 8, $nomComp2[$o]->getId_competence() . $nomComp[$o]->getId_competence() );
+                }
+            }
+        }
+
+        $tour++;
+    }
 
 
 
@@ -253,8 +303,7 @@ function creerPvJury($semestre, $annee)
         $sheet->getColumnDimension($currentCol)->setAutoSize(true);
     }
 
-
-    telecharger("PV Jury S" . $semestre . ".xlsx", $spreadsheet);
+    telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);
 }
 
 
