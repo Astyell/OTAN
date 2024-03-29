@@ -2,7 +2,7 @@
 	/** connexion.php
 	* @author  : Alizéa Lebaron, Justine BONDU
 	* @since   : 26/03/2024
-	* @version : 1.0.1 - 29/03/2024
+	* @version : 1.0.2 - 29/03/2024
 	*/
 
 	// Affichage des erreurs
@@ -43,6 +43,7 @@
 	<header>
 		<nav class="navbar">
 			<ul>
+				<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>
 				<li><img src="../img/icone/import.png" alt="import">         <a href="choixFichier.php">Importer</a></li>
 				<li><img src="../img/icone/export.png" alt="export">         <a href="#">Exporter</a></li>
 				<li><img src="../img/icone/doc.png"    alt="poursuite etude"><a href="#">Fiche poursuite d'étude</a></li>

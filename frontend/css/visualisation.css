@@ -1,7 +1,7 @@
 /** 
  * @author  : Justine BONDU, Alizéa LEBARON
  * @since   : 27/03/2024
- * @version : V1.0.1 - 28/03/2024
+ * @version : V1.0.2 - 29/03/2024
  */
 
 /* -------------------------------------------------------- */
@@ -73,7 +73,7 @@ html, body
     margin-right: 0; /* Supprimer la marge à droite du dernier élément */
 }
 
-.navbar ul li:nth-child(3) 
+.navbar ul li:nth-child(4) 
 {
     margin-right: auto; /* Centrer le lien 3 et son image */
     margin-left: auto; /* Aligner à droite le lien 4 et son image */
@@ -94,6 +94,18 @@ html, body
     vertical-align: middle; /* Alignement vertical */
     width: 25px; 
     height: 25px; 
+}
+
+.navbar ul li a .icon
+{
+    vertical-align: middle; /* Alignement vertical */
+    width: 55px; 
+    height: 55px; 
+}
+
+.navbar ul li .accueil
+{
+    margin-top: 0;
 }
 
 
