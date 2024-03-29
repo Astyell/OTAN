@@ -1,7 +1,7 @@
 /** header.css
  * @author  : Justine BONDU, Alizéa LEBARON
  * @since   : 29/03/2024
- * @version : V1.0.0 - 29/03/2024
+ * @version : V1.0.1 - 29/03/2024
  */
 
 /* -------------------------------------------------------- */
@@ -106,4 +106,12 @@ html, body
 .navbar ul li .accueil
 {
     margin-top: 0;
+}
+
+/* ------------------- @ Font-family -------------------- */
+
+@font-face 
+{
+    font-family: 'NexaHeavy';
+    src: url('fonts/Nexa-Heavy.ttf') format('TrueType');
 }
