@@ -1,71 +1,99 @@
 /** 
- * @author justine BONDU
+ * @author  : Justine BONDU, Alizéa LEBARON
+ * @since   : 27/03/2024
+ * @version : V1.0.1 - 28/03/2024
  */
 
 /* -------------------------------------------------------- */
 /* ---------------- Initialisation de base ---------------- */
 /* -------------------------------------------------------- */
-html, body{
+
+html, body
+{
     margin: 0;
     padding: 0;
 }
+
 /* -------------------------------------------------------- */
-/* ------------ Bandeau sur page visualisation ------------ */
+/*             Bandeau sur page visualisation               */
 /* -------------------------------------------------------- */
-.headerVisu{
+
+.navbar 
+{
+    background-color: #5a0101;
+    height: 8vh;
+    padding: 1vh 2vh;
+    display: flex;
+    align-items: center;
+}
+
+.navbar ul 
+{
+    /* On réinitialise le style des listes à puces */
+    list-style-type: none;
     margin: 0;
     padding: 0;
-    background-color: gray;
-    position:fixed;
-        top: 0; 
-        left: 0;
-        right: 0;
-        height: 8vh ;
+
+    /* Ajout des paramètres pour aligner les puces */
+
+    display: flex; /* Ajout de flex pour contrôler l'alignement */
+    justify-content: center; /* Pour centrer les éléments */
+    flex-grow: 1; /* Pour que le contenu s'étende sur toute la largeur */
 }
 
-header{
-    margin: 0;
-    padding: 0;
-    font-size: 40px;
-    text-align: center;
-    text-transform: uppercase;
-    font-weight: bold;
-}
-/* ----------------------------------------- */
-/* --- détail de chaque image du bandeau --- */
-/* ----------------------------------------- */
-.imp{
-    position: fixed;
-    left: 0;
-}
-.Exp{
-    position: fixed;
-    left: 15%;
-}
-.avis{
-    position: fixed;
-    left: 35%;
-}
-.quiter{
-    position: fixed;
-    right: 0;
+.navbar ul li 
+{
+    display: inline-block;
+    margin-right: 20px; 
+    text-align: center; 
+    flex-direction: column; 
+
+    border-bottom: #5a0101 1px solid; /* On ajout déjà la bordure pour la faire apparaître pendant le hover */
+    transition: ease 1s;
 }
 
-header img{
-    height: 75px;
-    width: 75px;
+.navbar ul li:hover 
+{
+    border-bottom: #f59031 1px solid;
+    color: #f59031;
 }
 
-.imaInvers {
-    transform: scaleY(-1); 
+.navbar ul li:hover a
+{
+    color: #f59031;
 }
 
-.ligne{
-    position:fixed;
-        top: 7vh; 
-        left: 0;
-        right: 0;
-    border:2px solid black; 
+.navbar ul li:last-child 
+{
+    margin-right: 0; /* Supprimer la marge à droite du dernier élément */
+}
+
+.navbar ul li:last-child 
+{
+    margin-right: 0; /* Supprimer la marge à droite du dernier élément */
+}
+
+.navbar ul li:nth-child(3) 
+{
+    margin-right: auto; /* Centrer le lien 3 et son image */
+    margin-left: auto; /* Aligner à droite le lien 4 et son image */
+}
+
+.navbar ul li a 
+{
+    margin-top: 1vh;
+    color: #fbca9b;
+    text-decoration: none;
+    display: block; /* Convertir en bloc pour occuper tout l'espace disponible */
+    font-family: 'NexaHeavy';
+    transition: ease 1s;
+}
+
+.navbar ul li img 
+{
+    vertical-align: middle; /* Alignement vertical */
+    width: 25px; 
+    height: 25px; 
 }
 
 
@@ -83,7 +111,7 @@ Chaque semestre comporte un bouton jury, et les semestres impairs ont, en plus u
     font-size: 40px;
     border: 4px solid black;
     position:fixed;
-        top: 8vh;
+        top: 10vh;
         left: 0;
         right: 0;
 }
@@ -149,4 +177,12 @@ Chaque semestre comporte un bouton jury, et les semestres impairs ont, en plus u
     margin-left: 20%;
     margin-right: 20%;
     padding: 5%;
+}
+
+/* ------------------- @ Font-family -------------------- */
+
+@font-face 
+{
+    font-family: 'NexaHeavy';
+    src: url('fonts/Nexa-Heavy.ttf') format('TrueType');
 }
