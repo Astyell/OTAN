@@ -17,7 +17,7 @@ class etuSem
     private string		$tp;
     private string		$td;
 	private string		$nbabsinjust;
-    private string		$nbabsjust;
+    private string		$nbabsjusti;
 	private float		$moy_gene;
 	private float		$bonus;
 	private String 		$nb_ue;
@@ -34,7 +34,7 @@ class etuSem
 		$this->tp 			= $tp;
         $this->td 			= $td;
 		$this->nbabsinjust 	= $naj;
-		$this->nbabsjust	= $nai;
+		$this->nbabsjusti	= $nai;
 		$this->moy_gene		= $moy;
 		$this->bonus		= $bon;
 		$this->nb_ue		= $ue;
@@ -49,7 +49,7 @@ class etuSem
 	public function getId_Semestre	() { return $this->id_semestre;}
 	public function getTP			() { return $this->tp; }
     public function getTD			() { return $this->td; }
-	public function getNbAbsJusti	() { return $this->nbabsjust;}
+	public function getNbAbsJusti	() { return $this->nbabsjusti;}
 	public function getNbAbsInjustc	() { return $this->nbabsinjust; }
 	public function getMoyGeneral	() { return $this->moy_gene; }
 	public function getBonus		() { return $this->bonus; }
@@ -66,7 +66,7 @@ class etuSem
 		$res = $res ."id_Semestre:".$this->id_semestre."\n";
 		$res = $res ."TP:".$this->tp."\n";
         $res = $res ."TD:".$this->td."\n";
-		$res = $res ."nbAbsJusti:".$this->nbabsjust."\n";
+		$res = $res ."nbAbsJusti:".$this->nbabsjusti."\n";
         $res = $res ."nbAbsInjust:".$this->nbabsinjust."\n";
 		$res = $res ."moy_gene:".$this->moy_gene."\n";
 		$res = $res ."bonus:".$this->bonus."\n";
