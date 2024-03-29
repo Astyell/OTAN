@@ -11,8 +11,10 @@ require 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use PhpOffice\PhpSpreadsheet\Style\Alignment;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 
-creerPvComm(6);
+
+creerPvComm(5);
 
 function creerPvComm($semestre)
 {
@@ -43,6 +45,7 @@ function creerPvComm($semestre)
     $sheet->setCellValue('E8', 'UEs');
     $sheet->setCellValue('F8', 'Moy');
 
+    //Mettre nom competence et ressource
     $nomColonne = $db->getVueNomColonne($semestre);
 
     $ligne = 8;
@@ -56,14 +59,16 @@ function creerPvComm($semestre)
             $comp = $nom->getCompetence();
             $sheet->setCellValue($colonne . $ligne, $comp);
             $sheet->setCellValue(++$colonne . $ligne, "Bonus " . $comp);
+            $colonne++;
         }
-        else
-        {
-            $sheet->setCellValue($colonne . $ligne, $nom->getRessource());
-        }
+        
+        $sheet->setCellValue($colonne . $ligne, $nom->getRessource());
+        
+        //echo $comp . "  " .$nom->getRessource() . "<br>";
         $colonne++;
     }
     
+    //Mettre info étudiants
     $etudiants = $db->getVueCommission($semestre);
     
     $ligne = 10;
@@ -79,36 +84,77 @@ function creerPvComm($semestre)
         $ligne++;
     }
 
+    //Mettre notes ressources
+    $moyRessources = $db->getVueMoyRessource($semestre);
+    $moyCompetences = $db->getVueMoyCompetence($semestre);
 
-    // Données à insérer (exemples)
-    /*$data = [
-        ['Dupont', 'Jean', 30],
-        ['Durand', 'Marie', 25],
-        ['Martin', 'Pierre', 35],
-    ];
-
-    // Insérer les données dans les cellules suivantes
-    $row = 2; // Commencer à la ligne 2 après les titres
-    foreach ($data as $rowData) {
-        $col = 'A';
-        foreach ($rowData as $cellData) {
-            $sheet->setCellValue($col . $row, $cellData);
-            $col++;
+    $numEtud = $moyRessources[0]->getNetud();
+    $ligne = 10;
+    foreach($moyRessources as $moyRes)
+    {
+        if ( !strstr($numEtud, $moyRes->getNetud()) ) 
+        {
+            $ligne++;
         }
-        $row++;
-    }*/
+
+        $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
+
+        for ($col = 1; $col <= $lastCol; $col++) 
+        {
+            $currentCol = Coordinate::stringFromColumnIndex($col);
+            
+            if( $sheet->getCell($currentCol . 8)->getValue() != null && strstr ($sheet->getCell($currentCol . 8)->getValue(), $moyRes->getRessource() ) ) 
+            {
+                $sheet->setCellValue($currentCol . $ligne, $moyRes->getMoy());  
+            }
+        }
+
+        $numEtud = $moyRes->getNetud();
+
+        //mettre les note et bonus de competences
+        
+        //c pas opti mais tkt
+        //TODO:voir probleme car bonus mal mis
+        foreach ($moyCompetences as $moyComp) 
+        {
+            if( strstr($numEtud, $moyComp->getNetud()) )
+            {
+                $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
+
+                for ($col = 1; $col <= $lastCol; $col++) 
+                {
+                    $currentCol = Coordinate::stringFromColumnIndex($col);
+                    $currentCol2 = Coordinate::stringFromColumnIndex($col + 1);
+                    
+                    if( $sheet->getCell($currentCol . 8)->getValue() != null && strstr ($sheet->getCell($currentCol . 8)->getValue(), $moyComp->getCompetence() )
+                        && !strstr ($sheet->getCell($currentCol . 8)->getValue(), "Bonus" ) ) 
+                    {
+                        echo $sheet->getCell($currentCol . 8)->getValue() ."<br>";
+                        echo $moyComp->getMoy() . "   " . $moyComp->getBonus() . "<br>";
+                        
+                        $sheet->setCellValue($currentCol . $ligne, $moyComp->getMoy());  
+                        $sheet->setCellValue($currentCol2 . $ligne, $moyComp->getBonus());  
+                    }
+                }
+            }
+        }
+    }
+
+    
 
 
 
     // Ajuster automatiquement la largeur des colonnes en fonction du contenu
-    $lastColumnIndex = $sheet->getHighestDataColumn();
-    for ($col = 'A'; $col <= $lastColumnIndex; $col++) {
-        $sheet->getColumnDimension($col)->setAutoSize(true);
+    $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
+    for ($col = 1; $col <= $lastCol; $col++) 
+    {
+        $currentCol = Coordinate::stringFromColumnIndex($col);
+        $sheet->getColumnDimension($currentCol)->setAutoSize(true);
     }
 
 
 
-    telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
+    //telecharger("PV Commission S" . $semestre . ".xlsx", $spreadsheet);//manque mois et année
 }
 
 function telecharger($nomfichier, $spreadsheet)
