@@ -12,8 +12,8 @@ class competence
 	/*               Attributs                */
 	/* -------------------------------------- */
 
-	private int		$id_competence;
-	private int		$id_semestre;
+	private String		$id_competence;
+	private String		$id_semestre;
 
 	/* -------------------------------------- */
 	/*              Constructeur              */
@@ -22,7 +22,7 @@ class competence
 	public function __construct($iC="",$iS="") 
 	{
 		$this->id_competence 	= $iC;
-		$this->id_semestre 	= $iS;
+		$this->id_semestre 		= $iS;
 	}
 
 	/* -------------------------------------- */

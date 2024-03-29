@@ -42,7 +42,7 @@
 	{
 		selectionFichier();
 
-		require '../../Controleur.php';
+		require '../../backend/php/modele/lecteurFichier.php';
 
 		// Vérifier si le formulaire a été soumis et si un fichier a été envoyé
 		if(isset($_POST['submit']) && isset($_FILES['file']) && isset($_POST['nombre'])) 
@@ -53,7 +53,7 @@
 			// Appeler la méthode mettreDansDB() avec le chemin du fichier envoyé
 			$chemin_fichier = $_FILES['file']['tmp_name'];
 
-			mettreDansDBControleur($chemin_fichier, $_POST['nombre']);
+			mettreDansDB($chemin_fichier, $_POST['nombre']);
             echo "<br>\n";
             echo $file_name;
             echo " année ";

@@ -197,6 +197,16 @@ class DB
 		return $this->execQuery($requete, null, 'Competence');
 	}
 
+	public function getAllCompetenceWithSem($semestre, $annee)
+	{
+		$requete = 'select c.* 
+					from competence c 
+					join semestre s on c.id_semestre = s.id_semestre 
+					where c.id_semestre = ? and id_annee = ?';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'Competence');
+	}
+
 	public function insertCompetence($id, $sem)
 	{
 		$requete = 'insert into competence values(?,?)';
@@ -299,6 +309,16 @@ class DB
 	/*-------------*/
 	/*  NOTE/COMP  */
 	/*-------------*/
+
+	public function getAllNoteCompWithSem($semestre, $annee)
+	{
+		$requete = 'select n.* 
+					from notecomp n join competence c on n.id_competence = c.id_competence 
+					join semestre s on s.id_semestre = c.id_semestre 
+					where c.id_semestre = ? and id_annee = ?';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'NoteComp');
+	}
 
 	public function getAllNoteComp()
 	{
