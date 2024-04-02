@@ -3,7 +3,7 @@
 /** fctAux.inc.php
 	* @author  : Alizéa Lebaron, Justine BONDU
 	* @since   : 26/03/2024
-	* @version : 1.1.1 - 29/03/2024
+	* @version : 1.1.2 - 02/04/2024
 	*/
 
 function incHeaderAdmin ()
@@ -60,24 +60,16 @@ function incUpAvis ()
     echo $sAv;
 }
 
-//Utilisée dans avis.php
-function chargerDonneesDepuisJSON($cheminFichier) 
+// Utilisée dans Avis.php
+function downloadImage ($nom)
 {
-    // Vérifier si le fichier existe
-    if (file_exists($cheminFichier)) 
-    {
-        // Charger le contenu du fichier JSON
-        $contenuJSON = file_get_contents($cheminFichier);
+    // On renseigne le dossier dans lequel elles sont téléchargées
+    $repertoireImages = '../img/download/';
 
-        // Décoder le contenu JSON en tableau associatif
-        $donnees = json_decode($contenuJSON, true);
+    $cheminFichier = $repertoireImages . $nom . ".png";
 
-        return $donnees;
-    } 
-    else 
-    {
-        return false;
-    }
+	move_uploaded_file($_FILES[$nom]['tmp_name'], $cheminFichier); 
+
 }
 
     function enTete1_2() 
