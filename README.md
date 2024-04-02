@@ -1,4 +1,5 @@
-# O.T.A.N.
+# O.T.A.N
+
 ## Organisation de Tableau et d’Analyse Numérique
 
 - Matéo SA
