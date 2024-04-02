@@ -70,7 +70,7 @@
             <label for="nombre">Entrez l\'année du fichier :</label>
             <input type="text" id="nombre" name="nombre" pattern="[0-9]+" required><br><br><br>
             <label for="submit"> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </label><br><br>
-			<input type="submit" name="submit" value="Enregistrer"><br><br><br>
+			<input type="submit" name="submit" class="Valid" value="Enregistrer">
 		</form>';
 	}
 
