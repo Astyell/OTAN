@@ -12,8 +12,8 @@ class competence
 	/*               Attributs                */
 	/* -------------------------------------- */
 
-	private int		$id_competence;
-	private int		$id_semestre;
+	private String		$id_competence;
+	private String		$id_semestre;
 
 	/* -------------------------------------- */
 	/*              Constructeur              */
@@ -30,6 +30,7 @@ class competence
 	/* -------------------------------------- */
 
 	public function getId_competence() { return $this->id_competence; }
+	public function getId_Semestre() { return $this->id_semestre; }
 
 	/* -------------------------------------- */
 	/*                 Méthode                */
