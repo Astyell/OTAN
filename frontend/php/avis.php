@@ -340,6 +340,7 @@
 	<h6 class="drt" id="signDept"> Signature et cachet <img src="" alt=""> </h6>
 	
 	</div>
-</body>
 
-</html>
+<?php
+pied();
+?>
