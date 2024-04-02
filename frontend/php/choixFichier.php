@@ -59,6 +59,8 @@
             echo $_POST['nombre'];
 		}
 
+        echo "</body>\n";
+        echo "</html>\n";
 	}
 
 

@@ -116,8 +116,6 @@ function chargerDonneesDepuisJSON($cheminFichier)
 		echo "<hr><p>© 2024 par Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA</p>\n";
         echo "</footer>\n";
         echo "<br>\n";
-        echo "</body>\n";
-        echo "</html>\n";
 	}
 
 	function verifMDP($mdp) 
