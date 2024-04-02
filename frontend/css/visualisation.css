@@ -32,6 +32,11 @@ html, body
     margin: 0 auto;
 }
 
+.visu
+{
+    height: 75vh;
+}
+
 
 /* ------------------- @ Font-family -------------------- */
 

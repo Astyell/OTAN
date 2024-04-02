@@ -103,13 +103,13 @@ function downloadImage ($nom)
     function pied() 
 	{
         $footer = '<footer>'.
+        '<a href="https://github.com/Astyell/OTAN"><img src="../img/icone/Github.svg" alt="github" id="git" class="github-icon"></a>'.
         '<div class="row">'.
             '<ul>'.
-                '<li><a href="#">Matéo SA</a></li>'.
-                '<li><a href="#">Sébastien CHAMPVILLARD</a></li>'.
-                '<li><a href="#">Alizéa LEBARON</a></li>'.
-                '<li><a href="#">Justine BONDU</a></li>'.
-                '<li><a href="#"><img src="../img/icone/github.png" alt="github" id="git"></a></li>'.
+                '<li><a class="lienGit" href="https://github.com/MatKim76">Matéo SA</a></li>'.
+                '<li><a class="lienGit" href="https://github.com/Sebeaty">Sébastien CHAMPVILLARD</a></li>'.
+                '<li><a class="lienGit" href="https://github.com/Astyell">Alizéa LEBARON</a></li>'.
+                '<li><a class="lienGit" href="https://github.com/Julia123456789037">Justine BONDU</a></li>'.
             '</ul>'.
         '</div>'.
         '<p> 2024 - O.T.A.N. - All rights reserved</p>'.

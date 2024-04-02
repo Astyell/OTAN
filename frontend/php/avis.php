@@ -44,8 +44,9 @@
 <body>
 
 	<?php
-		//Ajout du header 
-		incHeaderAdmin();
+		// Afficher le header en fonction de l'utilisateur
+		if ($droit) { incHeaderAdmin(); }
+		else        { incHeaderUser (); }
 
 		// Ajout de la modification
 

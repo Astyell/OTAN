@@ -37,7 +37,7 @@
 	<link rel='stylesheet' href='../css/visualisation.css' type='text/css' />
 	<link rel='stylesheet' href='../css/header.css' type='text/css' />
 	<link rel='stylesheet' href='../css/footer.css' type='text/css' />
-	<title>Menu</title>
+	<title>O.T.A.N. - Visualisation</title>
 </head>
 
 <body>
@@ -78,6 +78,10 @@
 
 		</form>
 
+	</div>
+
+	<div class="visu">
+		
 	</div>
 
 	<?php
