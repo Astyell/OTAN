@@ -16,6 +16,7 @@
 	// Début de la session
     session_start();
 
+	// TODO: Décommenter cette partie quand je serais à l'IUT
 	// Vérification que la session existe bien
 	// if (!isset($_SESSION['id'])) 
 	// {
@@ -43,9 +44,43 @@
 <body>
 
 	<?php
+		//Ajout du header 
 		incHeaderAdmin();
 
+		// Ajout de la modification
+		// TODO: Mettre les droits user et admin
 		incUpAvis ();
+
+		//Gestion des réponses du formulaire
+		
+		// On vérifie que l'on a bien reçu un formulaire
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+			// On vérifie ensuite qu'il y a bien au moins une donnée dans ce formulaire
+			if (!empty($_FILES['logo1']['type']) || !empty($_FILES['logo2']['type']) || !empty($_POST['anneeProm']) || !empty($_POST['nomChef']) || !empty($_FILES['signChefDep']['type'])) 
+			{
+				$data = array
+				(
+					'logo1' => $_FILES['logo1']['name'],
+					'logo2' => $_FILES['logo2']['name'],
+					'anneeProm' => $_POST['anneeProm'],
+					'nomChef' => $_POST['nomChef'],
+					'signChefDep' => $_FILES['signChefDep']['name']
+				);
+
+				// Convertir les données en format JSON
+				$json_data = json_encode($data);
+
+				// Chemin vers le fichier JSON
+				$file_path = '../../backend/js/avis.json';
+		
+				// Écrire les données JSON dans le fichier
+				file_put_contents($file_path, $json_data);
+			} 
+			
+		}
+		
+
 	?>
 
 
@@ -340,6 +375,31 @@
 	<h6 class="drt" id="signDept"> Signature et cachet <img src="" alt=""> </h6>
 	
 	</div>
+
+	<?php
+		// Chemin vers le fichier JSON
+		$cheminFichierJSON = '../../backend/js/avis.json';
+
+		// Charger les données à partir du fichier JSON
+		$donnees = chargerDonneesDepuisJSON($cheminFichierJSON);
+
+		// On agit en cas de données
+		if ($donnees) 
+		{
+			// Affecter les données aux balises img correspondantes
+			if (isset($donnees['logo1'])) 
+			{
+				echo '<script>document.getElementById("logo1").src = "'.$donnees['logo1'].'";</script>';
+			}
+			if (isset($donnees['logo2'])) 
+			{
+				echo '<script>document.getElementById("logo2").src = "'.$donnees['logo2'].'";</script>';
+			}
+		}
+
+	?>
+
+</body>
 
 <?php
 pied();
