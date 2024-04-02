@@ -2,7 +2,7 @@
 	/** avis.php
 	* @author  : Alizéa Lebaron, Sébastien Champvillard
 	* @since   : 27/03/2024
-	* @version : 1.1.0 - 29/03/2024
+	* @version : 1.2.0 - 02/04/2024
 	*/
 
 	// Affichage des erreurs
@@ -16,17 +16,16 @@
 	// Début de la session
     session_start();
 
-	// TODO: Décommenter cette partie quand je serais à l'IUT
 	// Vérification que la session existe bien
-	// if (!isset($_SESSION['id'])) 
-	// {
-    //     header('Location: connexion.php');
-    //     exit();
-    // }
+	if (!isset($_SESSION['id'])) 
+	{
+        header('Location: connexion.php');
+        exit();
+    }
 
 	// Récupération des données
-	// $ID    = $_SESSION [   'id'];
-	// $droit = $_SESSION ['droit'];
+	$ID    = $_SESSION [   'id'];
+	$droit = $_SESSION ['droit'];
 
 ?>
 
@@ -48,8 +47,8 @@
 		incHeaderAdmin();
 
 		// Ajout de la modification
-		// TODO: Mettre les droits user et admin
-		incUpAvis ();
+
+		if ($droit) {incUpAvis ();}
 
 		//Gestion des réponses du formulaire
 		
@@ -59,36 +58,40 @@
 			// On vérifie ensuite qu'il y a bien au moins une donnée dans ce formulaire
 			if (!empty($_FILES['logo1']['type']) || !empty($_FILES['logo2']['type']) || !empty($_POST['anneeProm']) || !empty($_POST['nomChef']) || !empty($_FILES['signChefDep']['type'])) 
 			{
-				$data = array
-				(
-					'logo1' => $_FILES['logo1']['name'],
-					'logo2' => $_FILES['logo2']['name'],
+				$data = array(
+					'logo1' => isset($_FILES['logo1']['name']) && $_FILES['logo1']['name'] !== "" ? $_FILES['logo1']['name'] : null,
+					'logo2' => isset($_FILES['logo2']['name']) && $_FILES['logo2']['name'] !== "" ? $_FILES['logo2']['name'] : null,
 					'anneeProm' => $_POST['anneeProm'],
 					'nomChef' => $_POST['nomChef'],
-					'signChefDep' => $_FILES['signChefDep']['name']
+					'signChefDep' => isset($_FILES['signChefDep']['name']) && $_FILES['signChefDep']['name'] !== "" ? $_FILES['signChefDep']['name'] : null
 				);
 
 				// Convertir les données en format JSON
 				$json_data = json_encode($data);
 
 				// Chemin vers le fichier JSON
-				$file_path = '../../backend/js/avis.json';
+				$file_path = '../js/avis.json';
 		
 				// Écrire les données JSON dans le fichier
 				file_put_contents($file_path, $json_data);
-			} 
-			
+				
+				// Il faut maintenant télécharger les images pour pouvoir les utiliser
+
+				// Vérifier si les fichiers sont bien dans le formulaire
+				if (isset($_FILES['logo1']      ['tmp_name'])) { downloadImage ("logo1");       }  
+				if (isset($_FILES['logo2']      ['tmp_name'])) { downloadImage ("logo2");       }  
+				if (isset($_FILES['signChefDep']['tmp_name'])) { downloadImage ("signChefDep"); }  
+			}
 		}
-		
 
 	?>
 
 
 	<div class="A4">
 	<div class="logos">
-		<h1 class="left_logo"  >Logo1<img src="" alt="" id="logo1"></h1>
-		<h1 class="right_logo" >Logo2<img src="" alt="" id="logo2"></h1>
-	</div>
+		<h6 class="left_logo" id="logoG" > Logo 1</h6>
+		<h6 class="right_logo" id="logoD" > Logo 2</h6>
+	</div> 
 
 	<br><br><br>
 	<div class="titre">
@@ -372,35 +375,16 @@
 
 	<h6 class="drt"              > Signature du chef de Département        </h6>
 	<h6 class="drt" id="chefDept"> Nom du chef de Dept                     </h6>
-	<h6 class="drt" id="signDept"> Signature et cachet <img src="" alt=""> </h6>
+	<h6 class="signature" id="signDept" > Signature et cachet                     </h6>
 	
 	</div>
 
 	<?php
-		// Chemin vers le fichier JSON
-		$cheminFichierJSON = '../../backend/js/avis.json';
-
-		// Charger les données à partir du fichier JSON
-		$donnees = chargerDonneesDepuisJSON($cheminFichierJSON);
-
-		// On agit en cas de données
-		if ($donnees) 
-		{
-			// Affecter les données aux balises img correspondantes
-			if (isset($donnees['logo1'])) 
-			{
-				echo '<script>document.getElementById("logo1").src = "'.$donnees['logo1'].'";</script>';
-			}
-			if (isset($donnees['logo2'])) 
-			{
-				echo '<script>document.getElementById("logo2").src = "'.$donnees['logo2'].'";</script>';
-			}
-		}
-
+	pied();
 	?>
+
+	<script src="../js/avis.js"></script>
 
 </body>
 
-<?php
-pied();
-?>
+</html>
