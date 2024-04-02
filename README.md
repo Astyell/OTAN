@@ -6,5 +6,9 @@
 - Justine BONDU
 - Sébastien CHAMPVILLARD
 
+## Modification des droits
 
+Pour assurer le bon fonctionnement de l'application sur Linux il ets important de lui donner les bons droits
+
+`chmod -R 777 OTAN`
 
