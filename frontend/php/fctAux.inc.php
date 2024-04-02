@@ -37,11 +37,12 @@ function incHeaderUser ()
     echo $sRet;
 }
 
+// Utilisée dans Avis.php
 function incUpAvis ()
 {
     $sAv = '<div id="modifier">'.
 		'<h2 class="modifTitre">Modification de la fiche</h2>' .
-		'<form action="avis.php" method="post">' .
+		'<form action="avis.php" method="post" enctype="multipart/form-data">' .
 			'<label for="logo1">Choisir le logo 1 :</label>' .
 			'<input type="file" id="logo1" name="logo1" accept="image/*">' .
 			'<label for="logo2">Choisir le logo 2 :</label>' .
@@ -57,6 +58,26 @@ function incUpAvis ()
 	'</div>';
 
     echo $sAv;
+}
+
+//Utilisée dans avis.php
+function chargerDonneesDepuisJSON($cheminFichier) 
+{
+    // Vérifier si le fichier existe
+    if (file_exists($cheminFichier)) 
+    {
+        // Charger le contenu du fichier JSON
+        $contenuJSON = file_get_contents($cheminFichier);
+
+        // Décoder le contenu JSON en tableau associatif
+        $donnees = json_decode($contenuJSON, true);
+
+        return $donnees;
+    } 
+    else 
+    {
+        return false;
+    }
 }
 
     function enTete1_2() 
