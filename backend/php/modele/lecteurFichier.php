@@ -3,12 +3,14 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
+$chemin = (__DIR__ . "/../DB/DB.inc.php");
+require $chemin;
+
 require 'vendor/autoload.php';
-require 'DB/DB.inc.php';
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-function mettreDansDB($chemin_fichier)
+function mettreDansDB($chemin_fichier, $annee1)
 {
 	// Chemin vers le fichier Excel
 	$spreadsheet = IOFactory::load($chemin_fichier);
@@ -35,7 +37,7 @@ function mettreDansDB($chemin_fichier)
 	//$db->insertIdentifiant('toto', 'zuzu', false);
 
 	//TODO: annee
-	$annee = 1;
+	$annee = $annee1;
 	$db->insertAnnee($annee);
 
 	//création compétences et ressources
@@ -64,7 +66,7 @@ function mettreDansDB($chemin_fichier)
 				}
 				
 				$id_comp = $data[0][$j];
-				$db->insertCompetence($id_comp);
+				$db->insertCompetence($id_comp, $semestre);
 				//echo "competaence " . $id_comp . "<br>";
 			}
 			//création ressources
@@ -137,11 +139,17 @@ function mettreDansDB($chemin_fichier)
 		//création etudiants
 		$db->insertEtudiant($n_etud, $nip, $nom, $prenom, $cursus, $bac);
 		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $nb_UE, $altern);
-		$db->insertEtuAnn($n_etud, $annee, $bonus, $parcours, $admission);
+		$db->insertEtuAnn($n_etud, $annee, $parcours, $admission);
 
 		if($admission != null)
 		{
 			$db->updateEtuAnn($n_etud, $annee, $admission);
+		}
+
+		//TODO: voir si les trucs avec  bonus sont doublés
+		if($bonus != null)
+		{
+			$db->updateEtuSem($n_etud, $semestre, $bonus);
 		}
 	}
 

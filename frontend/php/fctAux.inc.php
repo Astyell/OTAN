@@ -1,65 +1,101 @@
 <?php
-	function enTeteVisuali() 
+
+/** fctAux.inc.php
+	* @author  : Alizéa Lebaron, Justine BONDU
+	* @since   : 26/03/2024
+	* @version : 1.1.2 - 02/04/2024
+	*/
+
+function incHeaderAdmin ()
+{
+    $sRet = '<header>' .
+    '<nav class="navbar">' .
+        '<ul>' .
+            '<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>' .
+            '<li><img src="../img/icone/import.png" alt="import">         <a href="choixFichier.php">Importer</a></li>' . 
+            '<li><img src="../img/icone/export.png" alt="export">         <a href="exporter.php">Exporter</a></li>' .
+            '<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude"><a href="avis.php">Fiche poursuite d\'étude</a></li>' .
+            '<li><img src="../img/icone/power.png"  alt="deconnexion">    <a href="deconnexion.php">Déconnexion</a></li>' .
+        '</ul>' .
+    '</nav>' .
+    '</header>';
+    echo $sRet;
+}
+
+function incHeaderUser ()
+{
+    $sRet = '<header>' .
+    '<nav class="navbar">' .
+        '<ul>' .
+            '<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>' .
+            '<li><img src="../img/icone/export.png" alt="export">         <a href="exporter.php">Exporter</a></li>' .
+            '<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude" ><a href="avis.php">Fiche poursuite d\'étude</a></li>' .
+            '<li><img src="../img/icone/power.png"  alt="deconnexion">    <a href="deconnexion.php">Déconnexion</a></li>' .
+        '</ul>' .
+    '</nav>' .
+    '</header>';
+    echo $sRet;
+}
+
+// Utilisée dans Avis.php
+function incUpAvis ()
+{
+    $sAv = '<div id="modifier">'.
+		'<h2 class="modifTitre">Modification de la fiche</h2>' .
+		'<form action="avis.php" method="post" enctype="multipart/form-data">' .
+			'<label for="logo1">Choisir le logo 1 :</label>' .
+			'<input type="file" id="logo1" name="logo1" accept="image/*">' .
+			'<label for="logo2">Choisir le logo 2 :</label>' .
+			'<input type="file" id="logo2" name="logo2" accept="image/*">' .
+            '<label for="anneeProm">Année de la promo :</label>' .
+			'<input type="text" id="anneeProm" name="anneeProm" accept="image/*">' .
+			'<label for="nomChef">Nom du chef du département :</label>' .
+			'<input type="text" id="nomChef" name="nomChef" accept="image/*">' .
+			'<label for="signChefDep">Choisir la signature du chef du département :</label>' .
+			'<input type="file" id="signChefDep" name="signChefDep" accept="image/*">' .
+			'<input type="submit" value="Envoyer">' .
+		'</form>' .
+	'</div>';
+
+    echo $sAv;
+}
+
+// Utilisée dans Avis.php
+function downloadImage ($nom)
+{
+    // On renseigne le dossier dans lequel elles sont téléchargées
+    $repertoireImages = '../img/download/';
+
+    $cheminFichier = $repertoireImages . $nom . ".png";
+
+	move_uploaded_file($_FILES[$nom]['tmp_name'], $cheminFichier); 
+
+}
+
+    function enTete1_2() 
 	{
         echo "<!DOCTYPE html>\n";
         echo "<html lang='fr'>\n";
 		echo "<head>\n";
 		echo "<meta charset='UTF-8'>\n";
 		echo "<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'  />\n";
-        echo "<link rel='stylesheet' href='../css/style.css' type='text/css' />\n";
-		echo "<title>Menu</title>\n";
-		echo "</head>\n";
-        echo "<body>\n";
-		echo "<header>\n";
-        echo "<h1>Menu</h1>\n";
-        echo "</header>\n";
-        echo "<br>\n";
-        echo "<br>\n";
+        //echo "<link rel='stylesheet' href='../css/style.css' type='text/css' />\n";
+
 	}
 
-    function headerMenuVisuali()
-    {
-        echo "<header >";
-        echo "<div class=\"menuBar\">";
-        echo "<a href=\"importation.html\" class=\"imp\"> <img src=\"../img/logo_telecharger.png\" title=\"importation\" alt=\"importationLogo\"></a>";
-        echo "<a href=\"exportation.html\" class=\"Exp\"> <img class=\"imaInvers\" src=\"../img/logo_telecharger.png\" title=\"exportation\" alt=\"exportationLogo\"></a>";
-        echo "<a href=\"templateAvisPoursuiteEtud.html\" class=\"../img/avis\"> <img src=\"logo_avi.png\" title=\"template Avis Poursuite Etude\" alt=\"poursuiteEtudLogo\"></a>";
-        echo "<a href=\"connexion.html\" class=\"quiter\"> <img src=\"../img/logo_deconnexion.png\" title=\"déconnexion\" alt=\"quitterLogo\"></a>";
-        echo "</div>";
-        echo "<hr class=\"ligne\">";
-        echo "</header>";
-    }
+    function enTete2_2() 
+	{
+        echo "</head>\n";
+        echo "<body>\n";
+	}
 
-    function navMenuVisuali()//TODO : retacher une fonction celonn le bouton cliquer pour changer l'affichage
+
+    function deuxBoutons($gauche,$droite)  
     {
-        /* Ce menu est composé d'un tableau séparé en 6 parti chacune de ses parties représente un semestre.
-		Chaque semestre comporte un bouton jury, et les semestres impairs ont, en plus un bouton commission.*/
-        echo '<!-- Ce menu est composé d\'un tableau séparé en 6 parti chacune de ses parties représente un semestre. -->';
-		echo '<!-- Chaque semestre comporte un bouton jury, et les semestres impairs ont, en plus un bouton commission. -->';
-		echo "<nav class=\"menuVue\" >";
-        echo "<table  >";
-		echo "<tbody><tr>";
-		echo "<TD ROWSPAN=2>S1</TD> ";
-		echo "<td ><button class=\"BcommJur\">Commission</button></td>";
-		echo "</tr> <tr>";
-		echo "<td ><button class=\"BcommJur\">Jury</button></td>";
-		echo "</tr> <tr> <td>S2</td>";
-		echo "<td ><button class=\"BJurPair\">Jury</button></td>";
-		echo "</tr> <tr> <TD ROWSPAN=2>S3</TD> ";
-		echo "<td ><button class=\"BcommJur\">Commission</button></td>";
-		echo "</tr> <tr>";
-		echo "<td ><button class=\"BcommJur\">Jury</button></td>";
-		echo "</tr> <tr> <td>S4</td>";
-		echo "<td ><button class=\"BJurPair\">Jury</button></td>";
-		echo "</tr> <tr> <TD ROWSPAN=2>S5</TD> ";
-		echo "<td ><button class=\"BcommJur\">Commission</button></td>";
-		echo "</tr> <tr>";
-		echo "<td ><button class=\"BcommJur\">Jury</button></td>";
-		echo "</tr> <tr> <td>S6</td>";
-		echo "<td ><button class=\"BJurPair\" >Jury</button></td>";
-		echo "</tr></tbody>";
-        echo "</table > ";
-        echo "</nav>";
+        echo "<table>\n";
+        echo "<td><button class=\"gauche\">$gauche</button></td>\n";
+        echo "<td><button class=\"droite\">$droite</button></td>\n";
+        echo "</table>\n";
     }
 
 
@@ -75,4 +111,14 @@
         echo "</body>\n";
         echo "</html>\n";
 	}
+
+	function verifMDP($mdp) 
+    { 
+        define('PREFIXE_SHA1', 'O&5Li_rZ*/78'); //Afin de sécuriser le mot de passe on ajoute un constant devant qui sera aussi haché
+        $mdp_sha1 = sha1(PREFIXE_SHA1.$mdp); //Cryptage du mdp
+
+        return $mdp_sha1;
+    }
+
+
 ?>

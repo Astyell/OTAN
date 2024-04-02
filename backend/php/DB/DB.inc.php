@@ -1,5 +1,25 @@
 <?php
 
+$chemin_du_fichier = __DIR__ . "/DB.inc.php";
+
+require 'annee.inc.php';
+require 'competence.inc.php';
+require 'etuAnn.inc.php';
+require 'etudiant.inc.php';
+require 'etuRes.inc.php';
+require 'etuSem.inc.php';
+require 'identifiant.inc.php';
+require 'noteComp.inc.php';
+require 'resCom.inc.php';
+require 'ressource.inc.php';
+require 'semestre.inc.php';
+
+require 'vueCommission.inc.php';
+require 'vueNomColonne.inc.php';
+require 'vueMoyRessource.inc.php';
+require 'vueMoyCompetence.inc.php';
+
+
 class DB
 {
 	private static $instance = null; //mémorisation de l'instance de DB pour appliquer le pattern Singleton
@@ -13,7 +33,8 @@ class DB
 	{
 		// Connexion à la base de données
 		$connStr = 'pgsql:host=localhost port=5432 dbname=sm220306'; // A MODIFIER ! 
-		try {
+		try 
+		{
 			// Connexion à la base
 			$this->connect = new PDO($connStr, 'sm220306', 'mateo2705'); //A MODIFIER !
 			// Configuration facultative de la connexion
@@ -75,6 +96,8 @@ class DB
 	{
 		try 
 		{
+			//echo $requete . " " . $tparam . " ". $nomClasse . "<br>";
+			
 			//on prépare la requête
 			$stmt = $this->connect->prepare($requete);
 			//on indique que l'on va récupére les tuples sous forme d'objets instance de Client
@@ -99,7 +122,7 @@ class DB
 			return $tab;
 		} catch (\Throwable $th) 
 		{
-			//echo "erreur " . $ordreSQL . " : " . $th . "<br><br>";
+			echo "erreur " . $requete . " : " . $th . "<br><br>";
 		}
 		
 	}
@@ -141,6 +164,12 @@ class DB
 		return $this->execQuery($requete, null, 'Etudiant');
 	}
 
+	public function getEtudiant($ip)
+	{
+		$requete = 'select * from etudiant where n_ip = ' . $ip;
+		return $this->execQuery($requete, null, 'Etudiant');
+	}
+
 	public function insertEtudiant($n_etud, $n_ip, $nom_etu, $prenom_etu, $cursus, $bac)
 	{
 		$requete = 'insert into etudiant values(?,?,?,?,?,?)';
@@ -175,10 +204,20 @@ class DB
 		return $this->execQuery($requete, null, 'Competence');
 	}
 
-	public function insertCompetence($id)
+	public function getAllCompetenceWithSem($semestre, $annee)
 	{
-		$requete = 'insert into competence values(?)';
-		$tparam = array($id);
+		$requete = 'select c.* 
+					from competence c 
+					join semestre s on c.id_semestre = s.id_semestre 
+					where c.id_semestre = ? and id_annee = ?';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'Competence');
+	}
+
+	public function insertCompetence($id, $sem)
+	{
+		$requete = 'insert into competence values(?,?)';
+		$tparam = array($id, $sem);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -190,6 +229,14 @@ class DB
 	{
 		$requete = 'select * from identifiant';
 		return $this->execQuery($requete, null, 'Identifiant');
+	}
+
+	//Utilisée dans connexion.php
+	public function getAllIdentifiantWithID($id)
+	{
+		$requete = 'select * from identifiant where identifiant = ?';
+
+		return $this->execQuery($requete,array($id),'Identifiant');
 	}
 
 	public function insertIdentifiant($id, $mdp, $estAdmin)
@@ -243,16 +290,42 @@ class DB
 		return $this->execQuery($requete, null, 'EtuSem');
 	}
 
+	public function getAllEtuSemWithSem($semestre, $annee)
+	{
+		$requete = 'select e.* from etusem e 
+					join semestre s on e.id_semestre = s.id_semestre
+					where e.id_semestre = ? and id_annee = ?';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'EtuSem');
+	}
+
 	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
 	{
-		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?)';
-		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern);
+		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?)';
+		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, 0, $nb_UE, $altern);
+		return $this->execMaj($requete, $tparam);
+	}
+
+	public function updateEtuSem($n_etud, $id_sem, $bonus)
+	{
+		$requete = 'update etusem set bonus = ? where n_etud = ? and id_semestre = ?';
+		$tparam = array($bonus, $n_etud, $id_sem);
 		return $this->execMaj($requete, $tparam);
 	}
 
 	/*-------------*/
 	/*  NOTE/COMP  */
 	/*-------------*/
+
+	public function getAllNoteCompWithSem($semestre, $annee)
+	{
+		$requete = 'select n.* 
+					from notecomp n join competence c on n.id_competence = c.id_competence 
+					join semestre s on s.id_semestre = c.id_semestre 
+					where c.id_semestre = ? and id_annee = ?';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'NoteComp');
+	}
 
 	public function getAllNoteComp()
 	{
@@ -294,10 +367,10 @@ class DB
 		return $this->execQuery($requete, null, 'EtuAnn');
 	}
 
-	public function insertEtuAnn($n_etud, $id_ann, $bonus, $parcours, $admission)
+	public function insertEtuAnn($n_etud, $id_ann, $parcours, $admission)
 	{
-		$requete = 'insert into etuann values(?,?,?,?,?)';
-		$tparam = array($n_etud, $id_ann, $bonus, $parcours, $admission);
+		$requete = 'insert into etuann values(?,?,?,?)';
+		$tparam = array($n_etud, $id_ann, $parcours, $admission);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -325,86 +398,56 @@ class DB
 		return $this->execMaj($requete, $tparam);
 	}
 
-	//Client
-	/*
-	public function getClient($idcli)
+	/*-------------*/
+	/*  VUES       */
+	/*-------------*/
+
+	public function getVueCommission($semestre, $annee)
 	{
-		$requete = 'select * from client where ncli = ?';
-		return $this->execQuery($requete, array($idcli), 'Client');
+		$requete = 'select n_ip, nom_etu as nom, prenom_etu as prenom, cursus, nb_ue as ue, moy_gene as moy 
+					from etudiant e join etuSem s on e.n_etud = s.n_etud 
+					join semestre a on a.id_semestre = s.id_semestre 
+					where s.id_semestre = ? and id_annee = ?
+					order by moy_gene desc';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'vueCommission');
 	}
 
-	public function updateAdrClient($idcli, $adr)
+	public function getVueNomColonne($semestre, $annee)
 	{
-		$requete = 'update client set ville = ? where ncli = ?';
-		$tparam = array($adr, $idcli);
-		return $this->execMaj($requete, $tparam);
+		$requete = 'select id_competence, r.id_ressource
+					from rescom r join ressource c on r.id_ressource = c.id_ressource 
+					join semestre a on a.id_semestre = c.id_semestre 
+					where c.id_semestre = ? and id_annee = ?
+					order by id_competence';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'vueNomColonne');
 	}
 
-	public function deleteClient($idcli)
+	public function getVueMoyRessource($semestre, $annee)
 	{
-		$requete = 'delete from client where ncli = ?';
-		$tparam = array($idcli);
-		return $this->execMaj($requete, $tparam);
+		$requete = 'select distinct e.n_etud, r.id_ressource, moy, moy_gene 
+					from rescom r join ressource c on r.id_ressource = c.id_ressource 
+					join etures x on r.id_ressource = x.id_ressource 
+					join etudiant e on x.n_etud = e.n_etud 
+					join etusem s on e.n_etud = s.n_etud 
+					join semestre a on a.id_semestre = c.id_semestre 
+					where s.id_semestre = ? and s.id_semestre = c.id_semestre and id_annee = ? 
+					order by moy_gene desc';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'vueMoyRessource');
 	}
 
-	//Produit
-	public function getProduits()
+	public function getVueMoyCompetence($semestre, $annee)
 	{
-		$requete = 'select * from produit';
-		return $this->execQuery($requete, null, 'Produit');
+		$requete = 'select distinct n.n_etud, c.id_competence, moy_ue 
+					from notecomp n join competence c on n.id_competence = c.id_competence 
+					join semestre a on a.id_semestre = c.id_semestre 
+					where c.id_semestre = ? and id_annee = ?
+					order by n.n_etud';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'vueMoyCompetence');
 	}
-
-	public function getProduitsTri($choixTri)
-	{
-		$requete = 'select * from produit order by ' . $choixTri;
-		return $this->execQuery($requete, null, 'Produit');
-	}
-
-	public function insertProduit($idpro, $lib, $coul, $qs)
-	{
-		//try{
-		$requete = 'insert into produit values(?,?,?,?)';
-		$tparam = array($idpro, $lib, $coul, $qs);
-		return $this->execMaj($requete, $tparam);
-		//}catch(PDOException e){}
-		//return null;
-	}
-
-	public function deleteProduit($idpro)
-	{
-		self::$instance->deleteAchat($idpro);
-		$requete = 'delete from produit where np = ?';
-		$tparam = array($idpro);
-		return $this->execMaj($requete, $tparam);
-	}
-
-	public function updateProduit($idpro, $nom, $coul, $qs)
-	{
-		$requete = 'update produit set lib = ?, coul = ?, qs = ? where np = ?';
-		$tparam = array($nom, $coul, $qs, $idpro);
-		return $this->execMaj($requete, $tparam);
-	}
-
-	//Achat
-	public function getAchats()
-	{
-		$requete = 'select * from achat';
-		return $this->execQuery($requete, null, 'Achat');
-	}
-
-	public function insertAchat($idcli, $idpro, $qa)
-	{
-		$requete = 'insert into achat values(?,?,?)';
-		$tparam = array($idcli, $idpro, $qa);
-		return $this->execMaj($requete, $tparam);
-	}
-
-	public function deleteAchat($idpro)
-	{
-		$requete = 'delete from achat where np = ?';
-		$tparam = array($idpro);
-		return $this->execMaj($requete, $tparam);
-	}*/
 
 }
 

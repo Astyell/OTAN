@@ -1,71 +1,118 @@
-html body {
+/* connexion.css
+*  @author  : Alizéa LEBARON
+*  @since   : 28/03/2024
+*  @version : V1.0.0 - 28/03/2024
+*/
+
+html body 
+{
+    /* Remettre les paramètres à 0 */
     margin:0;
     padding:0;
-    text-align: center; 
-    background-image: url("../img/hell2.jpg");
+    
+    /* Fond d'écran de la page */
+    background-image: url("../img/fond/fond_connexion.jpeg");
     background-attachment: scroll;
     background-repeat: no-repeat;
     background-size: 100%, auto;
-    font-family: Optima, sans-serif, Verdana, Geneva, Tahoma, sans-serif;
+
+    /* Paramètres par défaut du texte */
+    text-align: center; 
+    font-family: 'GalenoBold';
 }
 
-
-fieldset {
+fieldset 
+{
+    /* Position du champs de connexion au milieu de la page */
     position: absolute; /* postulat de départ */
     top: 50%; left: 50%; /* à 50%/50% du parent référent */
     transform: translate(-50%, -50%); /* décalage de 50% de sa propre taille */
-    width: 350px;
-    height: 350px;
-    background-color: rgb(36, 0, 0);
-    border: solid 1px rgb(252, 240, 209); 
+
+    /* Ajustation de la taille */
+    width: 370px;
+    height: 450px;
+    padding: 35px; 
+    box-sizing: border-box;
+
+    /* Gestion des bordures et de la couleur */
+    background-color: #5a010194;
     color: rgb(252, 240, 209);
-    border-radius: 5px;
+    border: transparent;
+    border-radius: 5px; 
 }
 
-#button {
-    width: 150px;
+h2
+{
+    /* Léger décalage selon la taille de l'écran */
+    margin: 3vh 0vh 5vh 0vh;
+}
+
+a 
+{
+    color: rgb(252, 240, 209);
+}
+
+input 
+{
+    width: 100%;
     height: 30px;
-    border-radius: 2px;
+    margin: 1vh 0vh;
+
+    border-radius: 5px ;
+    border: transparent;    
+    background-color: #e6b0b4b0;
+    
+}
+
+.text
+{
+    font-style: italic;
+    padding-left: 7px;
+}
+
+
+#button 
+{
+    width: 160px;
+    height: 40px;
+    border-radius: 4px;
     text-align: center;
     margin: 0 auto;
-    margin-bottom: 10px;
+    margin-top: 4vh;
     background-color: rgb(104, 0, 0);
     color: rgb(252, 240, 209);
     font-size: 18px;
+    font-family: 'GalenoBold';
+    letter-spacing: 1px;
+    transition: 0.5s ease;
 }
 
-#button:hover {
+#button:hover 
+{
     background-color: rgb(88, 0, 0);
-    color: aliceblue;
+    letter-spacing: 2px;
 }
 
-p {
+p 
+{
     text-align: left;
     margin : 10px;
 }
 
-input {
-    width: 100%;
-    height: 25px    ;
-    margin : 5px 0px;
-    border-radius: 5px ;
-    border: solid gray 1px;
-}
-
-.small {
-    font-size: small;
-    text-align: left;
-    display: inline;
-}
-
-#error {
+#error 
+{
     margin: 20px;
 }
 
-a {
-    color: rgb(252, 240, 209);
+.hide 
+{
+    text-decoration: none;
 }
 
-.hide {
-    text-decoration: none;
+/* ------------------- @ Font-family -------------------- */
+
+@font-face 
+{
+    font-family: 'GalenoBold';
+    src: url('fonts/GalenoBold.otf') format('opentype');
 }
