@@ -163,6 +163,12 @@ class DB
 		return $this->execQuery($requete, null, 'Etudiant');
 	}
 
+	public function getEtudiant($ip)
+	{
+		$requete = 'select * from etudiant where n_ip = ' . $ip;
+		return $this->execQuery($requete, null, 'Etudiant');
+	}
+
 	public function insertEtudiant($n_etud, $n_ip, $nom_etu, $prenom_etu, $cursus, $bac)
 	{
 		$requete = 'insert into etudiant values(?,?,?,?,?,?)';
