@@ -12,7 +12,7 @@ html, body
 {
     margin: 0;
     padding: 0;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
 }
 
 /* -------------------------------------------------------- */
@@ -28,7 +28,6 @@ html, body
     font-weight: bold;
 }
 .encad{
-    background-color: lightslategray;
     background-color: rgb(147, 142, 150);
     border: 1px solid black;
     width: 50%;
@@ -40,7 +39,7 @@ html, body
 
 .Valid:hover{
     color: lightslategray;
-    background-color: rgb(85, 67, 67);
+    background-color: rgb(85, 74, 74)
 }
 
 .Valid{
