@@ -2,7 +2,7 @@
 	/** avis.php
 	* @author  : Alizéa Lebaron, Sébastien Champvillard
 	* @since   : 27/03/2024
-	* @version : 1.1.0 - 29/03/2024
+	* @version : 1.2.0 - 02/04/2024
 	*/
 
 	// Affichage des erreurs
@@ -17,15 +17,15 @@
     session_start();
 
 	// Vérification que la session existe bien
-	// if (!isset($_SESSION['id'])) 
-	// {
-    //     header('Location: connexion.php');
-    //     exit();
-    // }
+	if (!isset($_SESSION['id'])) 
+	{
+        header('Location: connexion.php');
+        exit();
+    }
 
 	// Récupération des données
-	// $ID    = $_SESSION [   'id'];
-	// $droit = $_SESSION ['droit'];
+	$ID    = $_SESSION [   'id'];
+	$droit = $_SESSION ['droit'];
 
 ?>
 
@@ -43,17 +43,55 @@
 <body>
 
 	<?php
+		//Ajout du header 
 		incHeaderAdmin();
 
-		incUpAvis ();
+		// Ajout de la modification
+
+		if ($droit) {incUpAvis ();}
+
+		//Gestion des réponses du formulaire
+		
+		// On vérifie que l'on a bien reçu un formulaire
+		if ($_SERVER['REQUEST_METHOD'] === 'POST') 
+		{
+			// On vérifie ensuite qu'il y a bien au moins une donnée dans ce formulaire
+			if (!empty($_FILES['logo1']['type']) || !empty($_FILES['logo2']['type']) || !empty($_POST['anneeProm']) || !empty($_POST['nomChef']) || !empty($_FILES['signChefDep']['type'])) 
+			{
+				$data = array(
+					'logo1' => isset($_FILES['logo1']['name']) && $_FILES['logo1']['name'] !== "" ? $_FILES['logo1']['name'] : null,
+					'logo2' => isset($_FILES['logo2']['name']) && $_FILES['logo2']['name'] !== "" ? $_FILES['logo2']['name'] : null,
+					'anneeProm' => $_POST['anneeProm'],
+					'nomChef' => $_POST['nomChef'],
+					'signChefDep' => isset($_FILES['signChefDep']['name']) && $_FILES['signChefDep']['name'] !== "" ? $_FILES['signChefDep']['name'] : null
+				);
+
+				// Convertir les données en format JSON
+				$json_data = json_encode($data);
+
+				// Chemin vers le fichier JSON
+				$file_path = '../js/avis.json';
+		
+				// Écrire les données JSON dans le fichier
+				file_put_contents($file_path, $json_data);
+				
+				// Il faut maintenant télécharger les images pour pouvoir les utiliser
+
+				// Vérifier si les fichiers sont bien dans le formulaire
+				if (isset($_FILES['logo1']      ['tmp_name'])) { downloadImage ("logo1");       }  
+				if (isset($_FILES['logo2']      ['tmp_name'])) { downloadImage ("logo2");       }  
+				if (isset($_FILES['signChefDep']['tmp_name'])) { downloadImage ("signChefDep"); }  
+			}
+		}
+
 	?>
 
 
 	<div class="A4">
 	<div class="logos">
-		<h1 class="left_logo"  >Logo1<img src="" alt="" id="logo1"></h1>
-		<h1 class="right_logo" >Logo2<img src="" alt="" id="logo2"></h1>
-	</div>
+		<h6 class="left_logo" id="logoG" > Logo 1</h6>
+		<h6 class="right_logo" id="logoD" > Logo 2</h6>
+	</div> 
 
 	<br><br><br>
 	<div class="titre">
@@ -337,9 +375,16 @@
 
 	<h6 class="drt"              > Signature du chef de Département        </h6>
 	<h6 class="drt" id="chefDept"> Nom du chef de Dept                     </h6>
-	<h6 class="drt" id="signDept"> Signature et cachet <img src="" alt=""> </h6>
+	<h6 class="signature" id="signDept" > Signature et cachet                     </h6>
 	
 	</div>
+
+	<?php
+	pied();
+	?>
+
+	<script src="../js/avis.js"></script>
+
 </body>
 
 </html>

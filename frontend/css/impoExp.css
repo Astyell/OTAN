@@ -1,3 +1,23 @@
+/** header.css
+ * @author  : Justine BONDU
+ * @since   : 29/03/2024
+ * @version : V1.0.1 - 29/03/2024
+ */
+
+/* -------------------------------------------------------- */
+/* ---------------- Initialisation de base ---------------- */
+/* -------------------------------------------------------- */
+
+html, body
+{
+    margin: 0;
+    padding: 0;
+    letter-spacing: 1px;
+}
+
+/* -------------------------------------------------------- */
+/*        commun au deux page: importer et exporter         */
+/* -------------------------------------------------------- */
 
 .titreP{
     margin: 0;
@@ -8,7 +28,6 @@
     font-weight: bold;
 }
 .encad{
-    background-color: lightslategray;
     background-color: rgb(147, 142, 150);
     border: 1px solid black;
     width: 50%;
@@ -17,6 +36,26 @@
     margin-right: 20%;
     padding: 5%;
 }
+
+.Valid:hover{
+    color: lightslategray;
+    background-color: rgb(85, 74, 74)
+}
+
+.Valid{
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+    height: 50px;
+    font-size: 20px;
+    color: rgb(147, 142, 150);
+    background-color: #574444;
+    border: 1px solid #441212;
+}
+
+/* -------------------------------------------------------- */
+/*                     tableau exporter                     */
+/* -------------------------------------------------------- */
 
 table{
     width: 100%;
@@ -43,13 +82,3 @@ table td{
     padding: 0;
 }
 
-.Valid{
-    margin-left: 10%;
-    margin-right: 10%;
-    width: 80%;
-    height: 50px;
-    font-size: 20px;
-    color: rgb(147, 142, 150);
-    background-color: #574444;
-    border: 1px solid #441212;
-}

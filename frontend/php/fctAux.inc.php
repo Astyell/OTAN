@@ -3,7 +3,7 @@
 /** fctAux.inc.php
 	* @author  : Alizéa Lebaron, Justine BONDU
 	* @since   : 26/03/2024
-	* @version : 1.1.1 - 29/03/2024
+	* @version : 1.1.2 - 02/04/2024
 	*/
 
 function incHeaderAdmin ()
@@ -37,11 +37,12 @@ function incHeaderUser ()
     echo $sRet;
 }
 
+// Utilisée dans Avis.php
 function incUpAvis ()
 {
     $sAv = '<div id="modifier">'.
 		'<h2 class="modifTitre">Modification de la fiche</h2>' .
-		'<form action="avis.php" method="post">' .
+		'<form action="avis.php" method="post" enctype="multipart/form-data">' .
 			'<label for="logo1">Choisir le logo 1 :</label>' .
 			'<input type="file" id="logo1" name="logo1" accept="image/*">' .
 			'<label for="logo2">Choisir le logo 2 :</label>' .
@@ -57,6 +58,18 @@ function incUpAvis ()
 	'</div>';
 
     echo $sAv;
+}
+
+// Utilisée dans Avis.php
+function downloadImage ($nom)
+{
+    // On renseigne le dossier dans lequel elles sont téléchargées
+    $repertoireImages = '../img/download/';
+
+    $cheminFichier = $repertoireImages . $nom . ".png";
+
+	move_uploaded_file($_FILES[$nom]['tmp_name'], $cheminFichier); 
+
 }
 
     function enTete1_2() 

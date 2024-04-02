@@ -1,8 +1,12 @@
 <?php
 	include ("fctAux.inc.php");
-	session_start();
+    session_start();
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
+	$chemin = (__DIR__ . "/../../backend/php/DB/DB.inc.php");
+   	require $chemin;
+	//require '../../backend/php/modele/createurFichier.php';
+
 
 	// Vérification que la session existe bien
 	if (!isset($_SESSION['id'])) 
@@ -23,7 +27,7 @@
 	enTete1_2();
 	echo "<link rel='stylesheet' href='../css/header.css' type='text/css' />\n";
 	echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css' />\n";
-	echo "<title>Importer</title>";
+	echo "<title>Exporter</title>";
 	enTete2_2();
 	// Afficher le header en fonction de l'utilisateur
 	if ($droit) { incHeaderAdmin(); }
@@ -32,30 +36,28 @@
 	echo "<p class=\"titreP\"> Exporter </p>\n";
 	echo "<br>\n";
 	echo "<br>\n";
+	$db = DB::getInstance();
+	$lstAnn = $db->getAllAnnee();
 	echo "<section class=\"encad\">\n";
-	corps();
+	corps($lstAnn);
 	echo "</section>\n";
 	echo "<br>\n";
 	pied();
 
-	function corps()
+	function corps($lstAnn)
 	{
-		// Fonction pour générer le tableau avec cases à cocher
-		genererTableau();
+		genererTableau($lstAnn);
+		$anneeChoisie = 0;
 		if(isset($_POST['valider'])) {
-			// Boucle pour traiter les cases cochées
+			$anneeChoisie = $_POST['annee'];
 			for ($i = 1; $i < 7; $i++) {
 				for ($j = 0; $j < 3; $j++) {
-					// Vérifier si la case est cochée
 					if(isset($_POST['commission_'.$i.'_'.$j])) {
-						// Appeler la méthode associée
-						//call_user_func(genererMethode());
 						echo 'commission_'.$i.'_'.$j;
 						echo "<br>\n";
+					if( $j==0 ) { /*creerPvComm($i,$anneeChoisie);*/ }
 					}
 					if(isset($_POST['jury_'.$i.'_'.$j])) {
-						// Appeler la méthode associée
-						//call_user_func(genererMethode());
 						echo 'jury_'.$i.'_'.$j;
 						echo "<br>\n";
 					}
@@ -66,13 +68,20 @@
 					echo 'AvisPoursuiteEtude_'.$k;
 				}
 			}
-			
 		}
 	}
 
-	function genererTableau()
+	function genererTableau($lstAnn)
 	{
 		echo "<form method='post' action=''>\n";
+		echo "<label for=\"annee\">Sélectionner une année :</label>";
+		echo "<select name=\"annee\">";
+		foreach ($lstAnn as $annee) {
+			echo "<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
+
+		}
+		echo "</select><br><br>";
+
 		echo "<table >\n";
 		for ($i = 1; $i < 7; $i++) {
 			echo "<tr>\n<th >S".$i."</th > \n<th >Excel</th > \n<th >Word</th > \n<th >PDF</th >\n</tr>\n";
