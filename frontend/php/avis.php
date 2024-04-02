@@ -389,4 +389,7 @@
 
 </body>
 
+<?php
+pied();
+?>
 </html>
