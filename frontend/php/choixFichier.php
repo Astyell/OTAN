@@ -1,5 +1,6 @@
 <?php
 	include ("fctAux.inc.php");
+    require '../../backend/php/modele/lecteurFichier.php';
 	session_start();
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
@@ -41,8 +42,6 @@
 	function corps()
 	{
 		selectionFichier();
-
-		require '../../backend/php/modele/lecteurFichier.php';
 
 		// Vérifier si le formulaire a été soumis et si un fichier a été envoyé
 		if(isset($_POST['submit']) && isset($_FILES['file']) && isset($_POST['nombre'])) 
