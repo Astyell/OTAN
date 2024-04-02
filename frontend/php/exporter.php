@@ -5,6 +5,7 @@
 	ini_set('display_errors', 1);
 	$chemin = (__DIR__ . "/../../backend/php/DB/DB.inc.php");
    	require $chemin;
+	//require '../../backend/php/modele/createurFichier.php';
 
 
 	// Vérification que la session existe bien
@@ -26,7 +27,7 @@
 	enTete1_2();
 	echo "<link rel='stylesheet' href='../css/header.css' type='text/css' />\n";
 	echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css' />\n";
-	echo "<title>Importer</title>";
+	echo "<title>Exporter</title>";
 	enTete2_2();
 	// Afficher le header en fonction de l'utilisateur
 	if ($droit) { incHeaderAdmin(); }
@@ -54,7 +55,7 @@
 					if(isset($_POST['commission_'.$i.'_'.$j])) {
 						echo 'commission_'.$i.'_'.$j;
 						echo "<br>\n";
-						
+					if( $j==0 ) { /*creerPvComm($i,$anneeChoisie);*/ }
 					}
 					if(isset($_POST['jury_'.$i.'_'.$j])) {
 						echo 'jury_'.$i.'_'.$j;
