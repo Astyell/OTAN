@@ -36,7 +36,8 @@
 	<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'/>
 	<link rel='stylesheet' href='../css/visualisation.css' type='text/css' />
 	<link rel='stylesheet' href='../css/header.css' type='text/css' />
-	<title>Visualisation</title>
+	<link rel='stylesheet' href='../css/footer.css' type='text/css' />
+	<title>O.T.A.N. - Visualisation</title>
 </head>
 
 <body>
@@ -82,6 +83,10 @@
             ?>
 		</form>
 	</div>
+	<div class="visu"> </div>
+	<?php
+		pied();
+	?>
 </body>
 </html>
 

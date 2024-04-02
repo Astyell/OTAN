@@ -1,18 +1,15 @@
 <?php 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-
-$chemin_du_fichier = __DIR__ . "./../DB/DB.inc.php";
+//__DIR__ . 
+$chemin_du_fichier = '../DB/DB.inc.php';
 require $chemin_du_fichier;
-
-
 
 $db = DB::getInstance();
 $etudiants = $db->getAllEtudiant();
-$noteComp = $db->getAllNoteComp();
-$etuSem = $db->getAllEtuSem();
-
-
+$noteComp  = $db->getAllNoteComp();
+$etuSem    = $db->getAllEtuSem();
+$competences = $db->getAllCompetence();
 
 function afficheEtudiants(){
 	global $etudiants;
@@ -31,7 +28,6 @@ function rechercheNoteEtu($ne,$comp) : noteComp
 	foreach ($noteComp as $note) 
 	{
 		if($note->getN_Etud() == $ne && $note->getId_competence() == $comp ){return $note;}
-		
 	}
 	return null;
 }
@@ -39,7 +35,6 @@ function rechercheNoteEtu($ne,$comp) : noteComp
 function rechercheEtu($ne,$pe) : etudiant
 {
 	global $etudiants;
-	
 	foreach ($etudiants as $etu) 
 	{
 		if($etu->getNom_Etu() == $ne && $etu->getPrenom_Etu() == $pe ){return $etu;}
@@ -63,7 +58,7 @@ function affichePvCommission($numSemestre)
 {
 	global $db;
 	
-	if ($numSemestre != 1 || $numSemestre !=3 || $numSemestre !=5) 
+	if ($numSemestre != 1 && $numSemestre !=3 && $numSemestre !=5) 
 	{
 		echo "<b>Erreur : Il faut choisir le semestre 1,3 ou 5</b>";
 		return;
@@ -97,79 +92,290 @@ function affichePvCommission($numSemestre)
 	echo "</table>";
 }
 
-function afficheEntete($divi) 
+function afficheEntete($numSemestre,$nb) 
 {
-
-	echo "\t\t<td><b>C1</b></td>\n";
-	echo "\t\t<td><b>C2</b></td>\n";
-	echo "\t\t<td><b>C3</b></td>\n";
-	echo "\t\t<td><b>C4</b></td>\n";
-	echo "\t\t<td><b>C5</b></td>\n";
-	echo "\t\t<td><b>C6</b></td>\n";
+	global $db;
+	switch ($numSemestre) {
+		case 2:
+			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 1 </b> </td>";
+			echo "\t\t<td colspan=\"8\"><b> UEs années </b> </td>";
+			echo "\t\t<td><b>Annee</b></td>";
+			break;
+		case 3:
+			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 1 </b> </td>";
+			echo "\t\t<td colspan=\"8\"><b> UEs du S3 </b> </td>";
+			break;
+		case 4:
+			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 1 </b> </td>";
+			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 2 </b> </td>";
+			echo "\t\t<td colspan=\"8\"><b> UEs années </b> </td>";
+			echo "\t\t<td><b>Annee</b></td>";
+			break;
+		case 5:
+			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 1 </b> </td>";
+			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 2 </b> </td>";
+			echo "\t\t<td colspan=\"3\"><b> Compétences BUT 3 </b> </td>";
+			echo "\t\t<td colspan=\"6\"><b> UEs du S5 		  </b> </td>";
+			break;
+		default:
+			break;
+	}
 }
 
-function afficheBUT($etuS)  
-{
-	$numSemestre = $etuS->getId_Semestre();
-	echo "\t\t<td>". $etuS->getNbUe() . "/".$numSemestre."</td>\n";
-	echo "\t\t<td>". $etuS->getMoyGeneral()."</td>\n";
-	echo "\t\t<td>". $etuS ."</td>\n";
-	echo "\t\t<td>". $etuS ."</td>\n";
-	echo "\t\t<td>". $etuS ."</td>\n";
-	echo "\t\t<td>". $etuS ."</td>\n";
-	echo "\t\t<td>". $etuS ."</td>\n";
-	echo "\t\t<td>". $etuS ."</td>\n";
+function debug_to_console($data) {
+    $output = $data;
+    if (is_array($output))
+        $output = implode(',', $output);
+
+    echo "<script>console.log('Debug Objects: " . $output . "' );</script>";
 }
 
-function afficheUE($reste)
+function ecrireAnnee($competences,$oCompetences,$etu,$pair)
 {
-	echo "\t\t<td><b>UE   </b></td>\n";
-	echo "\t\t<td><b>Moys </b></td>\n";
-	echo "\t\t<td><b>BIN11</b></td>\n";
-	echo "\t\t<td><b>BIN12</b></td>\n";
-	echo "\t\t<td><b>BIN13</b></td>\n";
-	echo "\t\t<td><b>BIN14</b></td>\n";
-	echo "\t\t<td><b>BIN15</b></td>\n";
-	echo "\t\t<td><b>BIN16</b></td>\n";
+	global $db;
+	$i=0;
+	
+	$numSemestre = $competences[0]->getId_Semestre();
+	$nbCompetences=0;
+
+	if ($numSemestre > 3) { $nbCompetences = 3;}
+	else {$nbCompetences=6;}
+
+	while($i < $nbCompetences )
+	{ 
+		
+		$noteA = $db->getGradeForEtuAndCompetence($etu->getN_Etud(),  $competences[$i]->getId_competence());
+		if ($pair) 
+		{ 
+			$noteB = $db->getGradeForEtuAndCompetence($etu->getN_Etud(), $oCompetences[$i]->getId_competence());
+
+			if (empty($noteA) || empty($noteB)) 
+			{
+				echo "<td class=\"rouge\">AJ</td>";
+			}
+			else 
+			{
+				if ( ($noteA[0]->getMoy_UE() + $noteB[0]->getMoy_UE())/2 > 10)
+				{
+					if($noteA[0]->getMoy_UE() < 10 || $noteB[0]->getMoy_UE() <10)
+					{
+						echo "<td class=\"vert\">CMP</td>";
+					}
+					else {
+						echo "<td class=\"vert\">ADM</td>";
+					}
+				}
+				else 
+				{
+					echo "<td class=\"rouge\">AJ</td>";
+				}
+			}		
+		}
+		else 
+		{
+			if (empty($noteA))
+			{
+				echo "<td class=\"rouge\">AJ</td>";
+			}
+			else 
+			{
+				if ( ($noteA[0]->getMoy_UE() > 10))
+				{				 
+					echo "<td class=\"vert\">ADM</td>";
+				}
+				else 
+				{
+					echo "<td class=\"rouge\">AJ</td>";
+				}
+			} 
+		}
+		$i++;
+	}
+	
+	if ($numSemestre > 4)
+	{
+		
+		while ($i < 3) 
+		{
+			debug_to_console($i);
+			echo "<td class=\"rouge\">NA</td>";
+			$i++;	
+		}
+	}
+	else 
+	{
+		while ($i < 6) 
+		{
+			debug_to_console($i);
+			echo "<td class=\"rouge\">NA</td>";
+			$i++;	
+		}
+	}
+}
+
+function afficheAnnee($numSemestre,$pair,$etu)
+{
+	global $db;
+	
+	if ($numSemestre == 1) 
+	{
+		echo "<td></td><td></td><td></td><td></td><td></td><td></td>";
+		return;
+	}
+
+	if ($numSemestre >= 2)
+	{
+		//BUT 1
+		$competences  = $db->getCompetencesForSemestre(1);
+		$oCompetences = $db->getCompetencesForSemestre(2);
+
+		ecrireAnnee($competences,$oCompetences,$etu,$pair);
+
+		if ($numSemestre >= 4)
+		{
+			//BUT2
+			$competences  = $db->getCompetencesForSemestre(3);
+			$oCompetences = $db->getCompetencesForSemestre(4);
+
+			ecrireAnnee($competences,$oCompetences,$etu,$pair);
+
+			if($numSemestre > 4 )
+			{
+				//BUT 3
+				$competences  = $db->getCompetencesForSemestre(5);
+				$oCompetences = $db->getCompetencesForSemestre(6);
+
+				for ($i=0; $i < count($competences); $i++) 
+				{ 
+					$noteA = $db->getGradeForEtuAndCompetence($etu->getN_Etud(),  $competences[$i]->getId_competence());
+					$noteB = $db->getGradeForEtuAndCompetence($etu->getN_Etud(),  $competences[$i]->getId_competence());
+
+					if ( ($noteA[0]->getMoy_UE() + $noteB[0]->getMoy_UE())/2 > 10)
+					{
+						if($noteA[0]->getMoy_UE() < 10 || $noteB[0]->getMoy_UE() <10)
+						{
+							echo "<td class=\"vert\">CMP</td>";
+						}
+						else {
+							echo "<td class=\"vert\">ADM</td>";
+						}
+					}
+					else 
+					{
+						echo "<td class=\"rouge\">AJ</td>";
+					}
+				}
+			}
+		}
+	}
+}
+
+function afficheCompetences($competences) 
+{
+	foreach ($competences as $competence) 
+	{
+        echo "\t\t<td><b>{$competence->getId_competence()}</b></td>"; 
+    }
+}
+
+function enteteAnnee($numSemestre) 
+{
+	for ($i=2; $i <= $numSemestre; $i+=2) 
+	{ 
+		echo "\t\t<td><b>C1</b></td>"; 
+		echo "\t\t<td><b>C2</b></td>"; 
+		echo "\t\t<td><b>C3</b></td>"; 
+		echo "\t\t<td><b>C4</b></td>"; 
+		echo "\t\t<td><b>C5</b></td>"; 
+		echo "\t\t<td><b>C6</b></td>"; 
+	}
+	
+	if ($numSemestre == 1) 
+	{
+		echo "\t\t<td><b>C1</b></td>"; 
+		echo "\t\t<td><b>C2</b></td>"; 
+		echo "\t\t<td><b>C3</b></td>"; 
+		echo "\t\t<td><b>C4</b></td>"; 
+		echo "\t\t<td><b>C5</b></td>"; 
+		echo "\t\t<td><b>C6</b></td>";  
+	}
+
+	if ($numSemestre == 5) 
+	{
+		echo "\t\t<td><b>C1</b></td>"; 
+		echo "\t\t<td><b>C2</b></td>";
+		echo "\t\t<td><b>C6</b></td>"; 
+	}
 }
 
 function afficheJury($numSemestre) 
 {
-	global $db;
-	$div = intdiv($numSemestre,2);
-	$res = $numSemestre % 2 ;
+    global $db;
+	$pair = ($numSemestre %2 ==0);
+   
+    $competences = $db->getCompetencesForSemestre($numSemestre);
 
-	/* Premiere ligne, entetes */
-	echo "<link rel=\"stylesheet\" href=\"../../../frontend/css/visuTest.css\">";
-	echo "<table class=\"tableJury\">";
-	echo "\t  <tr>\n";
-	echo "\t\t<td><b>code NIP</b></td>"; 
-	echo "\t\t<td><b>Rang	 </b></td>"; 
-	echo "\t\t<td><b>Nom	 </b></td>"; 
-	echo "\t\t<td><b>Prenom  </b></td>"; 
-	echo "\t\t<td><b>Parcours</b></td>"; 
-	echo "\t\t<td><b>Cursus	     </b></td>"; 
-	afficheEntete($div);
-	afficheUE($res);
-	echo "\t  </tr>\n";
-	
+	//Avoir les competences des deux semestres
+	if ($pair) { $oCompetences = $db->getCompetencesForSemestre($numSemestre-1);} // 2-1 = 1 
+	else 	   { $oCompetences = $db->getCompetencesForSemestre($numSemestre+1);} // 1+1 = 2
 
-	$vueComm= $db-> getVueCommission($numSemestre);
+    echo "<link rel=\"stylesheet\" href=\"../../../frontend/css/visuTest.css\">";
+    echo "<table class=\"tableJury\">";
 
-	for ($i=0; $i < count($vueComm);$i++ ) 
+	if ($numSemestre > 1)
 	{
-		$etu = rechercheEtu($vueComm[$i]->getNom(),$vueComm[$i]->getPreNom());
 		echo "\t  <tr>\n";
-		echo "\t\t<td>".  $etu->getN_Ip()    ."</td>\n";
-		echo "\t\t<td>". $i+1   ."/" .count($vueComm)                  ."</td>\n";
-		echo "\t\t<td>". $vueComm[$i] ->getNom()    ."</td>\n";
-		echo "\t\t<td>". $vueComm[$i] ->getPrenom() ."</td>\n";
-		echo "\t\t<td>". $vueComm[$i] ->getCursus() ."</td>\n";
-		echo "\t\t<td>". $vueComm[$i] ->getUE()     ."</td>\n";
-		echo "\t\t<td>". $vueComm[$i] ->getMoy()    ."</td>\n";
-		afficheBUT(rechercheEtuSem($etu->getN_Etud(),$numSemestre));
+		echo "\t\t<td colspan=\"6\"></td>\n";
+		afficheEntete($numSemestre,count($competences));
+		echo "\t  </tr>\n";
 	}
-	echo "</table>";
-}
+	
+	echo "\t  <tr>\n";
+    echo "\t\t<td><b>code NIP</b></td>"; 
+    echo "\t\t<td><b>Rg</b></td>"; 
+    echo "\t\t<td><b>Nom</b></td>"; 
+    echo "\t\t<td><b>Prénom</b></td>"; 
+    echo "\t\t<td><b>Parcours</b></td>"; 
+    echo "\t\t<td><b>Cursus</b></td>"; 
+    
+	enteteAnnee($numSemestre);
+	afficheCompetences($competences);
 
+    echo "\t\t<td><b>UEs</b></td>"; 
+    echo "\t\t<td><b>Moy</b></td>"; 
+    echo "\t  </tr>\n";
+
+	//Etudiants et notes
+    $vueComm = $db->getVueCommission($numSemestre);
+
+    foreach ($vueComm as $i => $etudiant) {
+        $etu = rechercheEtu($etudiant->getNom(), $etudiant->getPreNom());
+        //$etuSem = rechercheEtuSem($etu->getN_Etud(), $numSemestre);
+
+        echo "\t  <tr>\n";
+        echo "\t\t<td>".  $etu->getN_Ip() ."</td>\n";
+        echo "\t\t<td>". ($i + 1) ."/" .count($vueComm) ."</td>\n";
+        echo "\t\t<td>". $etudiant->getNom() ."</td>\n";
+        echo "\t\t<td>". $etudiant->getPrenom() ."</td>\n";
+        echo "\t\t<td>". "A" ."</td>\n";
+        echo "\t\t<td>". $etudiant->getCursus() ."</td>\n";
+
+		afficheAnnee($numSemestre,$pair,$etu);
+
+        //BIN
+        foreach ($competences as $competence) {
+            $grade = $db->getGradeForEtuAndCompetence($etu->getN_Etud(), $competence->getId_competence());
+            echo "\t\t<td>". ($grade[0]->getMoy_UE()) ."</td>\n";
+        }
+
+        echo "\t\t<td>". $etudiant->getUE() ."</td>\n";
+        echo "\t\t<td>". $etudiant->getMoy() ."</td>\n";
+        echo "\t  </tr>\n";
+    }
+    echo "</table>";
+}
 afficheJury(1);
+afficheJury(2);
+afficheJury(3);
+afficheJury(4);
+afficheJury(5);
