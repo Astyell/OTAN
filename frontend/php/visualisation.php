@@ -1,8 +1,8 @@
 <?php
-	/** connexion.php
+	/** visualisation.php
 	* @author  : Alizéa Lebaron, Justine BONDU
 	* @since   : 26/03/2024
-	* @version : 1.0.2 - 29/03/2024
+	* @version : 1.0.4 - 29/03/2024
 	*/
 
 	// Affichage des erreurs
@@ -35,70 +35,60 @@
 	<meta charset='UTF-8'>
 	<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'/>
 	<link rel='stylesheet' href='../css/visualisation.css' type='text/css' />
-	<title>Menu</title>
+	<link rel='stylesheet' href='../css/header.css' type='text/css' />
+	<link rel='stylesheet' href='../css/footer.css' type='text/css' />
+	<title>O.T.A.N. - Visualisation</title>
 </head>
 
 <body>
 
-	<header>
-		<nav class="navbar">
-			<ul>
-				<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>
-				<li><img src="../img/icone/import.png" alt="import">         <a href="choixFichier.php">Importer</a></li>
-				<li><img src="../img/icone/export.png" alt="export">         <a href="#">Exporter</a></li>
-				<li><img src="../img/icone/doc.png"    alt="poursuite etude"><a href="#">Fiche poursuite d'étude</a></li>
-				<li><img src="../img/icone/power.png"  alt="deconnexion">    <a href="deconnexion.php">Déconnexion</a></li>
-			</ul>
-		</nav>
-    </header>
+	<?php
+		// Afficher le header en fonction de l'utilisateur
+		if ($droit) { incHeaderAdmin(); }
+		else        { incHeaderUser (); }
+		
+	?>
 	
 	<!-- Ce menu est composé d\'un tableau séparé en 6 parti chacune de ses parties représente un semestre. -->
 	<!-- Chaque semestre comporte un bouton jury, et les semestres impairs ont, en plus un bouton commission. -->
-	<nav class="menuVue" >
-		<table>
-			<tr>
-				<td rowspan=2>S1</td> 
-				<td><button class="BcommJur">Commission</button></td>
-			</tr> 
-			
-			<tr>
-				<td ><button class="BcommJur">Jury</button></td>
-			</tr> 
-			
-			<tr> 
-				<td>S2</td>
-				<td ><button class="BJurPair">Jury</button></td>
-			</tr> 
-			
-			<tr> 
-				<td ROWSPAN=2>S3</td> 
-				<td ><button class="BcommJur">Commission</button></td>
-			</tr>
+	
+	<div class = "select" >
 
-			<tr>
-				<td ><button class="BcommJur">Jury</button></td>
-			</tr> 
-			
-			<tr> 
-				<td>S4</td>
-				<td ><button class="BJurPair">Jury</button></td>
-			</tr> 
-			
-			<tr> 
-				<td ROWSPAN=2>S5</td> 
-				<td ><button class="BcommJur">Commission</button></td>
-			</tr> 
-			
-			<tr>
-				<td ><button class="BcommJur">Jury</button></td>
-			</tr> 
+		<form action="visualisation.php" method="get">
 
-			<tr> 
-				<td>S6</td>
-				<td ><button class="BJurPair" >Jury</button></td>
-			</tr>
-		</table> 
-    </nav> 
+			<label>Fichier à visualiser :</label>
+			<select name="fichier">
+				<optgroup label="Année 1">
+				<option value="1_S1_Comission">S1 - Comission</option>
+				<option value="1_S1_Jury"     >S1 - Jury     </option>
+				<option value="1_S2_Jury"     >S2 - Jury     </option>
+				</optgroup>
+				<optgroup label="Année 2">
+				<option value="2_S3_Comission">S3 - Comission</option>
+				<option value="2_S3_Jury"     >S3 - Jury     </option>
+				<option value="2_S4_Jury"     >S4 - Jury     </option>
+				</optgroup>
+				<optgroup label="Année 3">
+				<option value="3_S5_Comission">S5 - Comission</option>
+				<option value="3_S5_Jury"     >S5 - Jury     </option>
+				</optgroup>
+			</select>
+
+			<input type="submit" value="Consulter">
+
+		</form>
+
+	</div>
+
+	<div class="visu">
+		
+	</div>
+
+	<?php
+
+		pied();
+
+	?>
 
 </body>
 </html>

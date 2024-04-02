@@ -1,7 +1,7 @@
 /** 
  * @author  : Justine BONDU, Alizéa LEBARON
  * @since   : 27/03/2024
- * @version : V1.0.2 - 29/03/2024
+ * @version : V1.1.0 - 29/03/2024
  */
 
 /* -------------------------------------------------------- */
@@ -15,181 +15,28 @@ html, body
 }
 
 /* -------------------------------------------------------- */
-/*             Bandeau sur page visualisation               */
+/*                     Bandeau de choix                     */
 /* -------------------------------------------------------- */
 
-.navbar 
+.select
 {
-    background-color: #5a0101;
-    height: 8vh;
-    padding: 1vh 2vh;
+    padding: 0.5vh 0vh;
+    background-color: rgb(201, 201, 201);
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
-.navbar ul 
+.select form
 {
-    /* On réinitialise le style des listes à puces */
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-
-    /* Ajout des paramètres pour aligner les puces */
-
-    display: flex; /* Ajout de flex pour contrôler l'alignement */
-    justify-content: center; /* Pour centrer les éléments */
-    flex-grow: 1; /* Pour que le contenu s'étende sur toute la largeur */
+    margin: 0 auto;
 }
 
-.navbar ul li 
+.visu
 {
-    display: inline-block;
-    margin-right: 20px; 
-    text-align: center; 
-    flex-direction: column; 
-
-    border-bottom: #5a0101 1px solid; /* On ajout déjà la bordure pour la faire apparaître pendant le hover */
-    transition: ease 1s;
+    height: 75vh;
 }
 
-.navbar ul li:hover 
-{
-    border-bottom: #f59031 1px solid;
-    color: #f59031;
-}
-
-.navbar ul li:hover a
-{
-    color: #f59031;
-}
-
-.navbar ul li:last-child 
-{
-    margin-right: 0; /* Supprimer la marge à droite du dernier élément */
-}
-
-.navbar ul li:last-child 
-{
-    margin-right: 0; /* Supprimer la marge à droite du dernier élément */
-}
-
-.navbar ul li:nth-child(4) 
-{
-    margin-right: auto; /* Centrer le lien 3 et son image */
-    margin-left: auto; /* Aligner à droite le lien 4 et son image */
-}
-
-.navbar ul li a 
-{
-    margin-top: 1vh;
-    color: #fbca9b;
-    text-decoration: none;
-    display: block; /* Convertir en bloc pour occuper tout l'espace disponible */
-    font-family: 'NexaHeavy';
-    transition: ease 1s;
-}
-
-.navbar ul li img 
-{
-    vertical-align: middle; /* Alignement vertical */
-    width: 25px; 
-    height: 25px; 
-}
-
-.navbar ul li a .icon
-{
-    vertical-align: middle; /* Alignement vertical */
-    width: 55px; 
-    height: 55px; 
-}
-
-.navbar ul li .accueil
-{
-    margin-top: 0;
-}
-
-
-/* -------------------------------------------------------- */
-/* -------------- Menu sur page visualisation ------------- */
-/* -------------------------------------------------------- */
-/* Ce menu est composé d'un tableau séparé en 6 parti chacune de ses parties représente un semestre.
-Chaque semestre comporte un bouton jury, et les semestres impairs ont, en plus un bouton commission.*/
-
-.menuVue {
-    height: calc(100% - 8vh); 
-    width: 15%;
-    min-width: min-content;
-    background-color: rgb(175, 23, 23);
-    font-size: 40px;
-    border: 4px solid black;
-    position:fixed;
-        top: 10vh;
-        left: 0;
-        right: 0;
-}
-
-.menuVue table {
-    width: 100%;
-    height: 100%;
-    border-collapse: collapse;
-    text-align: center;
-    padding: 0;
-    margin: 0;
-}
-
-.menuVue td {
-    border: 1px solid black;
-    text-align: center;
-    padding: 0px;
-    margin: 0px;
-    background-color: lightgray;
-}
-
-.menuVue button {
-    background-color: lightgray;
-    width: 100%;
-    margin: 0;
-    text-align: center;
-} 
-
-/* ------------------------------------------- */
-/* --- Détaile sur boutons en particullier --- */
-/* ------------------------------------------- */
-
-.BcommJur{
-    font-size: 20px;
-    padding-top: 3vh;
-    padding-bottom: 3vh;
-}
-
-.BJurPair{
-    font-size: 20px;
-    padding-top: 4vh;
-    padding-bottom: 4vh;
-}
-
-.menuVue button:hover {
-    background-color: rgb(169, 131, 174);
-}
-
-
-/* -------------------------------------------------------- */
-/* ------------- Corp de page de visualisation------------- */
-/* -------------------------------------------------------- */
-
-.corpV{/* sert a mettre le corp de page de visualisation */
-    margin-left: 17%;
-    margin-top: 10vh;
-}
-
-.encad{
-    background-color: rgb(147, 142, 150);
-    border: 1px solid black;
-    width: 50%;
-    margin-left: 20%;
-    margin-right: 20%;
-    padding: 5%;
-}
 
 /* ------------------- @ Font-family -------------------- */
 

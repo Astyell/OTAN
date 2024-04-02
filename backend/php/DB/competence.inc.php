@@ -22,7 +22,7 @@ class competence
 	public function __construct($iC="",$iS="") 
 	{
 		$this->id_competence 	= $iC;
-		$this->id_semestre 	= $iS;
+		$this->id_semestre 		= $iS;
 	}
 
 	/* -------------------------------------- */

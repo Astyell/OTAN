@@ -3,14 +3,14 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$chemin_du_fichier = __DIR__ . "/../DB/DB.inc.php";
+$chemin = (__DIR__ . "/../DB/DB.inc.php");
+require $chemin;
 
 require 'vendor/autoload.php';
-require $chemin_du_fichier;
 
 use PhpOffice\PhpSpreadsheet\IOFactory;
 
-function mettreDansDB($chemin_fichier)
+function mettreDansDB($chemin_fichier, $annee1)
 {
 	// Chemin vers le fichier Excel
 	$spreadsheet = IOFactory::load($chemin_fichier);
@@ -37,7 +37,7 @@ function mettreDansDB($chemin_fichier)
 	//$db->insertIdentifiant('toto', 'zuzu', false);
 
 	//TODO: annee
-	$annee = 1;
+	$annee = $annee1;
 	$db->insertAnnee($annee);
 
 	//création compétences et ressources

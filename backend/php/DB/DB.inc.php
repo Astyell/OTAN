@@ -33,7 +33,8 @@ class DB
 	{
 		// Connexion à la base de données
 		$connStr = 'pgsql:host=localhost port=5432 dbname=sm220306'; // A MODIFIER ! 
-		try {
+		try 
+		{
 			// Connexion à la base
 			$this->connect = new PDO($connStr, 'sm220306', 'mateo2705'); //A MODIFIER !
 			// Configuration facultative de la connexion
@@ -163,6 +164,12 @@ class DB
 		return $this->execQuery($requete, null, 'Etudiant');
 	}
 
+	public function getEtudiant($ip)
+	{
+		$requete = 'select * from etudiant where n_ip = ' . $ip;
+		return $this->execQuery($requete, null, 'Etudiant');
+	}
+
 	public function insertEtudiant($n_etud, $n_ip, $nom_etu, $prenom_etu, $cursus, $bac)
 	{
 		$requete = 'insert into etudiant values(?,?,?,?,?,?)';
@@ -195,6 +202,16 @@ class DB
 	{
 		$requete = 'select * from competence';
 		return $this->execQuery($requete, null, 'Competence');
+	}
+
+	public function getAllCompetenceWithSem($semestre, $annee)
+	{
+		$requete = 'select c.* 
+					from competence c 
+					join semestre s on c.id_semestre = s.id_semestre 
+					where c.id_semestre = ? and id_annee = ?';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'Competence');
 	}
 
 	public function insertCompetence($id, $sem)
@@ -273,6 +290,15 @@ class DB
 		return $this->execQuery($requete, null, 'EtuSem');
 	}
 
+	public function getAllEtuSemWithSem($semestre, $annee)
+	{
+		$requete = 'select e.* from etusem e 
+					join semestre s on e.id_semestre = s.id_semestre
+					where e.id_semestre = ? and id_annee = ?';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'EtuSem');
+	}
+
 	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
 	{
 		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?)';
@@ -290,6 +316,16 @@ class DB
 	/*-------------*/
 	/*  NOTE/COMP  */
 	/*-------------*/
+
+	public function getAllNoteCompWithSem($semestre, $annee)
+	{
+		$requete = 'select n.* 
+					from notecomp n join competence c on n.id_competence = c.id_competence 
+					join semestre s on s.id_semestre = c.id_semestre 
+					where c.id_semestre = ? and id_annee = ?';
+		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'NoteComp');
+	}
 
 	public function getAllNoteComp()
 	{
@@ -366,47 +402,50 @@ class DB
 	/*  VUES       */
 	/*-------------*/
 
-	public function getVueCommission($semestre)
+	public function getVueCommission($semestre, $annee)
 	{
-		$requete = 'select nom_etu as nom, prenom_etu as prenom, cursus, nb_ue as ue, moy_gene as moy 
+		$requete = 'select n_ip, nom_etu as nom, prenom_etu as prenom, cursus, nb_ue as ue, moy_gene as moy 
 					from etudiant e join etuSem s on e.n_etud = s.n_etud 
-					where id_semestre = ? 
+					join semestre a on a.id_semestre = s.id_semestre 
+					where s.id_semestre = ? and id_annee = ?
 					order by moy_gene desc';
-		$tparam = array($semestre);
+		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'vueCommission');
 	}
 
-	public function getVueNomColonne($semestre)
+	public function getVueNomColonne($semestre, $annee)
 	{
 		$requete = 'select id_competence, r.id_ressource
 					from rescom r join ressource c on r.id_ressource = c.id_ressource 
-					where id_semestre = ? 
+					join semestre a on a.id_semestre = c.id_semestre 
+					where c.id_semestre = ? and id_annee = ?
 					order by id_competence';
-		$tparam = array($semestre);
+		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'vueNomColonne');
 	}
 
-	public function getVueMoyRessource($semestre)
+	public function getVueMoyRessource($semestre, $annee)
 	{
 		$requete = 'select distinct e.n_etud, r.id_ressource, moy, moy_gene 
 					from rescom r join ressource c on r.id_ressource = c.id_ressource 
 					join etures x on r.id_ressource = x.id_ressource 
 					join etudiant e on x.n_etud = e.n_etud 
 					join etusem s on e.n_etud = s.n_etud 
-					where s.id_semestre = ? and s.id_semestre = c.id_semestre 
+					join semestre a on a.id_semestre = c.id_semestre 
+					where s.id_semestre = ? and s.id_semestre = c.id_semestre and id_annee = ? 
 					order by moy_gene desc';
-		$tparam = array($semestre);
+		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'vueMoyRessource');
 	}
 
-	public function getVueMoyCompetence($semestre)
+	public function getVueMoyCompetence($semestre, $annee)
 	{
-		$requete = 'select distinct n.n_etud, c.id_competence, moy_ue, bonus  
+		$requete = 'select distinct n.n_etud, c.id_competence, moy_ue 
 					from notecomp n join competence c on n.id_competence = c.id_competence 
-					join etusem x on x.id_semestre = c.id_semestre 
-					where c.id_semestre = ? 
+					join semestre a on a.id_semestre = c.id_semestre 
+					where c.id_semestre = ? and id_annee = ?
 					order by n.n_etud';
-		$tparam = array($semestre);
+		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'vueMoyCompetence');
 	}
 
