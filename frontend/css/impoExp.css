@@ -1,3 +1,23 @@
+/** header.css
+ * @author  : Justine BONDU
+ * @since   : 29/03/2024
+ * @version : V1.0.1 - 29/03/2024
+ */
+
+/* -------------------------------------------------------- */
+/* ---------------- Initialisation de base ---------------- */
+/* -------------------------------------------------------- */
+
+html, body
+{
+    margin: 0;
+    padding: 0;
+    letter-spacing: 5px;
+}
+
+/* -------------------------------------------------------- */
+/*        commun au deux page: importer et exporter         */
+/* -------------------------------------------------------- */
 
 .titreP{
     margin: 0;
@@ -18,17 +38,32 @@
     padding: 5%;
 }
 
+.Valid{
+    margin-left: 10%;
+    margin-right: 10%;
+    width: 80%;
+    height: 50px;
+    font-size: 20px;
+    color: rgb(147, 142, 150);
+    background-color: #574444;
+    border: 1px solid #441212;
+}
+
+/* -------------------------------------------------------- */
+/*                     tableau exporter                     */
+/* -------------------------------------------------------- */
+
 table{
     width: 100%;
-    border: 5px solid rgb(153, 119, 119);
+    border: 5px solid #574444;
     border-collapse: collapse;
 }
 table th{
-    border: 5px solid rgb(153, 119, 119);
-    background-color: rgb(147, 142, 150);
+    border: 5px solid #574444;
+    background-color: rgb(124, 118, 126);
 }
 table td{
-    border: 2px solid rgb(153, 119, 119);
+    border: 2px solid #574444;
     background-color: rgb(147, 142, 150);
 }
 
@@ -42,3 +77,4 @@ table td{
     margin: 0;
     padding: 0;
 }
+

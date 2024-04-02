@@ -44,27 +44,34 @@
 		genererTableau();
 		if(isset($_POST['valider'])) {
 			// Boucle pour traiter les cases cochées
-			for ($i = 0; $i < 6; $i++) {
+			for ($i = 1; $i < 7; $i++) {
 				for ($j = 0; $j < 3; $j++) {
 					// Vérifier si la case est cochée
 					if(isset($_POST['commission_'.$i.'_'.$j])) {
 						// Appeler la méthode associée
 						//call_user_func(genererMethode());
 						echo 'commission_'.$i.'_'.$j;
+						echo "<br>\n";
 					}
 					if(isset($_POST['jury_'.$i.'_'.$j])) {
 						// Appeler la méthode associée
 						//call_user_func(genererMethode());
 						echo 'jury_'.$i.'_'.$j;
+						echo "<br>\n";
 					}
 				}
 			}
+			for ($k = 0; $k < 2; $k++) {
+				if(isset($_POST['AvisPoursuiteEtude_'.$k])) {
+					echo 'AvisPoursuiteEtude_'.$k;
+				}
+			}
+			
 		}
 	}
 
 	function genererTableau()
 	{
-
 		echo "<form method='post' action=''>\n";
 		echo "<table >\n";
 		for ($i = 1; $i < 7; $i++) {
@@ -83,10 +90,17 @@
 			}
 			echo "</tr>\n";
 		}
-		echo "</table>\n<br>";
-		echo "<input type=\"submit\" name=\"valider\" value=\"Valider\">\n";
+		echo "<tr>\n";
+		echo "<tr >\n<th COLSPAN=2>Autre</th >  \n<th >Word</th > \n<th >PDF</th >\n</tr>\n";
+		echo "<td COLSPAN=2>Avis de poursuite d'étude</td>\n";
+		for ($k = 0; $k < 2; $k++) {
+			echo "<td class='case'><input type='checkbox' class='caseC' name='AvisPoursuiteEtude_".$k."'></td>\n";
+		}
+		echo "</tr>\n";
+		echo "</table>\n<br>\n";
+		echo "Attention, les avis de pourquite d'étude sont nominatifs et nécessitent de modifier le modèle en amont.\n<br><br>\n";
+		echo "<input type=\"submit\" class=\"Valid\" name=\"valider\" value=\"Valider\">\n";
 		echo "</form>\n";
 	}
-	// Vérifier si le formulaire a été soumis
 	
 ?>

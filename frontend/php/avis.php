@@ -401,4 +401,6 @@
 
 </body>
 
-</html>
+<?php
+pied();
+?>
