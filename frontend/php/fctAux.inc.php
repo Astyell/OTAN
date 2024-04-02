@@ -98,18 +98,24 @@ function downloadImage ($nom)
         echo "</table>\n";
     }
 
-
+    
 
     function pied() 
 	{
-        echo "<br>\n";
-        echo "<br>\n";
-        echo "<footer>\n";
-		echo "<hr><p>© 2024 par Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA</p>\n";
-        echo "</footer>\n";
-        echo "<br>\n";
-        echo "</body>\n";
-        echo "</html>\n";
+        $footer = '<footer>'.
+        '<div class="row">'.
+            '<ul>'.
+                '<li><a href="#">Matéo SA</a></li>'.
+                '<li><a href="#">Sébastien CHAMPVILLARD</a></li>'.
+                '<li><a href="#">Alizéa LEBARON</a></li>'.
+                '<li><a href="#">Justine BONDU</a></li>'.
+                '<li><a href="#"><img src="../img/icone/github.png" alt="github" id="git"></a></li>'.
+            '</ul>'.
+        '</div>'.
+        '<p> 2024 - O.T.A.N. - All rights reserved</p>'.
+        '</footer>';
+
+        echo $footer;
 	}
 
 	function verifMDP($mdp) 

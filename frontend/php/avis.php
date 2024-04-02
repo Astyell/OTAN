@@ -36,6 +36,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../css/avis.css">
+	<link rel='stylesheet' href='../css/footer.css' type='text/css' />
 	<link rel="stylesheet" href="../css/header.css">
 	<title>O.T.A.N. - Avis de Poursuite d'Études</title>
 </head>
@@ -380,7 +381,7 @@
 	</div>
 
 	<?php
-	pied();
+		pied();
 	?>
 
 	<script src="../js/avis.js"></script>
