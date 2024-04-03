@@ -41,7 +41,9 @@ CREATE TABLE competence(
    FOREIGN KEY(id_semestre,id_annee) REFERENCES semestre(id_semestre,id_annee)
 );
 
-CREATE TABLE identifiant(
+CREATE TABLE identifiant
+(
+   id SERIAL,
    identifiant VARCHAR(50),
    mdp VARCHAR(50) NOT NULL,
    estAdmin BOOL NOT NULL,
