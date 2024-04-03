@@ -12,6 +12,11 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
+require 'vendor2/autoload.php';
+
+use Dompdf\Dompdf;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf as DompdfWriter;
+
 
 //TODO: mettre coeff 
 
@@ -347,8 +352,12 @@ function creerPvJury($semestre, $annee)
         $sheet->getColumnDimension($currentCol)->setAutoSize(true);
     }
 
+    //test($spreadsheet);
+    //telechargerPdf("aa.pdf", $spreadsheet);
     telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);
 }
+
+creerPvJury(1,1);
 
 function remplirAdmission($db, $sheet, $semestre, $annee, $nbEtud, $debut, $num, $type, $adm)
 {
@@ -615,8 +624,6 @@ function setAdmissionComp($noteSem1, $noteSem2, $ligne, $colonne, $sheet)
 
 }
 
-
-
 function telecharger($nomfichier, $spreadsheet)
 {
     //Téléchargement fichier
@@ -627,3 +634,26 @@ function telecharger($nomfichier, $spreadsheet)
     $writer->save('php://output');
 }
 
+function test($spreadsheet)
+{
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf($spreadsheet);
+    $writer->save("php://output");
+}
+
+function telechargerPdf($nomfichier, $spreadsheet)
+{
+    // Créer un nouvel objet Dompdf
+    $dompdf = new Dompdf();
+
+    // Convertir le fichier Excel en PDF
+    $dompdfWriter = new DompdfWriter($spreadsheet);
+    $dompdfWriter->save('temp.pdf');
+
+    // Charger le PDF généré par PhpOffice dans Dompdf
+    $dompdf->loadHtml(file_get_contents('temp.pdf'));
+
+    // Rendre le PDF
+    $dompdf->render();
+
+    file_put_contents($nomfichier, $dompdf->output());
+}
