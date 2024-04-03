@@ -12,6 +12,11 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
+require 'vendor2/autoload.php';
+
+use Dompdf\Dompdf;
+use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf as DompdfWriter;
+
 
 //TODO: mettre coeff 
 
@@ -351,7 +356,16 @@ function creerPvJury($semestre, $annee)
         $currentCol = Coordinate::stringFromColumnIndex($col);
         $sheet->getColumnDimension($currentCol)->setAutoSize(true);
     }
+<<<<<<< HEAD
+=======
+
+    //test($spreadsheet);
+    //telechargerPdf("aa.pdf", $spreadsheet);
+    telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);
+>>>>>>> 454da52cff2755342e456a2472a04814b71c1b21
 }
+
+creerPvJury(1,1);
 
 function remplirAdmission($db, $sheet, $semestre, $annee, $nbEtud, $debut, $num, $type, $adm)
 {
@@ -618,9 +632,13 @@ function setAdmissionComp($noteSem1, $noteSem2, $ligne, $colonne, $sheet)
 
 }
 
+<<<<<<< HEAD
 
 
 function telecharger($nomfichier)
+=======
+function telecharger($nomfichier, $spreadsheet)
+>>>>>>> 454da52cff2755342e456a2472a04814b71c1b21
 {
     //Téléchargement fichier
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -633,4 +651,31 @@ function ecriture($spreadsheet)
     $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
     $writer->save('php://output');
 }
+<<<<<<< HEAD
 ?>
+=======
+
+function test($spreadsheet)
+{
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf($spreadsheet);
+    $writer->save("php://output");
+}
+
+function telechargerPdf($nomfichier, $spreadsheet)
+{
+    // Créer un nouvel objet Dompdf
+    $dompdf = new Dompdf();
+
+    // Convertir le fichier Excel en PDF
+    $dompdfWriter = new DompdfWriter($spreadsheet);
+    $dompdfWriter->save('temp.pdf');
+
+    // Charger le PDF généré par PhpOffice dans Dompdf
+    $dompdf->loadHtml(file_get_contents('temp.pdf'));
+
+    // Rendre le PDF
+    $dompdf->render();
+
+    file_put_contents($nomfichier, $dompdf->output());
+}
+>>>>>>> 454da52cff2755342e456a2472a04814b71c1b21

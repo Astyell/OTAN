@@ -58,15 +58,15 @@ function mettreDansDB($chemin_fichier, $annee1)
 			if( strlen($data[0][$j]) == 5 )//Ex : BIN12 ou BIN12A pour alternant
 			{
 				//création semestre si existe pas
-				if($semestre == '')
+				if($semestre == null)
 				{
 					$semestre = substr($data[0][$j], 3, 1);
 					$db->insertSemestre($semestre, $annee);
-					//echo "semestre " . $semestre . "<br>";
+					//echo "semestre " . $semestre . "  ". $annee. "<br>";
 				}
 				
 				$id_comp = $data[0][$j];
-				$db->insertCompetence($id_comp, $semestre);
+				$db->insertCompetence($id_comp, $semestre, $annee);
 				//echo "competaence " . $id_comp . "<br>";
 			}
 			//création ressources
@@ -74,7 +74,7 @@ function mettreDansDB($chemin_fichier, $annee1)
 			{
 				$id_res = $data[0][$j];
 				
-				$db->insertRessource($id_res, $semestre);
+				$db->insertRessource($id_res, $semestre, $annee);
 
 				//Pas de coef
 				$db->insertResCom($id_res, $id_comp, 0);//coef = 0
@@ -138,7 +138,7 @@ function mettreDansDB($chemin_fichier, $annee1)
 
 		//création etudiants
 		$db->insertEtudiant($n_etud, $nip, $nom, $prenom, $cursus, $bac);
-		$db->insertEtuSem($n_etud, $semestre, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $nb_UE, $altern);
+		$db->insertEtuSem($n_etud, $semestre, $annee, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy_gene, $nb_UE, $altern);
 		$db->insertEtuAnn($n_etud, $annee, $parcours, $admission);
 
 		if($admission != null)

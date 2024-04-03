@@ -15,3 +15,8 @@ table,tr,td{
 	min-width: 21ch;
 }
 
+.Titre{
+	float: left;
+	text-align: center;
+	margin-left: 35%;
+}
