@@ -10,6 +10,7 @@ $etudiants = $db->getAllEtudiant();
 $noteComp  = $db->getAllNoteComp();
 $etuSem    = $db->getAllEtuSem();
 $competences = $db->getAllCompetence();
+$etuRes  = $db->getAllEtuRes();
 
 function afficheEtudiants(){
 	global $etudiants;
@@ -21,8 +22,16 @@ function afficheEtudiants(){
 		echo "No students found.";
 	}
 }
-
-function rechercheNoteEtu($ne,$comp) : noteComp
+function rechercheEtuRess($ne,$ress) : etuRes
+{
+	global $etuRes;
+	foreach ($etuRes as $e) 
+	{
+		if($e->getN_Etud() == $ne && $e->getId_ressource() == $ress ){return $e;}
+	}
+	return null;
+}
+function rechercheNoteEtuComp($ne,$comp) : noteComp
 {
 	global $noteComp;
 	foreach ($noteComp as $note) 
@@ -54,43 +63,6 @@ function rechercheEtuSem($ne,$numSemestre) : etuSem
 }
 
 
-function affichePvCommission($numSemestre) 
-{
-	global $db;
-	
-	if ($numSemestre != 1 && $numSemestre !=3 && $numSemestre !=5) 
-	{
-		echo "<b>Erreur : Il faut choisir le semestre 1,3 ou 5</b>";
-		return;
-	}	
-
-	/* Premiere ligne, entetes */
-	echo "<table class=\"tableVueCommission\">";
-	echo "\t  <tr>\n";
-	echo "\t\t<td><b>Rang	</b></td>"; 
-	echo "\t\t<td><b>Nom	</b></td>"; 
-	echo "\t\t<td><b>Prenom </b></td>"; 
-	echo "\t\t<td><b>Cursus </b></td>"; 
-	echo "\t\t<td><b>UE	    </b></td>"; 
-	echo "\t\t<td><b>Moy	</b></td>"; 
-	echo "\t  </tr>\n";
-
-	$vueComm= $db-> getVueCommission($numSemestre);
-
-	for ($i=0; $i < count($vueComm);$i++ ) 
-	{
-		echo "\t  <tr>\n";
-		echo "\t\t<td>". $i+1   ."/" .count($vueComm)."</td>\n";
-		echo "\t\t<td>". $vueComm[$i] ->getNom()    ."</td>\n";
-		echo "\t\t<td>". $vueComm[$i] ->getPrenom() ."</td>\n";
-		echo "\t\t<td>". $vueComm[$i] ->getCursus() ."</td>\n";
-		echo "\t\t<td>". $vueComm[$i] ->getUE()     ."</td>\n";
-		echo "\t\t<td>". $vueComm[$i] ->getMoy()    ."</td>\n";
-		echo "\t  </tr>\n";
-
-	}
-	echo "</table>";
-}
 
 function afficheEntete($numSemestre,$nb) 
 {
@@ -308,7 +280,7 @@ function enteteAnnee($numSemestre)
 	}
 }
 
-function afficheJury($numSemestre) 
+function afficheJury($numSemestre,$annee) 
 {
     global $db;
 	$pair = ($numSemestre %2 ==0);
@@ -346,7 +318,7 @@ function afficheJury($numSemestre)
     echo "\t  </tr>\n";
 
 	//Etudiants et notes
-    $vueComm = $db->getVueCommission($numSemestre);
+    $vueComm = $db->getVueCommission($numSemestre,$annee);
 
     foreach ($vueComm as $i => $etudiant) {
         $etu = rechercheEtu($etudiant->getNom(), $etudiant->getPreNom());
@@ -374,8 +346,89 @@ function afficheJury($numSemestre)
     }
     echo "</table>";
 }
-afficheJury(1);
-afficheJury(2);
-afficheJury(3);
-afficheJury(4);
-afficheJury(5);
+
+
+function affichePvCommission($numSemestre,$annee) 
+{
+	global $db;
+	
+	if ($numSemestre != 1 && $numSemestre !=3 && $numSemestre !=5) 
+	{
+		echo "<b>Erreur : Il faut choisir le semestre 1,3 ou 5</b>";
+		return;
+	}	
+	echo "<link rel=\"stylesheet\" href=\"../../../frontend/css/visuTest.css\">";
+
+	/* Premiere ligne, entetes */
+	echo "<table class=\"tableVueCommission\">";
+	echo "\t  <tr>\n";
+	echo "\t\t<td><b>Rang	</b></td>"; 
+	echo "\t\t<td><b>Nom	</b></td>"; 
+	echo "\t\t<td><b>Prenom </b></td>"; 
+	echo "\t\t<td><b>Cursus </b></td>"; 
+	echo "\t\t<td><b>UE	    </b></td>"; 
+	echo "\t\t<td><b>Moy	</b></td>"; 
+
+	$nomColonne = $db->getVueNomColonne($numSemestre, $annee);
+
+
+	//On remplit l'entete de toutes les ressources et compétences, elles sont déjà triées
+    $comp = null;
+    foreach($nomColonne as $nom)
+    {					
+        if($comp != $nom->getCompetence())
+        {
+            $comp = $nom->getCompetence();
+            echo "\t\t<td><b>$comp	</b></td>"; 
+			echo "\t\t<td><b>Bonus	</b></td>"; 
+            
+        }
+        
+        echo "\t\t<td><b>".$nom->getRessource()	."</b></td>"; 
+        
+	}
+	echo "\t  </tr>\n";
+
+	$vueComm = $db->getVueCommission($numSemestre,$annee);
+	
+
+	for ($i=0; $i < count($vueComm);$i++ ) 
+	{
+		echo "\t  <tr>\n";				//On remplit le profil de l'étudiant
+		echo "\t\t<td>". $i+1   ."/" .count($vueComm)."</td>\n";
+		echo "\t\t<td>". $vueComm[$i] ->getNom()    ."</td>\n";
+		echo "\t\t<td>". $vueComm[$i] ->getPrenom() ."</td>\n";
+		echo "\t\t<td class=\"Cursus\">". $vueComm[$i] ->getCursus() ."</td>\n";
+		echo "\t\t<td>". $vueComm[$i] ->getUE()     ."</td>\n";
+		echo "\t\t<td>". $vueComm[$i] ->getMoy()    ."</td>\n";
+
+		$comp = null;
+		foreach($nomColonne as $nom)
+		{
+			if($comp != $nom->getCompetence()) //Chaque fois qu'on trouve une nouvelle compétence
+			{
+				$comp = $nom->getCompetence();
+				$tmpEtu = rechercheEtu($vueComm[$i] ->getNom() ,$vueComm[$i] ->getPrenom()); 
+				$ne = $tmpEtu->getN_Etud();
+				echo "\t\t<td class=\"note\">". rechercheNoteEtuComp($ne,$comp)->getMoy_UE()	."</td>"; //recherche de la moyenne générale de cette UE à l'aide de n_etud et du nom de la compétence 
+				$bonus = rechercheEtuSem($ne,$numSemestre)->getBonus();
+				if ($bonus == 0) { $bonus = "";}
+				echo "\t\t<td class=\"note\">". $bonus ."</td>"; 
+				
+			}
+			
+			echo "\t\t<td class=\"note\">".rechercheEtuRess($ne,$nom->getRessource())->getMoy()	."</b></td>";  // recherche de la moyenne dans cette ressource à l'aide de n_etud et du nom de la ressource
+			
+		}
+
+		echo "\t  </tr>\n";
+
+	}
+
+	echo "</table>";
+
+
+	
+}
+
+affichePvCommission(1,1);

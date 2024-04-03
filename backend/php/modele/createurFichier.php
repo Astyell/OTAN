@@ -102,7 +102,7 @@ function creerPvComm($semestre, $annee)
 
         $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
 
-        for ($col = 1; $col <= $lastCol; $col++) 
+        for ($col = 1; $col <= $lastCol; $col++) 	
         {
             $currentCol = Coordinate::stringFromColumnIndex($col);
             
