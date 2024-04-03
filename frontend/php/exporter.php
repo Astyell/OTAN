@@ -3,7 +3,8 @@
     session_start();
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
-	require '../../backend/php/modele/createurFichier.php';
+	//require '../../backend/php/modele/createurFichier.php';
+	include('../../backend/php/DB/DB.inc.php');
 
 	// Vérification que la session existe bien
 	if (!isset($_SESSION['id'])) 
@@ -11,6 +12,10 @@
 		header('Location: connexion.php');
 		exit();
 	}
+
+	setcookie('pv', 'null', time() + 50, '/');
+	setcookie('semestre', 'null', time() + 50, '/');
+	setcookie('annee', 'null', time() + 50, '/');
 
 	// Récupération des données
 	$ID    = $_SESSION [   'id'];
@@ -51,14 +56,32 @@
 			for ($i = 1; $i < 7; $i++) {
 				for ($j = 0; $j < 3; $j++) {
 					if(isset($_POST['commission_'.$i.'_'.$j])) {
-						echo 'commission_'.$i.'_'.$j;
-						echo "<br>\n";
-						if( $j==0 ) { creerPvComm($i,$anneeChoisie); }
+						//echo 'commission_'.$i.'_'.$j;
+						//echo "<br>\n";
+						//if( $j==0 ) { creerPvComm($i,$anneeChoisie); }
+						if($j==0)
+						{
+							setcookie('pv', 'comm', time() + 50, '/');
+							setcookie('semestre', $i, time() + 50, '/');
+							setcookie('annee', $anneeChoisie, time() + 50, '/');
+							
+							header('Location: ../../backend/php/modele/createurFichier.php');
+							exit();
+						}
 					}
 					if(isset($_POST['jury_'.$i.'_'.$j])) {
-						echo 'jury_'.$i.'_'.$j;
-						echo "<br>\n";
-                        if( $j==0 ) { creerPvJury($i,$anneeChoisie); }
+						//echo 'jury_'.$i.'_'.$j;
+						//echo "<br>\n";
+					//if( $j==0 ) { /*creerPvJury($i,$anneeChoisie);*/ }
+						if($j==0)
+						{
+							setcookie('pv', 'jury', time() + 50, '/');
+							setcookie('semestre', $i, time() + 50, '/');
+							setcookie('annee', $anneeChoisie, time() + 50, '/');
+							
+							header('Location: ../../backend/php/modele/createurFichier.php');
+							exit();
+						}
 					}
 				}
 			}
