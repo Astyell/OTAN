@@ -69,9 +69,8 @@
 
 <?php
 
-	function corps($lstAnn)
+    function iset()
 	{
-		genererTableau($lstAnn);
 		$anneeChoisie = 0;
 		if(isset($_POST['valider'])) {
 			$anneeChoisie = $_POST['annee'];
@@ -85,6 +84,7 @@
 					if(isset($_POST['jury_'.$i.'_'.$j])) {
 						echo 'jury_'.$i.'_'.$j;
 						echo "<br>\n";
+                        if( $j==0 ) { creerPvJury($i,$anneeChoisie); }
 					}
 				}
 			}
@@ -94,8 +94,6 @@
 				}
 			}
 		}
-        echo "</body>\n";
-        echo "</html>\n";
 	}
 
 	function genererTableau($lstAnn)

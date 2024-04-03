@@ -209,15 +209,15 @@ class DB
 		$requete = 'select c.* 
 					from competence c 
 					join semestre s on c.id_semestre = s.id_semestre 
-					where c.id_semestre = ? and id_annee = ?';
+					where c.id_semestre = ? and c.id_annee = ?';
 		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'Competence');
 	}
 
-	public function insertCompetence($id, $sem)
+	public function insertCompetence($id, $sem,$annee)
 	{
-		$requete = 'insert into competence values(?,?)';
-		$tparam = array($id, $sem);
+		$requete = 'insert into competence values(?,?,?)';
+		$tparam = array($id, $sem,$annee);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -273,10 +273,10 @@ class DB
 		return $this->execQuery($requete, null, 'Ressource');
 	}
 
-	public function insertRessource($id_res, $id_sem)
+	public function insertRessource($id_res, $id_sem,$id_ann)
 	{
-		$requete = 'insert into ressource values(?,?)';
-		$tparam = array($id_res, $id_sem);
+		$requete = 'insert into ressource values(?,?,?)';
+		$tparam = array($id_res, $id_sem,$id_ann);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -294,15 +294,15 @@ class DB
 	{
 		$requete = 'select e.* from etusem e 
 					join semestre s on e.id_semestre = s.id_semestre
-					where e.id_semestre = ? and id_annee = ?';
+					where e.id_semestre = ? and e.id_annee = ?';
 		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'EtuSem');
 	}
 
-	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
+	public function insertEtuSem($n_etud, $id_sem,$id_annee, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
 	{
-		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?)';
-		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, 0, $nb_UE, $altern);
+		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?,?)';
+		$tparam = array($n_etud, $id_sem,$id_annee, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, 0, $nb_UE, $altern);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -322,7 +322,7 @@ class DB
 		$requete = 'select n.* 
 					from notecomp n join competence c on n.id_competence = c.id_competence 
 					join semestre s on s.id_semestre = c.id_semestre 
-					where c.id_semestre = ? and id_annee = ?';
+					where c.id_semestre = ? and c.id_annee = ?';
 		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'NoteComp');
 	}
@@ -407,7 +407,7 @@ class DB
 		$requete = 'select n_ip, nom_etu as nom, prenom_etu as prenom, cursus, nb_ue as ue, moy_gene as moy 
 					from etudiant e join etuSem s on e.n_etud = s.n_etud 
 					join semestre a on a.id_semestre = s.id_semestre 
-					where s.id_semestre = ? and id_annee = ?
+					where s.id_semestre = ? and s.id_annee = ?
 					order by moy_gene desc';
 		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'vueCommission');
@@ -418,7 +418,7 @@ class DB
 		$requete = 'select id_competence, r.id_ressource
 					from rescom r join ressource c on r.id_ressource = c.id_ressource 
 					join semestre a on a.id_semestre = c.id_semestre 
-					where c.id_semestre = ? and id_annee = ?
+					where c.id_semestre = ? and a.id_annee = ?
 					order by id_competence';
 		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'vueNomColonne');
@@ -432,7 +432,7 @@ class DB
 					join etudiant e on x.n_etud = e.n_etud 
 					join etusem s on e.n_etud = s.n_etud 
 					join semestre a on a.id_semestre = c.id_semestre 
-					where s.id_semestre = ? and s.id_semestre = c.id_semestre and id_annee = ? 
+					where s.id_semestre = ? and s.id_semestre = c.id_semestre and a.id_annee = ? 
 					order by moy_gene desc';
 		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'vueMoyRessource');
@@ -443,7 +443,7 @@ class DB
 		$requete = 'select distinct n.n_etud, c.id_competence, moy_ue 
 					from notecomp n join competence c on n.id_competence = c.id_competence 
 					join semestre a on a.id_semestre = c.id_semestre 
-					where c.id_semestre = ? and id_annee = ?
+					where c.id_semestre = ? and a.id_annee = ?
 					order by n.n_etud';
 		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'vueMoyCompetence');

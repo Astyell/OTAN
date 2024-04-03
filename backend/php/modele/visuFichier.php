@@ -53,7 +53,7 @@ function rechercheEtu($ne,$pe) : ?etudiant
 	return null;
 }
 
-function rechercheEtuSem($ne,$numSemestre) : etuSem
+function rechercheEtuSem($ne,$numSemestre) : ?etuSem
 {
 	global $etuSem;
 	

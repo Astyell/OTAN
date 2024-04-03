@@ -12,16 +12,20 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-
 //TODO: mettre coeff 
 
 /**************/
 /* COMMISSION */
 /**************/
+
 function creerPvComm($semestre, $annee)
 {
+    telecharger("PV Commission S" . $semestre . "-" . $annee . ".xlsx");//manque mois et année
+
     // Création d'une nouvelle instance de classe Spreadsheet
     $spreadsheet = new Spreadsheet();
+    //telecharger
+    //ecriture($spreadsheet);
 
     // Sélection de la feuille active
     $sheet = $spreadsheet->getActiveSheet();
@@ -176,8 +180,8 @@ function creerPvComm($semestre, $annee)
         $sheet->getColumnDimension($currentCol)->setAutoSize(true);
     }
 
-    //telecharger
-    telecharger("PV Commission S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);//manque mois et année
+    ecriture($spreadsheet);
+
 }
 
 /**************/
@@ -185,8 +189,12 @@ function creerPvComm($semestre, $annee)
 /**************/
 function creerPvJury($semestre, $annee)
 {
+    telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx");
+
     // Création d'une nouvelle instance de classe Spreadsheet
     $spreadsheet = new Spreadsheet();
+
+    //ecriture($spreadsheet);
 
     // Sélection de la feuille active
     $sheet = $spreadsheet->getActiveSheet();
@@ -347,7 +355,10 @@ function creerPvJury($semestre, $annee)
         $sheet->getColumnDimension($currentCol)->setAutoSize(true);
     }
 
-    telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);
+    //test($spreadsheet);
+    //telechargerPdf("aa.pdf", $spreadsheet);
+    //telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);
+    ecriture($spreadsheet);
 }
 
 function remplirAdmission($db, $sheet, $semestre, $annee, $nbEtud, $debut, $num, $type, $adm)
@@ -616,14 +627,23 @@ function setAdmissionComp($noteSem1, $noteSem2, $ligne, $colonne, $sheet)
 }
 
 
-
-function telecharger($nomfichier, $spreadsheet)
+function telecharger($nomfichier)
 {
     //Téléchargement fichier
-    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="'.$nomfichier.'"');
     header('Cache-Control: max-age=0');
+}
+
+function ecriture($spreadsheet)
+{
+    //Téléchargement fichier
+    $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
     $writer->save('php://output');
 }
 
+function test($spreadsheet)
+{
+    $writer = new \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf($spreadsheet);
+    $writer->save("php://output");
+}
