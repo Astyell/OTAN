@@ -50,11 +50,16 @@
 		echo "<form method=\"post\">\n";
 		echo "<label for=\"choix_fichier\">Choisir le type de fichier :</label>\n";
 		echo "<select name=\"choix_fichier\" id=\"choix_fichier\">\n";
-		echo "<option value=\"jury/moyenne\" selected>Fichier Jury/Moyenne</option>\n";
-		echo "<option value=\"fichier coef\">Fichier Coef</option>\n";
+		echo "<option value=\"jury/moyenne\""; 
+		if(isset($_POST['choix_fichier']) && $_POST['choix_fichier'] == "jury/moyenne") echo " selected"; 
+		echo ">Fichier Jury/Moyenne</option>\n";
+		echo "<option value=\"fichier coef\""; 
+		if(isset($_POST['choix_fichier']) && $_POST['choix_fichier'] == "fichier coef") echo " selected"; 
+		echo ">Fichier Coef</option>\n";
 		echo "</select>\n";
 		echo "<input type=\"submit\" name=\"submit\" value=\"Sélectionner\">\n";
 		echo "</form>\n";
+		echo "<p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p><br><br>\n";
 
 		// Vérifier si le formulaire est soumis
 		if(isset($_POST['submit'])){
@@ -69,7 +74,7 @@
 				}
 			}
 		}
-	}
+}
 
 	function selectionFichier($lstAnn)
 	{
@@ -84,10 +89,8 @@
 
 		echo "<option value=\"NouvelleAnnee\">Nouvelle Annee</option>\n";
 		echo "</select><br><br>\n";
-		echo "<p id=\"nouvelleAnneeText\" style=\"display:none;\">Nouvelle année:</p>\n";
+		echo "<p id=\"nouvelleAnneeText\" style=\"display:none;\">Nouvelle année:</p>";
 		echo "<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" style=\"display:none;\"required><br>\n";
-
-		echo "<p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p>\n<br><br>\n";
 		echo "<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
 		echo "</form>";
 
@@ -107,19 +110,13 @@
 		echo "<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">\n";
 		echo "<label for=\"file\">Sélectionner un fichier :</label>\n";
 		echo "<input type=\"file\" id=\"file\" name=\"file\" accept=\".xlsx\" required><br><br>\n";
-		echo "<p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p><br><br>\n";
 		echo "<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
 		echo "</form>\n";
 		// Vérifier si le formulaire a été soumis et si un fichier a été envoyé
 		if( isset($_POST['submit']) && isset($_FILES['file']) ) 
 		{
-			// Récupérer le nom du fichier
-			$file_name = $_FILES['file']['name'];
-
-			// Appeler la méthode mettreDansDB() avec le chemin du fichier envoyé
 			$chemin_fichier = $_FILES['file']['tmp_name'];
-
-			//mettreDansDB($chemin_fichier);
+			mettreCoef($chemin_fichier);
 		}
 	}
 ?>
