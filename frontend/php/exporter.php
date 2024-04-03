@@ -16,31 +16,58 @@
 	$ID    = $_SESSION [   'id'];
 	$droit = $_SESSION ['droit'];
 
-	if ($droit != 1) 
+	// Vérification que la session existe bien
+	if (!isset($_SESSION['id'])) 
 	{
-		header('Location: visualisation.php');
-		exit();
-	}
-	enTete1_2();
-	echo "<link rel='stylesheet' href='../css/header.css' type='text/css' />\n";
-	echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css' />\n";
-    echo "<link rel='stylesheet' href='../css/footer.css' type='text/css' />\n";
-	echo "<title>O.T.A.N. - Exporter</title>";
-	enTete2_2();
-	// Afficher le header en fonction de l'utilisateur
-	if ($droit) { incHeaderAdmin(); }
-	else        { incHeaderUser (); }
+        header('Location: connexion.php');
+        exit();
+    }
+?>
 
-	echo "<p class=\"titreP\"> Exporter </p>\n";
-	echo "<br>\n";
-	echo "<br>\n";
-	$db = DB::getInstance();
-	$lstAnn = $db->getAllAnnee();
-	echo "<section class=\"encad\">\n";
-	corps($lstAnn);
-	echo "</section>\n";
-	echo "<br>\n";
-	pied();
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel='stylesheet' href='../css/header.css'  type='text/css' />
+	<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>
+	<link rel='stylesheet' href='../css/footer.css'  type='text/css' />
+
+	<title>O.T.A.N. - Exporter</title>
+</head>
+
+<body>
+
+	<?php
+		// Afficher le header en fonction de l'utilisateur
+		if ($droit) { incHeaderAdmin(); }
+		else        { incHeaderUser (); }
+
+		$db = DB::getInstance();
+		$lstAnn = $db->getAllAnnee();
+	?>
+
+	<h1>Exporter</h1>
+
+	<section class="encad">
+
+		<?php
+			corps($lstAnn);
+		?>
+
+	</section>
+
+	<?php
+		pied();
+	?>
+
+	
+</body>
+
+</html>
+
+<?php
 
 	function corps($lstAnn)
 	{
