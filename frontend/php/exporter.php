@@ -24,57 +24,34 @@
 	// Vérification que la session existe bien
 	if (!isset($_SESSION['id'])) 
 	{
-        header('Location: connexion.php');
-        exit();
-    }
-?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<link rel='stylesheet' href='../css/header.css'  type='text/css' />
-	<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>
-	<link rel='stylesheet' href='../css/footer.css'  type='text/css' />
-
-	<title>O.T.A.N. - Exporter</title>
-</head>
-
-<body>
-
-	<?php
-		// Afficher le header en fonction de l'utilisateur
-		if ($droit) { incHeaderAdmin(); }
-		else        { incHeaderUser (); }
-
-		$db = DB::getInstance();
-		$lstAnn = $db->getAllAnnee();
-	?>
-
-	<h1>Exporter</h1>
-
-	<section class="encad">
-
-		<?php
-			genererTableau($lstAnn);
-		?>
-
-	</section>
-
-	<?php
-		pied();
-	?>
-
+		header('Location: connexion.php');
+		exit();
+	}
+	iset();
+	enTete1_2();
+	echo "<link rel='stylesheet' href='../css/header.css'  type='text/css' />\n";
+	echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>\n";
+	echo "<link rel='stylesheet' href='../css/footer.css'  type='text/css' />\n";
+	echo "<title>O.T.A.N. - Exporter</title>\n";
 	
-</body>
+	enTete2_2();
 
-</html>
+	// Afficher le header en fonction de l'utilisateur
+	if ($droit) { incHeaderAdmin(); }
+	else        { incHeaderUser (); }
 
-<?php
+	$db = DB::getInstance();
+	$lstAnn = $db->getAllAnnee();
+	echo "<h1>Exporter</h1>\n";
+	echo "<section class=\"encad\">\n";
+	genererTableau($lstAnn);
+	echo "</section>\n";
+	pied();
+	echo "</body>\n</html>\n";
 
-    function iset()
+
+
+	function iset()
 	{
 		$anneeChoisie = 0;
 		if(isset($_POST['valider'])) {
@@ -162,7 +139,6 @@
 	}
 	
 ?>
-
 <script>
 	const checkboxes = document.querySelectorAll('.caseC');
 
