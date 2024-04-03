@@ -1,4 +1,10 @@
 <?php
+	/** choixFichier.php
+	* @author  : Justine BONDU, Matéo SA, Alizéa LEBARON
+	* @since   : 27/03/2024
+	* @version : 2.0.0 - 03/04/2024
+	*/
+
 	include ("fctAux.inc.php");
     require '../../backend/php/modele/lecteurFichier.php';
 	session_start();
@@ -22,24 +28,47 @@
         exit();
     }
 
-	enTete1_2();
-    echo "<link rel='stylesheet' href='../css/header.css' type='text/css' />\n";
-    echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css' />\n";
-    echo "<link rel='stylesheet' href='../css/footer.css' type='text/css' />\n";
-	echo "<title>O.T.A.N. - Importer</title>";
-	enTete2_2();
-    // Afficher le header en fonction de l'utilisateur
-    incHeaderAdmin();
+?>
 
-	echo "<p class=\"titreP\"> Importer </p>\n";
-	echo "<br>\n";
-	echo "<br>\n";
-	echo "<section class=\"encad\">\n";
-	corps();
-	echo "</section>\n";
-	echo "<br>\n";
-	pied();
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+	<link rel='stylesheet' href='../css/header.css'  type='text/css' />
+	<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>
+	<link rel='stylesheet' href='../css/footer.css'  type='text/css' />
+
+	<title>O.T.A.N. - Importer</title>
+</head>
+<body>
+	
+	<?php
+		// Afficher le header admin (dans importer seul l'admin peut venir)
+		incHeaderAdmin();
+	?>
+
+	<h1>Importer</h1>
+
+	<section class="encad">
+
+		<?php
+			// Afficher le corps du document
+			corps();
+		?>
+
+	</section>
+
+	<?php
+		// Afficher le footer
+		pied();
+	?>
+
+</body>
+</html>
+
+<?php
 	function corps()
 	{
 		selectionFichier();
@@ -72,7 +101,7 @@
 			<input type="file" id="file" name="file" accept=".xlsx" required><br><br>
             <label for="nombre">Entrez l\'année du fichier :</label>
             <input type="text" id="nombre" name="nombre" pattern="[0-9]+" required><br><br><br>
-            <label for="submit"> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </label><br><br>
+            <p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p><br><br>
 			<input type="submit" name="submit" class="Valid" value="Enregistrer">
 		</form>';
 	}
