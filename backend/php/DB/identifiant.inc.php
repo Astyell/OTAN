@@ -33,7 +33,7 @@ class identifiant
 	/*                Accesseur               */
 	/* -------------------------------------- */
 
-	public function getIdentifiant	() { return $this->identifiant; }
+	public function getId	        () { return $this->id; }
 	public function getIdentifiant	() { return $this->identifiant; }
 	public function getMdp			() { return $this->mdp;}
 	public function getEstAdmin		() { return $this->estadmin; }
