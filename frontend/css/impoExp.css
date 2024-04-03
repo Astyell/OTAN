@@ -10,9 +10,9 @@
 
 html, body
 {
-    margin: 0;
-    padding: 0;
-    letter-spacing: 1px;
+	margin: 0;
+	padding: 0;
+	letter-spacing: 1px;
 }
 
 /* -------------------------------------------------------- */
@@ -102,4 +102,9 @@ table td
     margin: 0;
     padding: 0;
 }
-
+caseC:checked {
+	opacity: 0.5; /* Opacité à 50% pour les cases cochées */
+}
+.checked {
+	background-color: #5a0101; /* Fond en orange pour la case cochée */
+}

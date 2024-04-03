@@ -103,7 +103,6 @@
 	<div class="<?php echo $class;?>"> 
 		
 		<?php
-
 			if (!isset($_GET['fichier'])) { echo "<p class='vide'> Aucun fichier sélectionné pour le moment </p> " ; }
 			else
 			{
@@ -122,7 +121,6 @@
 			}
 
 		?>
-
 	</div>
 	
 	

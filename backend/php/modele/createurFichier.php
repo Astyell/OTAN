@@ -14,6 +14,29 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 
 //TODO: mettre coeff 
 
+
+//creerPvComm(1,2024);
+
+/*header('Location: ../../backend/php/modele/createurFichier.php');
+exit();*/
+
+$argument1 = $_COOKIE['pv'];
+$argument2 = $_COOKIE['semestre'];
+$argument3 = $_COOKIE['annee'];
+
+if($argument1 != null && $argument2 != null && $argument3 != null)
+{
+    if(strstr($argument1, 'comm'))
+    {
+        creerPvComm($argument2, $argument3);
+    }
+    
+    if(strstr($argument1, 'jury'))
+    {
+        creerPvJury($argument2, $argument3);
+    }
+}
+
 /**************/
 /* COMMISSION */
 /**************/
