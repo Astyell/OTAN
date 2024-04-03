@@ -17,6 +17,7 @@ use PhpOffice\PhpSpreadsheet\Style\Border;
 /**************/
 /* COMMISSION */
 /**************/
+
 function creerPvComm($semestre, $annee)
 {
     telecharger("PV Commission S" . $semestre . "-" . $annee . ".xlsx");//manque mois et année
@@ -24,7 +25,7 @@ function creerPvComm($semestre, $annee)
     // Création d'une nouvelle instance de classe Spreadsheet
     $spreadsheet = new Spreadsheet();
     //telecharger
-    ecriture($spreadsheet);
+    //ecriture($spreadsheet);
 
     // Sélection de la feuille active
     $sheet = $spreadsheet->getActiveSheet();
@@ -179,6 +180,8 @@ function creerPvComm($semestre, $annee)
         $sheet->getColumnDimension($currentCol)->setAutoSize(true);
     }
 
+    ecriture($spreadsheet);
+
 }
 
 /**************/
@@ -187,10 +190,11 @@ function creerPvComm($semestre, $annee)
 function creerPvJury($semestre, $annee)
 {
     telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx");
+
     // Création d'une nouvelle instance de classe Spreadsheet
     $spreadsheet = new Spreadsheet();
 
-    ecriture($spreadsheet);
+    //ecriture($spreadsheet);
 
     // Sélection de la feuille active
     $sheet = $spreadsheet->getActiveSheet();
@@ -353,10 +357,9 @@ function creerPvJury($semestre, $annee)
 
     //test($spreadsheet);
     //telechargerPdf("aa.pdf", $spreadsheet);
-    telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);
+    //telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);
+    ecriture($spreadsheet);
 }
-
-creerPvJury(1,1);
 
 function remplirAdmission($db, $sheet, $semestre, $annee, $nbEtud, $debut, $num, $type, $adm)
 {
@@ -638,30 +641,9 @@ function ecriture($spreadsheet)
     $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
     $writer->save('php://output');
 }
-<<<<<<< HEAD
-?>
-=======
 
 function test($spreadsheet)
 {
     $writer = new \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf($spreadsheet);
     $writer->save("php://output");
-}
-
-function telechargerPdf($nomfichier, $spreadsheet)
-{
-    // Créer un nouvel objet Dompdf
-    $dompdf = new Dompdf();
-
-    // Convertir le fichier Excel en PDF
-    $dompdfWriter = new DompdfWriter($spreadsheet);
-    $dompdfWriter->save('temp.pdf');
-
-    // Charger le PDF généré par PhpOffice dans Dompdf
-    $dompdf->loadHtml(file_get_contents('temp.pdf'));
-
-    // Rendre le PDF
-    $dompdf->render();
-
-    file_put_contents($nomfichier, $dompdf->output());
 }

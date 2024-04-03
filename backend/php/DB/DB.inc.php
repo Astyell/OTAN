@@ -209,7 +209,7 @@ class DB
 		$requete = 'select c.* 
 					from competence c 
 					join semestre s on c.id_semestre = s.id_semestre 
-					where c.id_semestre = ? and id_annee = ?';
+					where c.id_semestre = ? and c.id_annee = ?';
 		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'Competence');
 	}
@@ -294,7 +294,7 @@ class DB
 	{
 		$requete = 'select e.* from etusem e 
 					join semestre s on e.id_semestre = s.id_semestre
-					where e.id_semestre = ? and id_annee = ?';
+					where e.id_semestre = ? and e.id_annee = ?';
 		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'EtuSem');
 	}
@@ -322,7 +322,7 @@ class DB
 		$requete = 'select n.* 
 					from notecomp n join competence c on n.id_competence = c.id_competence 
 					join semestre s on s.id_semestre = c.id_semestre 
-					where c.id_semestre = ? and id_annee = ?';
+					where c.id_semestre = ? and c.id_annee = ?';
 		$tparam = array($semestre, $annee);
 		return $this->execQuery($requete, $tparam, 'NoteComp');
 	}
