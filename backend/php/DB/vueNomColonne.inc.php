@@ -14,16 +14,18 @@ class vueNomColonne
 
 	private String 	$id_competence;
 	private String	$id_ressource;
+	private float	$coefr;
 
 
 	/* -------------------------------------- */
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($iC="",$iR="") 
+	public function __construct($iC="",$iR="",$cR=0.00) 
 	{
 		$this->id_competence 	= $iC;
 		$this->id_ressource 	= $iR;
+		$this->coefr 			= $cR;
 	}
 
 	/* -------------------------------------- */
@@ -32,6 +34,7 @@ class vueNomColonne
 
 	public function getCompetence	() { return $this->id_competence;}
 	public function getRessource	() { return $this->id_ressource;}
+	public function getCoef			() { return $this->coefr;}
 
 	/* -------------------------------------- */
 	/*                 Méthode                */

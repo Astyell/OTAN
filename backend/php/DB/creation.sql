@@ -41,7 +41,9 @@ CREATE TABLE competence(
    FOREIGN KEY(id_semestre,id_annee) REFERENCES semestre(id_semestre,id_annee)
 );
 
-CREATE TABLE identifiant(
+CREATE TABLE identifiant
+(
+   id SERIAL,
    identifiant VARCHAR(50),
    mdp VARCHAR(50) NOT NULL,
    estAdmin BOOL NOT NULL,
@@ -110,5 +112,5 @@ CREATE TABLE resCom(
    FOREIGN KEY(id_competence) REFERENCES competence(id_competence)
 );
 
-INSERT INTO identifiant VALUES ('admin', '0ab1c08d8e5ab67ba2d800707dacade52b36ffee' , true );
-INSERT INTO identifiant VALUES ('user' , 'c04d6802b955449841f14bfd926b3fa6001c2d2a' , false);
+INSERT INTO identifiant (identifiant, mdp, estAdmin) VALUES ('admin', '0ab1c08d8e5ab67ba2d800707dacade52b36ffee' , true );
+INSERT INTO identifiant (identifiant, mdp, estAdmin) VALUES ('user' , 'c04d6802b955449841f14bfd926b3fa6001c2d2a' , false);
