@@ -50,9 +50,9 @@
 
         $db = DB::getInstance();
         $lstAnn = $db->getAllAnnee();
-        $lstsem = $db->getAllSemestre();
+        $lstSem = $db->getAllSemestre();
         sort($lstAnn);
-        sort($lstsem);
+        sort($lstSem);
 		
 	?>
 	
@@ -67,7 +67,7 @@
             echo "<select name=\"fichier\">";
             foreach ($lstAnn as $annee) {
                 echo "<optgroup label=".$annee->getId_annee().">\n";
-                foreach ($lstsem as $semestre) {
+                foreach ($lstSem as $semestre) {
                     if ($semestre->getId_annee()==$annee)
                     {
                         echo "<option value='".$annee->getId_annee().$semestre->getId_semestre()."_Jury"."'>".$annee->getId_annee()."_S".$semestre->getId_semestre()."_Jury"."</option>\n";
@@ -84,15 +84,10 @@
 		</form>
 	</div>
 	
-	
 	<div class="visu"> 
-		
 		<?php
-
 			if (!isset($_GET['fichier'])) { echo "<p class='vide'> Aucun fichier sélectionné pour le moment </p> " ; }
-
 		?>
-
 	</div>
 	
 	

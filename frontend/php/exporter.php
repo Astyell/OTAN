@@ -1,6 +1,6 @@
 <?php
 	include ("fctAux.inc.php");
-    session_start();
+	session_start();
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 	require '../../backend/php/modele/createurFichier.php';
@@ -21,11 +21,11 @@
 		header('Location: visualisation.php');
 		exit();
 	}
-    iset();
+	iset();
 	enTete1_2();
 	echo "<link rel='stylesheet' href='../css/header.css' type='text/css' />\n";
 	echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css' />\n";
-    echo "<link rel='stylesheet' href='../css/footer.css' type='text/css' />\n";
+	echo "<link rel='stylesheet' href='../css/footer.css' type='text/css' />\n";
 	echo "<title>O.T.A.N. - Exporter</title>";
 	enTete2_2();
 	// Afficher le header en fonction de l'utilisateur
@@ -37,13 +37,16 @@
 	echo "<br>\n";
 	$db = DB::getInstance();
 	$lstAnn = $db->getAllAnnee();
+	$lstSem = $db->getAllSemestre();
+	sort($lstAnn);
+	sort($lstSem);
 	echo "<section class=\"encad\">\n";
-	genererTableau($lstAnn);
+	genererTableau($lstAnn, $lstSem);
 	echo "</section>\n";
 	echo "<br>\n";
 	pied();
 
-    function iset()
+	function iset()
 	{
 		$anneeChoisie = 0;
 		if(isset($_POST['valider'])) {
@@ -58,7 +61,7 @@
 					if(isset($_POST['jury_'.$i.'_'.$j])) {
 						echo 'jury_'.$i.'_'.$j;
 						echo "<br>\n";
-                        if( $j==0 ) { creerPvJury($i,$anneeChoisie); }
+						if( $j==0 ) { creerPvJury($i,$anneeChoisie); }
 					}
 				}
 			}
@@ -70,14 +73,14 @@
 		}
 	}
 
-	function genererTableau($lstAnn)
+	function genererTableau($lstAnn, $lstSem)
 	{
+		echo "<p> Veillez exporter les fichier un par un. </p>";
 		echo "<form method='post' action=''>\n";
 		echo "<label for=\"annee\">Sélectionner une année :</label>";
 		echo "<select name=\"annee\">";
 		foreach ($lstAnn as $annee) {
 			echo "<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
-
 		}
 		echo "</select><br><br>";
 
@@ -98,6 +101,7 @@
 			}
 			echo "</tr>\n";
 		}
+
 		echo "<tr>\n";
 		echo "<tr >\n<th COLSPAN=2>Autre</th >  \n<th >Word</th > \n<th >PDF</th >\n</tr>\n";
 		echo "<td COLSPAN=2>Avis de poursuite d'étude</td>\n";
@@ -112,3 +116,29 @@
 	}
 	
 ?>
+
+<script>
+	const checkboxes = document.querySelectorAll('.caseC');
+
+	checkboxes.forEach(checkbox => {
+		checkbox.addEventListener('change', function() {
+			if (this.checked) {
+			// Désactivez toutes les autres cases et mettez en évidence la case cochée
+			checkboxes.forEach(cb => {
+				if (cb !== this) {
+					cb.disabled = true;
+					cb.parentElement.classList.remove('checked'); // Supprimer la classe 'checked' des autres cases
+				}
+			});
+			this.parentElement.classList.add('checked'); // Ajouter la classe 'checked' à la case cochée
+			} else {
+				// Réactivez toutes les cases et supprimez la classe 'checked'
+				checkboxes.forEach(cb => {
+					cb.disabled = false;
+					cb.parentElement.classList.remove('checked');
+				});
+			}
+		});
+	});
+
+</script>
