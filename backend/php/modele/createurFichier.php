@@ -5,9 +5,6 @@ ini_set('display_errors', 1);
 $chemin = (__DIR__ . "/../DB/DB.inc.php");
 require $chemin;
 
-
-//require 'lecteurFichier.php';
-
 require 'vendor/autoload.php';
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -16,9 +13,7 @@ use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
 
-//creerPvComm(1,1);
-
-//TODO: mettre coeff et changer date ??
+//TODO: mettre coeff 
 
 /**************/
 /* COMMISSION */
@@ -185,12 +180,6 @@ function creerPvComm($semestre, $annee)
     telecharger("PV Commission S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);//manque mois et année
 }
 
-
-//creerPvJury(1, 1);
-creerPvJury(2, 1);
-
-//TODO:Finir les différents semestres
-
 /**************/
 /*    JURY    */
 /**************/
@@ -246,77 +235,110 @@ function creerPvJury($semestre, $annee)
             $sheet->setCellValue('E' . $ligne, 'A'); //TODO: tkt parcours = A
             $sheet->setCellValue('F' . $ligne, $cursus);
 
-            if($semestre == 1)
-            {
-                ajouterUE($sheet, $etud, $semestre, $ligne, 'O');
+            switch ($semestre) {
+                case 1 : 
+                case 3 : $colUe = 'M'; break;
+                case 5 : $colUe = 'S'; break;
+                default: $colUe = 'G'; break;
             }
-
-            if($semestre == 2)
-            {
-                ajouterUE($sheet, $etud, $semestre, $ligne, 'G');
-            }
-
-            
+            ajouterUE($sheet, $etud, $semestre, $ligne, $colUe);
             
             $ligne++;
         } 
     }
 
-    $nbAnnee = ceil($semestre/2);//= 1, 2 ou 3
+    $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
+   
+    $sheet->getStyle('A8:'. Coordinate::stringFromColumnIndex($lastCol) . (8 + count($etudiants)))->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
 
     //semestre 1
     if($semestre == 1)
     {
-        //nom colonne ancien semestre
-        ajouterC($sheet, 1, 'G', 'L');
+        $sheet->setCellValue('M8', "UEs");
+        $sheet->setCellValue('N8', "Moy");
 
-        //Nom des colonnes de ce semestre
-        $nomComp = $db->getAllCompetenceWithSem($semestre, $annee);
-
-        $j = 'M';
-        $sheet->setCellValue($j . 8, "UEs");
-        $sheet->setCellValue(++$j . 8, "Moy");
-        foreach($nomComp as $nom)
-        {
-            $sheet->setCellValue(++$j . 8, $nom->getId_competence());
-        }
-
-        remplirNote($db, $sheet, $semestre, $annee);
+        remplirAdmission($db, $sheet, $semestre, $annee, $nbEtud, 'O', 1, 1, 1);
+        
+        ajouterC($sheet, 1, 'G', 'L', $nbEtud);
     }
     
+    //semestre 3
+    if($semestre == 3)
+    {
+        $sheet->setCellValue('M8', "UEs");
+        $sheet->setCellValue('N8', "Moy");
+
+        remplirAdmission($db, $sheet, $semestre, $annee, $nbEtud, 'O', 2, 1, 1);
+        remplirAdmission($db, $sheet, $semestre - 1, $annee, $nbEtud, 'G', 1, 0, 0);
+
+        ajouterC($sheet, 1, 'G', 'L', $nbEtud);
+    }
+
+    //semestre 5
+    if($semestre == 5)
+    {
+        //Yo moi
+        $sheet->setCellValue('S8', "UEs");
+        $sheet->setCellValue('T8', "Moy");
+
+        remplirAdmission($db, $sheet, $semestre, $annee, $nbEtud, 'U', 2, 1, 1);
+        remplirAdmission($db, $sheet, $semestre - 1, $annee, $nbEtud, 'G', 1, 0, 0);
+        remplirAdmission($db, $sheet, $semestre - 3, $annee, $nbEtud, 'M', 1, 0, 0);
+
+        ajouterC($sheet, 1, 'G', 'L', $nbEtud);
+        ajouterC($sheet, 2, 'M', 'R', $nbEtud);
+    }
+
+
     //semestre 2
     if($semestre == 2)
     {
-        //nom colonne ancien semestre
-        ajouterC($sheet, 1, 'H', 'M');
-
-        //Nom des colonnes de ce semestre
-        $nomComp = $db->getAllCompetenceWithSem($semestre, $annee);
-        $nomComp2 = $db->getAllCompetenceWithSem($semestre - 1, $annee);
-
         $sheet->setCellValue('G8', "RCUEs");
         $sheet->setCellValue('N8', "Moy");
 
-        $j = 'N';
-        for($i = 0; $i < count($nomComp); $i++)
-        {
-            $sheet->setCellValue(++$j . 8, $nomComp2[$i]->getId_competence() . $nomComp[$i]->getId_competence());
-        }
-
-        remplirNote($db, $sheet, $semestre, $annee);
-
-        remplirMoyPair($sheet, $nbEtud, count($nomComp), 'N');
+        remplirAdmission($db, $sheet,  $semestre, $annee, $nbEtud, 'O', 1, 0, 1);
+        setPassageAnnee($sheet, 'U', 'G', $nbEtud);
         
+        ajouterC($sheet, 1, 'H', 'M', $nbEtud);
 
+        remplirMoyPair($sheet, $nbEtud, 6, 'N');
     }
 
+    //semestre 4
+    if($semestre == 4)
+    {
+        $sheet->setCellValue('G8', "RCUEs");
+        $sheet->setCellValue('T8', "Moy");
+ 
+        remplirAdmission($db, $sheet, $semestre, $annee, $nbEtud, 'U', 2, 0, 1);
+        remplirAdmission($db, $sheet,  $semestre - 2, $annee, $nbEtud, 'H', 1, 0, 0);
 
+        setPassageAnnee($sheet, 'AA', 'G', $nbEtud);
+        
+        ajouterC($sheet, 1, 'H', 'M', $nbEtud);
+        ajouterC($sheet, 2, 'N', 'S', $nbEtud);
+        
+        remplirMoyPair($sheet, $nbEtud, 6, 'T');
+    }
 
+    //semestre 6
+    if($semestre == 6)
+    {
+        $sheet->setCellValue('G8', "RCUEs");
+        $sheet->setCellValue('W8', "Moy");
+ 
+        remplirAdmission($db, $sheet, $semestre, $annee, $nbEtud, 'X', 2, 0, 1);
+        remplirAdmission($db, $sheet,  $semestre - 2, $annee, $nbEtud, 'N', 1, 0, 0);
+        remplirAdmission($db, $sheet,  $semestre - 4, $annee, $nbEtud, 'H', 1, 0, 0);
 
-    $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
-   
-    // Appliquer les bordures à la plage de cellules
-    $sheet->getStyle('A8:'. Coordinate::stringFromColumnIndex($lastCol) . (9 + count($etudiants)))->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_THIN);
+        setPassageAnnee($sheet, 'AA', 'G', $nbEtud);
+        
+        ajouterC($sheet, 1, 'H', 'M', $nbEtud);
+        ajouterC($sheet, 2, 'N', 'S', $nbEtud);
+        ajouterC($sheet, 2, 'T', 'V', $nbEtud, 3);
+        
+        remplirMoyPair($sheet, $nbEtud, 3, 'W');
+    }
 
     // Ajuster automatiquement la largeur des colonnes en fonction du contenu
     for ($col = 1; $col <= $lastCol; $col++) 
@@ -328,19 +350,49 @@ function creerPvJury($semestre, $annee)
     telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);
 }
 
+function remplirAdmission($db, $sheet, $semestre, $annee, $nbEtud, $debut, $num, $type, $adm)
+{
+    if($type == 0)
+    {
+        $nomComp = $db->getAllCompetenceWithSem($semestre, $annee);
+        $nomComp2 = $db->getAllCompetenceWithSem($semestre - 1, $annee);
+    
+        $j = $debut;
+        for($i = 0; $i < count($nomComp); $i++)
+        {
+            $sheet->setCellValue($j++ . 8, $nomComp2[$i]->getId_competence() . $nomComp[$i]->getId_competence());
+        }
+        remplirNote($db, $sheet, $semestre, $annee, $nbEtud, $adm);
+    
+    }
+    else
+    {
+        $nomComp = $db->getAllCompetenceWithSem($semestre, $annee);
+
+        $j = $debut;
+        foreach($nomComp as $nom)
+        {
+            $sheet->setCellValue($j++ . 8, $nom->getId_competence());
+        }
+        remplirNote($db, $sheet, $semestre, $annee,  $nbEtud, $adm);
+    }
+}
+
 function ajouterUE($sheet, $etud, $semestre, $ligne, $colUE)
 {
     if($semestre % 2 == 1)
     {
         $sheet->setCellValue($colUE . $ligne, $etud->getUE());
-        $sheet->setCellValue(($colUE + 1) . $ligne, $etud->getMoy());
+        $sheet->setCellValue(Coordinate::stringFromColumnIndex(Coordinate::columnIndexFromString($colUE)+1) . $ligne, $etud->getMoy());
 
         //ajouter couleur
         switch (true) 
         {
+            case ( strstr($etud->getUE(), '3/3')):
             case ( strstr($etud->getUE(), '6/6')):  $couleur = '00FF00'; break;
+            case ( strstr($etud->getUE(), '0/3')):
             case ( strstr($etud->getUE(), '0/6')):  $couleur = 'FF0000'; break;
-            default:            $couleur = 'FFFF00'; break;
+            default:                                $couleur = 'FFFF00'; break;
         }
         $sheet->getStyle($colUE . $ligne)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB($couleur); 
     }
@@ -351,21 +403,36 @@ function ajouterUE($sheet, $etud, $semestre, $ligne, $colUE)
         //ajouter couleur
         switch (true) 
         {
+            case ( strstr($etud->getUE(), '3/3')):
             case ( strstr($etud->getUE(), '6/6')):  $couleur = '00FF00'; break;
+            case ( strstr($etud->getUE(), '0/3')):
             case ( strstr($etud->getUE(), '0/6')):  $couleur = 'FF0000'; break;
-            default:            $couleur = 'FFFF00'; break;
+            default:                                $couleur = 'FFFF00'; break;
         }
         $sheet->getStyle($colUE . $ligne)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB($couleur); 
     }
 }
 
-function ajouterC($sheet, $num, $colDebut, $fin)
+function ajouterC($sheet, $num, $colDebut, $fin, $nbEtud, $nbComp = 6)
 {
-
     $sheet->mergeCells($colDebut . '7:' . $fin . '7');
     $sheet->setCellValue($colDebut . 7, "Compétences BUT " . $num );
 
-    for($i = 1; $i < 7; $i++)
+    $borderStyle = [
+        'borders' => [
+            'outline' => [
+                'borderStyle' => Border::BORDER_MEDIUM,
+                'color' => ['argb' => '000000'],
+            ],
+        ],
+    ];
+
+    $plageCellules = $colDebut . '8:' . $fin . ($nbEtud+8);
+    $sheet->getStyle($plageCellules)->applyFromArray($borderStyle);
+
+    $sheet->getStyle($colDebut . '7' )->getBorders()->getAllBorders()->setBorderStyle(Border::BORDER_MEDIUM);
+
+    for($i = 1; $i < $nbComp + 1; $i++)
     {
         $sheet->setCellValue($colDebut++ . 8, "C" . $i);
     }
@@ -379,20 +446,20 @@ function remplirMoyPair($sheet, $nbEtud, $nbNote, $start)
         $j = $start;
         for($y=0; $y < $nbNote; $y++)
         {
-            $total += $sheet->getCell(++$j . ($i + 9))->getValue();
+            $total += (int)($sheet->getCell(++$j . ($i + 9))->getValue());
         }
         $sheet->setCellValue($start. ($i + 9), number_format($total/$nbNote, 2));
     }
 }
 
-function remplirNote($db, $sheet, $semestre, $annee)
+function remplirNote($db, $sheet, $semestre, $annee, $nbEtud, $adm=1)
 {
     if($semestre % 2 == 1)
     {
         $noteComp = $db->getAllNoteCompWithSem($semestre, $annee);
         foreach ($noteComp as $note) 
         {
-            for($x = 9; $x < 150; $x++)
+            for($x = 9; $x < $nbEtud + 9; $x++)
             {
                 if( $sheet->getCell('A' . $x)->getValue() != null)
                 {
@@ -437,13 +504,13 @@ function remplirNote($db, $sheet, $semestre, $annee)
                 if(strstr($note->getN_Etud(), $note2->getN_Etud() ) )
                 {
                     $division = ($note->getMoy_UE() + $note2->getMoy_UE())/2;
-                    for($x = 9; $x < 150; $x++)
+                    for($x = 9; $x < $nbEtud + 9; $x++)
                     {
                         if( $sheet->getCell('A' . $x)->getValue() != null)
                         {
                             $tudiant = $db->getEtudiant( "'" . $sheet->getCell('A' . $x)->getValue() . "'" );
                             
-                            if( strstr($note->getN_Etud(), $tudiant[0]->getN_Ip() ) )
+                            if(strstr($note->getN_Etud(), $tudiant[0]->getN_Ip() ) )
                             {
                                 $lastCol = Coordinate::columnIndexFromString($sheet->getHighestDataColumn());
             
@@ -460,11 +527,23 @@ function remplirNote($db, $sheet, $semestre, $annee)
                                             case ($division > 10): $couleur = '00FF00'; break;
                                             case ($division > 8):  $couleur = 'FFFF00'; break;
                                             case ($division > 0):  $couleur = 'FF0000'; break;
-                                            default:                        $couleur = 'FFFFFF'; break;
+                                            default:               $couleur = 'FFFFFF'; break;
                                         }
                                         $sheet->getStyle($currentCol . $x)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB($couleur); 
+
+                                        if($adm == 1)
+                                        {
+                                            $test = $db->getAllCompetenceWithSem($semestre, $annee);
+                                            setAdmissionComp($note->getMoy_UE(), $note2->getMoy_UE(), $x, Coordinate::stringFromColumnIndex($col - (count($test) + 1)), $sheet);
+                                        }
+                                        else
+                                        {
+                                            setAdmissionComp($note->getMoy_UE(), $note2->getMoy_UE(), $x, $currentCol, $sheet);
+                                        }
+                                        break;
                                     }
                                 }
+                                break;
                             }
                         }
                     }
@@ -472,6 +551,68 @@ function remplirNote($db, $sheet, $semestre, $annee)
             }
         }
     }
+}
+
+
+function setPassageAnnee($sheet, $colonne, $colUes, $nbEtud)
+{
+    $sheet->setCellValue($colonne . 7, "Année" ); 
+    $sheet->setCellValue($colonne . 8, "Décision" ); 
+
+    for($i = 9; $i < $nbEtud + 9; $i++)
+    {
+        $ues = $sheet->getCell($colUes . $i)->getValue();
+        switch ($ues) 
+        {
+            case "3/3":
+            case "6/6": $admission = 'ADM'; $couleur = '00FF00'; break;
+            case "5/6":
+            case "4/6": $admission = 'PASD'; $couleur = 'FFFFFF'; break;
+            //case "0/6": $admission = 'AJ'; $couleur = 'FF0000'; break;
+            default   : $admission = 'NAR'; $couleur = 'FF0000'; break;
+        }
+
+        
+        $sheet->setCellValue($colonne . $i, $admission ); 
+        $sheet->getStyle($colonne . $i)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB($couleur); 
+    }
+
+    $borderStyle = [
+        'borders' => [
+            'outline' => [
+                'borderStyle' => Border::BORDER_MEDIUM,
+                'color' => ['argb' => '000000'],
+            ],
+        ],
+    ];
+
+    $plageCellules = $colonne . '7:' . $colonne . ($nbEtud+8);
+    $sheet->getStyle($plageCellules)->applyFromArray($borderStyle);
+}
+
+function setAdmissionComp($noteSem1, $noteSem2, $ligne, $colonne, $sheet)
+{
+    $admission = "ADM";
+    if($noteSem1 < 10 || $noteSem2 < 10)
+    {
+        $admission = "CMP";
+    }
+    if( ($noteSem1 + $noteSem2) /2  < 10)
+    {
+        $admission = "AJ";
+    }
+
+    $sheet->setCellValue($colonne . $ligne, $admission ); 
+    //ajouter couleur
+    switch ($admission) 
+    {
+        case "ADM": 
+        case "CMP":  $couleur = '00FF00'; break;
+        case "AJ" :  $couleur = 'FF0000'; break;
+        default:     $couleur = 'FFFFFF'; break;
+    }
+    $sheet->getStyle($colonne . $ligne)->getFill()->setFillType(\PhpOffice\PhpSpreadsheet\Style\Fill::FILL_SOLID)->getStartColor()->setARGB($couleur); 
+
 }
 
 
