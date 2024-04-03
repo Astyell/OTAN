@@ -35,6 +35,7 @@
 	<meta charset='UTF-8'>
 	<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'/>
 	<link rel='stylesheet' href='../css/visualisation.css' type='text/css' />
+	<link rel='stylesheet' href='../css/visuTest.css' type='text/css' />
 	<link rel='stylesheet' href='../css/header.css' type='text/css' />
 	<link rel='stylesheet' href='../css/footer.css' type='text/css' />
 	<title>O.T.A.N. - Visualisation</title>
@@ -93,7 +94,14 @@
 		</form>
 	</div>
 	
-	<div class="visu"> 
+	<?php
+
+		isset($_GET['fichier']) ? $class = "affiche" : $class = "visu";
+	
+	?>
+	
+	<div class="<?php echo $class;?>"> 
+		
 		<?php
 			if (!isset($_GET['fichier'])) { echo "<p class='vide'> Aucun fichier sélectionné pour le moment </p> " ; }
 			else
@@ -104,11 +112,11 @@
 
 				if ($fichier[2] == "Jury")
 				{
-					
+					afficheJury($fichier[1], $fichier[0]);
 				}
 				else
 				{
-
+					affichePvCommission($fichier[1], $fichier[0]);
 				}
 			}
 
