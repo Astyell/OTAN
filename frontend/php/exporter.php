@@ -25,7 +25,7 @@
 	echo "<link rel='stylesheet' href='../css/header.css' type='text/css' />\n";
 	echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css' />\n";
     echo "<link rel='stylesheet' href='../css/footer.css' type='text/css' />\n";
-	echo "<title>Exporter</title>";
+	echo "<title>O.T.A.N. - Exporter</title>";
 	enTete2_2();
 	// Afficher le header en fonction de l'utilisateur
 	if ($droit) { incHeaderAdmin(); }
