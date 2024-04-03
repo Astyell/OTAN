@@ -2,8 +2,11 @@
 	/** avis.php
 	* @author  : Alizéa Lebaron, Sébastien Champvillard
 	* @since   : 27/03/2024
-	* @version : 1.2.0 - 02/04/2024
+	* @version : 1.2.1 - 02/04/2024
 	*/
+
+	// Reload la page à chaque fois pour les images
+	header("Cache-Control: no-cache, must-revalidate");
 
 	// Affichage des erreurs
 	error_reporting(E_ALL);
