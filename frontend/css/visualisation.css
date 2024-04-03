@@ -1,7 +1,7 @@
 /** 
  * @author  : Justine BONDU, Alizéa LEBARON
  * @since   : 27/03/2024
- * @version : V1.1.0 - 29/03/2024
+ * @version : V1.1.1 - 03/02/2024
  */
 
 /* -------------------------------------------------------- */
@@ -30,6 +30,20 @@ html, body
 .select form
 {
     margin: 0 auto;
+}
+
+.visu
+{
+    height: 75vh;
+    display: flex; /* Utiliser le modèle de boîte flexible */
+    justify-content: center; /* Centrer horizontalement */
+    align-items: center; /* Centrer verticalement */
+}
+
+.vide
+{
+    text-align: center;
+    
 }
 
 

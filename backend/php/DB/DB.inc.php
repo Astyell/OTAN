@@ -449,6 +449,18 @@ class DB
 		return $this->execQuery($requete, $tparam, 'vueMoyCompetence');
 	}
 
-}
+	public function getCompetencesForSemestre($numSemestre) {
+        $requete = 'SELECT id_competence FROM competence WHERE id_semestre = ?';
+        $tparam = array($numSemestre);
+        return $this->execQuery($requete, $tparam, 'Competence');
+    }
 
+    public function getGradeForEtuAndCompetence($n_Etud, $id_competence) {
+        $requete = 'SELECT moy_ue FROM notecomp WHERE n_etud = ? AND id_competence = ?';
+        $tparam = array($n_Etud, $id_competence);
+        return $this->execQuery($requete, $tparam, 'NoteComp');
+    }
+
+	
+}
 ?>

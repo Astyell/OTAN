@@ -180,7 +180,6 @@ function creerPvComm($semestre, $annee)
     telecharger("PV Commission S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);//manque mois et année
 }
 
-
 /**************/
 /*    JURY    */
 /**************/
@@ -622,11 +621,9 @@ function telecharger($nomfichier, $spreadsheet)
 {
     //Téléchargement fichier
     $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="'.$nomfichier.'"');
     header('Cache-Control: max-age=0');
-
     $writer->save('php://output');
 }
 

@@ -36,6 +36,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="../css/avis.css">
+	<link rel='stylesheet' href='../css/footer.css' type='text/css' />
 	<link rel="stylesheet" href="../css/header.css">
 	<title>O.T.A.N. - Avis de Poursuite d'Études</title>
 </head>
@@ -43,8 +44,9 @@
 <body>
 
 	<?php
-		//Ajout du header 
-		incHeaderAdmin();
+		// Afficher le header en fonction de l'utilisateur
+		if ($droit) { incHeaderAdmin(); }
+		else        { incHeaderUser (); }
 
 		// Ajout de la modification
 
@@ -380,11 +382,14 @@
 	</div>
 
 	<?php
-	pied();
+		pied();
 	?>
 
 	<script src="../js/avis.js"></script>
 
 </body>
 
+<?php
+pied();
+?>
 </html>
