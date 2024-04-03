@@ -53,7 +53,7 @@
 	<section class="encad">
 
 		<?php
-			corps($lstAnn);
+			genererTableau($lstAnn);
 		?>
 
 	</section>

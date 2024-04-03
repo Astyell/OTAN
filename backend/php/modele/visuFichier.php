@@ -293,7 +293,7 @@ function afficheJury($numSemestre,$annee)
 	if ($pair) { $oCompetences = $db->getCompetencesForSemestre($numSemestre-1);} // 2-1 = 1 
 	else 	   { $oCompetences = $db->getCompetencesForSemestre($numSemestre+1);} // 1+1 = 2
 
-    echo "<link rel=\"stylesheet\" href=\"../../../frontend/css/visuTest.css\">";
+    
     echo "<table class=\"tableJury\">";
 
 	if ($numSemestre > 1)
@@ -359,7 +359,6 @@ function affichePvCommission($numSemestre,$annee)
 		echo "<b>Erreur : Il faut choisir le semestre 1,3 ou 5</b>";
 		return;
 	}	
-	echo "<link rel=\"stylesheet\" href=\"../../../frontend/css/visuTest.css\">";
 
 	echo "<div class=\"Titre\">";
 	echo "<h1> Semestre $numSemestre - BUT INFO</h1>";
