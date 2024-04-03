@@ -12,14 +12,6 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-//TODO: mettre coeff 
-
-
-//creerPvComm(1,2024);
-
-/*header('Location: ../../backend/php/modele/createurFichier.php');
-exit();*/
-
 $argument1 = $_COOKIE['pv'];
 $argument2 = $_COOKIE['semestre'];
 $argument3 = $_COOKIE['annee'];
@@ -92,6 +84,7 @@ function creerPvComm($semestre, $annee)
         }
         
         $sheet->setCellValue($colonne . $ligne, $nom->getRessource());
+        $sheet->setCellValue($colonne . ($ligne + 1), $nom->getCoef());
         
         //echo $comp . "  " .$nom->getRessource() . "<br>";
         $colonne++;
