@@ -623,7 +623,8 @@ function setAdmissionComp($noteSem1, $noteSem2, $ligne, $colonne, $sheet)
 
 }
 
-function telecharger($nomfichier, $spreadsheet)
+
+function telecharger($nomfichier)
 {
     //Téléchargement fichier
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
@@ -637,6 +638,9 @@ function ecriture($spreadsheet)
     $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
     $writer->save('php://output');
 }
+<<<<<<< HEAD
+?>
+=======
 
 function test($spreadsheet)
 {

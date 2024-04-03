@@ -29,15 +29,16 @@ CREATE TABLE annee(
 CREATE TABLE semestre(
    id_semestre INT,
    id_annee INT NOT NULL,
-   PRIMARY KEY(id_semestre),
+   PRIMARY KEY(id_semestre,id_annee),
    FOREIGN KEY(id_annee) REFERENCES annee(id_annee)
 );
 
 CREATE TABLE competence(
    id_competence VARCHAR(50),
    id_semestre INT,
+   id_annee INT,
    PRIMARY KEY(id_competence),
-   FOREIGN KEY(id_semestre) REFERENCES semestre(id_semestre)
+   FOREIGN KEY(id_semestre,id_annee) REFERENCES semestre(id_semestre,id_annee)
 );
 
 CREATE TABLE identifiant(
@@ -50,13 +51,15 @@ CREATE TABLE identifiant(
 CREATE TABLE ressource(
    id_ressource VARCHAR(50),
    id_semestre INT NOT NULL,
+   id_annee INT,
    PRIMARY KEY(id_ressource),
-   FOREIGN KEY(id_semestre) REFERENCES semestre(id_semestre)
+   FOREIGN KEY(id_semestre,id_annee) REFERENCES semestre(id_semestre,id_annee)
 );
 
 CREATE TABLE etuSem(
    n_Etud VARCHAR(50),
    id_semestre INT,
+   id_annee INT,
    TP VARCHAR(50) NOT NULL,
    TD VARCHAR(50),
    nbAbsInjust VARCHAR(50),
@@ -67,7 +70,7 @@ CREATE TABLE etuSem(
    alternant BOOL,
    PRIMARY KEY(n_Etud, id_semestre),
    FOREIGN KEY(n_Etud) REFERENCES etudiant(n_Etud),
-   FOREIGN KEY(id_semestre) REFERENCES semestre(id_semestre)
+   FOREIGN KEY(id_semestre,id_annee) REFERENCES semestre(id_semestre,id_annee)
 );
 
 CREATE TABLE noteComp(
