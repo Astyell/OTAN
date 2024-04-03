@@ -10,3 +10,8 @@ table,tr,td{
 .rouge { 
 	background-color: lightcoral;
 }
+
+.Cursus{
+	min-width: 21ch;
+}
+
