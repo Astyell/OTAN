@@ -84,7 +84,7 @@
 				if (isset($_FILES['logo2']      ['tmp_name'])) { downloadImage ("logo2");       }  
 				if (isset($_FILES['signChefDep']['tmp_name'])) { downloadImage ("signChefDep"); }
 
-				
+
 			}
 		}
 
@@ -391,7 +391,4 @@
 
 </body>
 
-<?php
-pied();
-?>
 </html>
