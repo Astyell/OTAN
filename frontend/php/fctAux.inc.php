@@ -14,6 +14,7 @@ function incHeaderAdmin ()
             '<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>' .
             '<li><img src="../img/icone/import.png" alt="import">         <a href="choixFichier.php">Importer</a></li>' . 
             '<li><img src="../img/icone/export.png" alt="export">         <a href="exporter.php">Exporter</a></li>' .
+            '<li><img src="../img/icone/export.png" alt="user">         <a href="utilisateur.php">Utilisateurs</a></li>' .
             '<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude"><a href="avis.php">Fiche poursuite d\'étude</a></li>' .
             '<li><img src="../img/icone/power.png"  alt="deconnexion">    <a href="deconnexion.php">Déconnexion</a></li>' .
         '</ul>' .
