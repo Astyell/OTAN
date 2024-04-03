@@ -187,7 +187,7 @@ function creerPvComm($semestre, $annee)
 
 
 //creerPvJury(1, 1);
-creerPvJury(2, 1);
+//creerPvJury(2, 1);
 
 //TODO:Finir les différents semestres
 
