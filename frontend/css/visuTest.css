@@ -1,12 +1,27 @@
-table,tr,td{
+table,tr,td
+{
 	border: 1px solid black;
 	border-collapse: collapse;
 }
 
-.vert { 
+.vert 
+{ 
 	background-color: lightgreen;
 }
 
-.rouge { 
+.rouge 
+{ 
 	background-color: lightcoral;
+}
+
+.Cursus
+{
+	min-width: 21ch;
+}
+
+.Titre
+{
+	float: left;	
+	text-align: center;
+	margin-left: 35%;
 }

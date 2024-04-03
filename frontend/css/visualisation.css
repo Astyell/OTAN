@@ -32,6 +32,14 @@ html, body
     margin: 0 auto;
 }
 
+.visu, .affiche
+{
+    max-width: 100%; /* Largeur maximale de la div */
+    max-height: 85vh;
+    overflow-x: auto; /* Défilement horizontal */
+    overflow-y: auto; /* Défilement horizontal */
+}
+
 .visu
 {
     height: 75vh;
@@ -40,10 +48,19 @@ html, body
     align-items: center; /* Centrer verticalement */
 }
 
+.affiche
+{
+    margin: 2vh 0vh;  
+}
+
+.affiche table
+{
+    margin: 0 auto;
+}
+
 .vide
 {
     text-align: center;
-    
 }
 
 

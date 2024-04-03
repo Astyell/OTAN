@@ -13,7 +13,7 @@ class etuRes
 	/* -------------------------------------- */
 
 	private string		$n_etud;
-	private int			$id_ressource;
+	private string		$id_ressource;
     private float		$moy;
 
 	/* -------------------------------------- */
@@ -23,7 +23,7 @@ class etuRes
 	public function __construct($nE="",$iR=-1,$m=0.0) 
 	{
 		$this->n_etud 			= $nE;
-		$this->id_competence	= $iR;
+		$this->id_ressource	    = $iR;
 		$this->moy 				= $m;
 	}
 
