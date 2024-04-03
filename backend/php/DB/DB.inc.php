@@ -422,7 +422,7 @@ class DB
 
 	public function getVueNomColonne($semestre, $annee)
 	{
-		$requete = 'select id_competence, r.id_ressource
+		$requete = 'select id_competence, r.id_ressource, coefr
 					from rescom r join ressource c on r.id_ressource = c.id_ressource 
 					join semestre a on a.id_semestre = c.id_semestre 
 					where c.id_semestre = ? and a.id_annee = ?
