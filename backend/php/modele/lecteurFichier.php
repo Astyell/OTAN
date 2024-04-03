@@ -190,5 +190,47 @@ function mettreDansDB($chemin_fichier, $annee1)
 }
 
 
+function mettreCoef($chemin_fichier)
+{
+	// Chemin vers le fichier Excel
+	$spreadsheet = IOFactory::load($chemin_fichier);
+
+	// Sélectionner la première feuille de calcul
+	$feuille = $spreadsheet->getActiveSheet();
+
+	// Récupérer les données de la feuille de calcul
+	$data = [];
+	foreach ($feuille->getRowIterator() as $row) 
+	{
+		$rowData = [];
+		foreach ($row->getCellIterator() as $cell) 
+		{
+			$rowData[] = $cell->getValue();
+		}
+		$data[] = $rowData;
+	}
+
+	$db = DB::getInstance();
+
+	for($i = 0; $i < count($data); $i++)
+	{
+		if($data[$i][0] != null)
+		{
+			$semestre = substr($data[$i][0], 4, 1);
+			
+			for($j = 0; $j < 6; $j++)
+			{
+				if($data[$i][3 + $j] != null)
+				{
+					//echo $data[$i][0] .   '   BIN' . $semestre . $j+1 . "  ". $data[$i][3 + $j] . "<br>";
+					$db->updateResCom($data[$i][0], 'BIN' . $semestre . ($j+1), $data[$i][3 + $j]);
+				}
+			}
+		}
+	}
+
+	echo "Coef mis dans la base de donnée";
+}
+
 ?>
 

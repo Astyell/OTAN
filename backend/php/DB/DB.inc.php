@@ -398,6 +398,13 @@ class DB
 		return $this->execMaj($requete, $tparam);
 	}
 
+	public function updateResCom($id_res, $id_com, $coef)
+	{
+		$requete = 'update rescom set coefr = ? where id_ressource = ? and id_competence = ?';
+		$tparam = array($coef, $id_res, $id_com);
+		return $this->execMaj($requete, $tparam);
+	}
+
 	/*-------------*/
 	/*  VUES       */
 	/*-------------*/
