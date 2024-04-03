@@ -21,6 +21,7 @@
 		header('Location: visualisation.php');
 		exit();
 	}
+    iset();
 	enTete1_2();
 	echo "<link rel='stylesheet' href='../css/header.css' type='text/css' />\n";
 	echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css' />\n";
@@ -37,14 +38,13 @@
 	$db = DB::getInstance();
 	$lstAnn = $db->getAllAnnee();
 	echo "<section class=\"encad\">\n";
-	corps($lstAnn);
+	genererTableau($lstAnn);
 	echo "</section>\n";
 	echo "<br>\n";
 	pied();
 
-	function corps($lstAnn)
+    function iset()
 	{
-		genererTableau($lstAnn);
 		$anneeChoisie = 0;
 		if(isset($_POST['valider'])) {
 			$anneeChoisie = $_POST['annee'];
@@ -58,6 +58,7 @@
 					if(isset($_POST['jury_'.$i.'_'.$j])) {
 						echo 'jury_'.$i.'_'.$j;
 						echo "<br>\n";
+                        if( $j==0 ) { creerPvJury($i,$anneeChoisie); }
 					}
 				}
 			}
@@ -67,8 +68,6 @@
 				}
 			}
 		}
-        echo "</body>\n";
-        echo "</html>\n";
 	}
 
 	function genererTableau($lstAnn)
