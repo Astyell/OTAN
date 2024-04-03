@@ -33,7 +33,6 @@
 	echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>\n";
 	echo "<link rel='stylesheet' href='../css/footer.css'  type='text/css' />\n";
 	echo "<title>O.T.A.N. - Exporter</title>\n";
-	
 	enTete2_2();
 
 	// Afficher le header en fonction de l'utilisateur
@@ -98,14 +97,14 @@
 
 	function genererTableau($lstAnn)
 	{
-		echo "<p> Veillez exporter les fichier un par un. </p>";
+		echo "<p> Veillez exporter les fichier un par un. </p>\n<br>\n";
 		echo "<form method='post' action=''>\n";
-		echo "<label for=\"annee\">Sélectionner une année :</label>";
-		echo "<select name=\"annee\">";
+		echo "<label for=\"annee\">Sélectionner une année :</label>\n";
+		echo "<select name=\"annee\">\n";
 		foreach ($lstAnn as $annee) {
 			echo "<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
 		}
-		echo "</select><br><br>";
+		echo "</select>\n<br><br>\n";
 
 		echo "<table >\n";
 		for ($i = 1; $i < 7; $i++) {
