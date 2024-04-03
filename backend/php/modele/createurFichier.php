@@ -12,12 +12,6 @@ use PhpOffice\PhpSpreadsheet\Style\Alignment;
 use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\Style\Border;
 
-require 'vendor2/autoload.php';
-
-use Dompdf\Dompdf;
-use PhpOffice\PhpSpreadsheet\Writer\Pdf\Dompdf as DompdfWriter;
-
-
 //TODO: mettre coeff 
 
 /**************/
