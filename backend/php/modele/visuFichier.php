@@ -51,7 +51,7 @@ function rechercheEtu($ne,$pe) : ?etudiant
 	return null;
 }
 
-function rechercheEtuSem($ne,$numSemestre) : etuSem
+function rechercheEtuSem($ne,$numSemestre) : ?etuSem
 {
 	global $etuSem;
 	
@@ -439,4 +439,4 @@ function affichePvCommission($numSemestre,$annee)
 	
 }
 
-affichePvCommission(3,1);
+affichePvCommission(3,2004);

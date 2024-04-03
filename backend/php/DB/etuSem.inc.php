@@ -14,6 +14,7 @@ class etuSem
 
 	private string		$n_etud;
     private int			$id_semestre;
+	private int 		$id_annee;
     private string		$tp;
     private string		$td;
 	private string		$nbabsinjust;
@@ -27,10 +28,11 @@ class etuSem
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($nE="",$iS=1,$tp="",$td="",$nai="",$naj="", $moy=1, $bon=1, $ue="", $alter=true ) 
+	public function __construct($nE="",$iS=1,$iA=1,$tp="",$td="",$nai="",$naj="", $moy=1, $bon=1, $ue="", $alter=true ) 
 	{
 		$this->n_etud 		= $nE;
 		$this->id_semestre 	= $iS;
+		$this->id_annee		= $iA; 
 		$this->tp 			= $tp;
         $this->td 			= $td;
 		$this->nbabsinjust 	= $naj;
@@ -47,6 +49,7 @@ class etuSem
 
 	public function getN_Etud		() { return $this->n_etud; }
 	public function getId_Semestre	() { return $this->id_semestre;}
+	public function getId_Annee		() { return $this->id_annee;}
 	public function getTP			() { return $this->tp; }
     public function getTD			() { return $this->td; }
 	public function getNbAbsJusti	() { return $this->nbabsjusti;}

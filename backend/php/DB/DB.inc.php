@@ -214,10 +214,10 @@ class DB
 		return $this->execQuery($requete, $tparam, 'Competence');
 	}
 
-	public function insertCompetence($id, $sem)
+	public function insertCompetence($id, $sem,$annee)
 	{
-		$requete = 'insert into competence values(?,?)';
-		$tparam = array($id, $sem);
+		$requete = 'insert into competence values(?,?,?)';
+		$tparam = array($id, $sem,$annee);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -273,10 +273,10 @@ class DB
 		return $this->execQuery($requete, null, 'Ressource');
 	}
 
-	public function insertRessource($id_res, $id_sem)
+	public function insertRessource($id_res, $id_sem,$id_ann)
 	{
-		$requete = 'insert into ressource values(?,?)';
-		$tparam = array($id_res, $id_sem);
+		$requete = 'insert into ressource values(?,?,?)';
+		$tparam = array($id_res, $id_sem,$id_ann);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -299,10 +299,10 @@ class DB
 		return $this->execQuery($requete, $tparam, 'EtuSem');
 	}
 
-	public function insertEtuSem($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
+	public function insertEtuSem($n_etud, $id_sem,$id_annee, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
 	{
-		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?)';
-		$tparam = array($n_etud, $id_sem, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, 0, $nb_UE, $altern);
+		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?,?)';
+		$tparam = array($n_etud, $id_sem,$id_annee, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, 0, $nb_UE, $altern);
 		return $this->execMaj($requete, $tparam);
 	}
 

@@ -14,15 +14,17 @@ class ressource
 
 	private String	$id_ressource;
     private int		$id_semestre;
+	private int		$id_annee;
 
 	/* -------------------------------------- */
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($iR="",$iS=-1) 
+	public function __construct($iR="",$iS=-1,$iA=-1) 
 	{
 		$this->id_ressource = $iR;
         $this->id_semestre 	= $iS;
+		$this->id_annee 	= $iA;
 	}
 
 	/* -------------------------------------- */
@@ -31,6 +33,7 @@ class ressource
 
 	public function getId_ressource	() { return $this->id_ressource; }
     public function getId_semestre	() { return $this->id_semestre; }
+	public function getId_Annee		() { return $this->id_annee; }
 
 	/* -------------------------------------- */
 	/*                 Méthode                */

@@ -14,15 +14,17 @@ class competence
 
 	private String		$id_competence;
 	private String		$id_semestre;
+	private String		$id_annee;
 
 	/* -------------------------------------- */
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($iC="",$iS="") 
+	public function __construct($iC="",$iS="",$iA=0) 
 	{
 		$this->id_competence 	= $iC;
 		$this->id_semestre 		= $iS;
+		$this->id_annee			= $iA;
 	}
 
 	/* -------------------------------------- */
@@ -30,7 +32,8 @@ class competence
 	/* -------------------------------------- */
 
 	public function getId_competence() { return $this->id_competence; }
-	public function getId_Semestre() { return $this->id_semestre; }
+	public function getId_Semestre	() { return $this->id_semestre; }
+	public function getId_Annee		() { return $this->id_annee; }
 
 	/* -------------------------------------- */
 	/*                 Méthode                */
