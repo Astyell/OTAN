@@ -1,7 +1,7 @@
 /* avis.css
 *  @author  : Alizéa LEBARON, Sébastien CHAMPVILLARD
 *  @since   : 27/03/2024
-*  @version : V1.0.2 - 02/04/2024
+*  @version : V1.0.3 - 02/04/2024
 */
 
 /* ---------------------------------------------------- */
@@ -110,8 +110,8 @@ table, th, td
 .left_logo
 {
 	float: left;
-	width: 50px;
-	height: 50px;
+	width: 100px;
+	height: 100px;
 }
 
 .right_logo
@@ -124,14 +124,16 @@ table, th, td
 
 .drt
 {
+	margin-bottom: 5px;
 	text-align: right;
 }
 
 .signature
 {
+	margin: 0px;
 	float: right;
-	width: 50px;
-	height: 50px;
+	width: 150px;
+	height: 150px;
 }
 
 .logo

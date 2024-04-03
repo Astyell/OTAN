@@ -3,7 +3,7 @@
 /** fctAux.inc.php
 	* @author  : Alizéa Lebaron, Justine BONDU
 	* @since   : 26/03/2024
-	* @version : 1.1.2 - 02/04/2024
+	* @version : 1.1.3 - 03/04/2024
 	*/
 
 function incHeaderAdmin ()
@@ -68,8 +68,8 @@ function downloadImage ($nom)
 
     $cheminFichier = $repertoireImages . $nom . ".png";
 
-	move_uploaded_file($_FILES[$nom]['tmp_name'], $cheminFichier); 
-
+    // On crée l'image 
+	move_uploaded_file($_FILES[$nom]['tmp_name'], $cheminFichier);
 }
 
     function enTete1_2() 

@@ -2,8 +2,11 @@
 	/** avis.php
 	* @author  : Alizéa Lebaron, Sébastien Champvillard
 	* @since   : 27/03/2024
-	* @version : 1.2.0 - 02/04/2024
+	* @version : 1.2.1 - 02/04/2024
 	*/
+
+	// Reload la page à chaque fois pour les images
+	header("Cache-Control: no-cache, must-revalidate");
 
 	// Affichage des erreurs
 	error_reporting(E_ALL);
@@ -82,7 +85,9 @@
 				// Vérifier si les fichiers sont bien dans le formulaire
 				if (isset($_FILES['logo1']      ['tmp_name'])) { downloadImage ("logo1");       }  
 				if (isset($_FILES['logo2']      ['tmp_name'])) { downloadImage ("logo2");       }  
-				if (isset($_FILES['signChefDep']['tmp_name'])) { downloadImage ("signChefDep"); }  
+				if (isset($_FILES['signChefDep']['tmp_name'])) { downloadImage ("signChefDep"); }
+
+
 			}
 		}
 
@@ -389,7 +394,4 @@
 
 </body>
 
-<?php
-pied();
-?>
 </html>
