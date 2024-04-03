@@ -82,7 +82,9 @@
 				// Vérifier si les fichiers sont bien dans le formulaire
 				if (isset($_FILES['logo1']      ['tmp_name'])) { downloadImage ("logo1");       }  
 				if (isset($_FILES['logo2']      ['tmp_name'])) { downloadImage ("logo2");       }  
-				if (isset($_FILES['signChefDep']['tmp_name'])) { downloadImage ("signChefDep"); }  
+				if (isset($_FILES['signChefDep']['tmp_name'])) { downloadImage ("signChefDep"); }
+
+				
 			}
 		}
 
