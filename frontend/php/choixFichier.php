@@ -2,7 +2,7 @@
 	/** choixFichier.php
 	* @author  : Justine BONDU, Matéo SA, Alizéa LEBARON
 	* @since   : 27/03/2024
-	* @version : 2.1.0 - 03/04/2024
+	* @version : 2.1.1 - 03/04/2024
 	*/
 
 	include ("fctAux.inc.php");
@@ -29,37 +29,39 @@
 	}
 
 	enTete1_2();
-	echo "<link rel='stylesheet' href='../css/header.css'  type='text/css' />\n";
-	echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>\n";
-	echo "<link rel='stylesheet' href='../css/footer.css'  type='text/css' />\n";
-	echo "<title>O.T.A.N. - Exporter</title>\n";
+	echo "\t \t<link rel='stylesheet' href='../css/header.css'  type='text/css' />\n";
+	echo "\t \t<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>\n";
+	echo "\t \t<link rel='stylesheet' href='../css/footer.css'  type='text/css' />\n";
+	echo "\t \t<title>O.T.A.N. - Importer</title>\n";
 	enTete2_2();
+	echo "\t \t";
 	incHeaderAdmin();
 	$db = DB::getInstance();
 	$lstAnn = $db->getAllAnnee();
-	echo "<h1>Exporter</h1>\n";
-	echo "<section class=\"encad\">\n";
+	echo "\t \t<h1>Importer</h1>\n";
+	echo "\t \t<section class=\"encad\">\n";
 	corps($lstAnn);
-	echo "</section>\n";
+	echo "\n\t \t</section>\n";
+	echo "\t \t";
 	pied();
-	echo "</body>\n</html>\n";
+	echo "\n\t</body>\n</html>\n";
 
 
 	function corps($lstAnn)
 	{
-		echo "<form method=\"post\">\n";
-		echo "<label for=\"choix_fichier\">Choisir le type de fichier :</label>\n";
-		echo "<select name=\"choix_fichier\" id=\"choix_fichier\">\n";
-		echo "<option value=\"jury/moyenne\""; 
+		echo "\t \t \t<form method=\"post\">\n";
+		echo "\t \t \t \t<label for=\"choix_fichier\">Choisir le type de fichier :</label>\n";
+		echo "\t \t \t \t<select name=\"choix_fichier\" id=\"choix_fichier\">\n";
+		echo "\t \t \t \t \t<option value=\"jury/moyenne\""; 
 		if(isset($_POST['choix_fichier']) && $_POST['choix_fichier'] == "jury/moyenne") echo " selected"; 
 		echo ">Fichier Jury/Moyenne</option>\n";
-		echo "<option value=\"fichier coef\""; 
+		echo "\t \t \t \t \t<option value=\"fichier coef\""; 
 		if(isset($_POST['choix_fichier']) && $_POST['choix_fichier'] == "fichier coef") echo " selected"; 
 		echo ">Fichier Coef</option>\n";
-		echo "</select>\n";
-		echo "<input type=\"submit\" name=\"submit\" value=\"Sélectionner\">\n";
-		echo "</form>\n";
-		echo "<p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p><br><br>\n";
+		echo "\t \t \t \t</select>\n";
+		echo "\t \t \t \t<input type=\"submit\" name=\"submit\" value=\"Sélectionner\">\n";
+		echo "\t \t \t</form>\n";
+		echo "\t \t \t<p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p><br><br>\n";
 
 		// Vérifier si le formulaire est soumis
 		if(isset($_POST['submit'])){
@@ -78,21 +80,21 @@
 
 	function selectionFichier($lstAnn)
 	{
-		echo "<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">\n";
-		echo "<label for=\"file\">Sélectionner un fichier :</label>\n";
-		echo "<input type=\"file\" id=\"file\" name=\"file\" accept=\".xlsx\" required><br><br>\n";
-		echo "<label for=\"annee\">Entrez l'année du fichier :</label>\n";
-		echo "<select name=\"annee\" onchange=\"afficherOuCacherChamp()\">\n";
+		echo "\t \t \t<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">\n";
+		echo "\t \t \t \t<label for=\"file\">Sélectionner un fichier :</label>\n";
+		echo "\t \t \t \t<input type=\"file\" id=\"file\" name=\"file\" accept=\".xlsx\" required><br><br>\n";
+		echo "\t \t \t \t<label for=\"annee\">Entrez l'année du fichier :</label>\n";
+		echo "\t \t \t \t<select name=\"annee\" onchange=\"afficherOuCacherChamp()\">\n";
 		foreach ($lstAnn as $annee) {
-			echo "<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
+			echo "\t \t \t \t\t<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
 		}
 
-		echo "<option value=\"NouvelleAnnee\">Nouvelle Annee</option>\n";
-		echo "</select><br><br>\n";
-		echo "<p id=\"nouvelleAnneeText\" style=\"display:none;\">Nouvelle année:</p>";
-		echo "<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" style=\"display:none;\"required><br>\n";
-		echo "<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
-		echo "</form>";
+		echo "\t \t \t \t \t<option value=\"NouvelleAnnee\">Nouvelle Annee</option>\n";
+		echo "\t \t \t \t</select><br><br>\n";
+		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:none;\">Nouvelle année:</p>";
+		echo "\t \t \t \t<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" style=\"display:none;\"required><br>\n";
+		echo "\t \t \t \t<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
+		echo "\t \t \t</form>";
 
 		if(isset($_POST['submit']) && isset($_FILES['file'])) 
 		{
@@ -107,11 +109,11 @@
 
 	function selectionFichier2()
 	{
-		echo "<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">\n";
-		echo "<label for=\"file\">Sélectionner un fichier :</label>\n";
-		echo "<input type=\"file\" id=\"file\" name=\"file\" accept=\".xlsx\" required><br><br>\n";
-		echo "<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
-		echo "</form>\n";
+		echo "\t \t \t<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">\n";
+		echo "\t \t \t \t<label for=\"file\">Sélectionner un fichier :</label>\n";
+		echo "\t \t \t \t<input type=\"file\" id=\"file\" name=\"file\" accept=\".xlsx\" required><br><br>\n";
+		echo "\t \t \t \t<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
+		echo "\t \t \t</form>\n";
 		// Vérifier si le formulaire a été soumis et si un fichier a été envoyé
 		if( isset($_POST['submit']) && isset($_FILES['file']) ) 
 		{
