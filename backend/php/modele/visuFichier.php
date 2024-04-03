@@ -22,7 +22,7 @@ function afficheEtudiants(){
 		echo "No students found.";
 	}
 }
-function rechercheEtuRess($ne,$ress) : etuRes
+function rechercheEtuRess($ne,$ress) : ?etuRes
 {
 	global $etuRes;
 	foreach ($etuRes as $e) 
@@ -31,7 +31,7 @@ function rechercheEtuRess($ne,$ress) : etuRes
 	}
 	return null;
 }
-function rechercheNoteEtuComp($ne,$comp) : noteComp
+function rechercheNoteEtuComp($ne,$comp) : ?noteComp
 {
 	global $noteComp;
 	foreach ($noteComp as $note) 
@@ -41,7 +41,7 @@ function rechercheNoteEtuComp($ne,$comp) : noteComp
 	return null;
 }
 
-function rechercheEtu($ne,$pe) : etudiant
+function rechercheEtu($ne,$pe) : ?etudiant
 {
 	global $etudiants;
 	foreach ($etudiants as $etu) 
@@ -359,6 +359,12 @@ function affichePvCommission($numSemestre,$annee)
 	}	
 	echo "<link rel=\"stylesheet\" href=\"../../../frontend/css/visuTest.css\">";
 
+	echo "<div class=\"Titre\">";
+	echo "<h1> Semestre $numSemestre - BUT INFO</h1>";
+	echo "<h1> $annee - ".($annee+1)."</h1>";
+	echo "<h1> Commission du DATE </h1>";
+	echo "</div>";
+
 	/* Premiere ligne, entetes */
 	echo "<table class=\"tableVueCommission\">";
 	echo "\t  <tr>\n";
@@ -416,8 +422,10 @@ function affichePvCommission($numSemestre,$annee)
 				echo "\t\t<td class=\"note\">". $bonus ."</td>"; 
 				
 			}
-			
-			echo "\t\t<td class=\"note\">".rechercheEtuRess($ne,$nom->getRessource())->getMoy()	."</b></td>";  // recherche de la moyenne dans cette ressource à l'aide de n_etud et du nom de la ressource
+			$tmpEtuRess = rechercheEtuRess($ne,$nom->getRessource());   //->getMoy();
+			if ($tmpEtuRess == null) { $tmpEtuRess = "";}
+			else {$tmpEtuRess = $tmpEtuRess->getMoy();}
+			echo "\t\t<td class=\"note\">". $tmpEtuRess	."</b></td>";  // recherche de la moyenne dans cette ressource à l'aide de n_etud et du nom de la ressource
 			
 		}
 
@@ -431,4 +439,4 @@ function affichePvCommission($numSemestre,$annee)
 	
 }
 
-affichePvCommission(1,1);
+affichePvCommission(3,1);
