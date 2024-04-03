@@ -1,0 +1,73 @@
+/* footer.css
+*  @author  : Alizéa LEBARON
+*  @since   : 02/04/2024
+*  @version : V1.0.0 - 02/04/2024
+*/
+
+/* Style général du footer */
+footer 
+{
+    background-color: #5a0101;
+    color: #fbca9b;
+    padding: 20px;
+	margin-top: 5vh;
+	display: flex;
+    flex-direction: column; /* Pour empiler verticalement les éléments */
+    align-items: center; /* Pour centrer horizontalement les éléments */
+}
+
+/* Style de la liste à puce */
+ul 
+{
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    text-align: center; /* Centrer les éléments de la liste à puce horizontalement */
+}
+
+ul li 
+{
+    display: inline;
+    margin-right: 10px;
+}
+
+ul li a 
+{
+    text-decoration: none;
+	color : #fbca9b;
+}
+
+.lienGit
+{
+    text-decoration: none;
+	border: transparent 2px solid;
+	transition: ease 1s;
+}
+
+.lienGit:hover
+{
+    border-bottom: #f59031 2px solid;
+    color: #f59031;
+}
+
+/* Style pour l'image git */
+#git 
+{
+    display: block; /* Permet de centrer l'image */
+    margin: 10px auto; /* Centre l'image horizontalement avec un espacement de 10px en haut et en bas */
+	width: 40px;
+	height: 40px;
+}
+
+.github-icon:hover 
+{
+    fill: #f59031; /* Changer la couleur de remplissage du SVG lorsque survolé */
+}
+
+
+/* Style pour le texte du bas de page */
+footer p 
+{
+    margin-top: 10px; /* Ajouter un espace entre la liste à puce et le paragraphe */
+    font-size: 12px;
+}

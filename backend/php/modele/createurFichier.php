@@ -187,7 +187,7 @@ function creerPvComm($semestre, $annee)
 
 
 //creerPvJury(1, 1);
-creerPvJury(2, 1);
+//creerPvJury(2, 1);
 
 //TODO:Finir les différents semestres
 
@@ -480,11 +480,9 @@ function telecharger($nomfichier, $spreadsheet)
 {
     //Téléchargement fichier
     $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
-
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="'.$nomfichier.'"');
     header('Cache-Control: max-age=0');
-
     $writer->save('php://output');
 }
 

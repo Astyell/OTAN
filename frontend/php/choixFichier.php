@@ -25,6 +25,7 @@
 	enTete1_2();
     echo "<link rel='stylesheet' href='../css/header.css' type='text/css' />\n";
     echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css' />\n";
+    echo "<link rel='stylesheet' href='../css/footer.css' type='text/css' />\n";
 	echo "<title>Importer</title>";
 	enTete2_2();
     // Afficher le header en fonction de l'utilisateur
@@ -59,6 +60,8 @@
             echo $_POST['nombre'];
 		}
 
+        echo "</body>\n";
+        echo "</html>\n";
 	}
 
 

@@ -2,7 +2,7 @@
 	/** visualisation.php
 	* @author  : Alizéa Lebaron, Justine BONDU
 	* @since   : 26/03/2024
-	* @version : 1.0.4 - 29/03/2024
+	* @version : 1.0.5 - 03/02/2024
 	*/
 
 	// Affichage des erreurs
@@ -36,7 +36,8 @@
 	<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'/>
 	<link rel='stylesheet' href='../css/visualisation.css' type='text/css' />
 	<link rel='stylesheet' href='../css/header.css' type='text/css' />
-	<title>Menu</title>
+	<link rel='stylesheet' href='../css/footer.css' type='text/css' />
+	<title>O.T.A.N. - Visualisation</title>
 </head>
 
 <body>
@@ -45,6 +46,13 @@
 		// Afficher le header en fonction de l'utilisateur
 		if ($droit) { incHeaderAdmin(); }
 		else        { incHeaderUser (); }
+
+
+        $db = DB::getInstance();
+        $lstAnn = $db->getAllAnnee();
+        $lstsem = $db->getAllSemestre();
+        sort($lstAnn);
+        sort($lstsem);
 		
 	?>
 	
@@ -54,31 +62,43 @@
 	<div class = "select" >
 
 		<form action="visualisation.php" method="get">
-
-			<label>Fichier à visualiser :</label>
-			<select name="fichier">
-				<optgroup label="Année 1">
-				<option value="1_S1_Comission">S1 - Comission</option>
-				<option value="1_S1_Jury"     >S1 - Jury     </option>
-				<option value="1_S2_Jury"     >S2 - Jury     </option>
-				</optgroup>
-				<optgroup label="Année 2">
-				<option value="2_S3_Comission">S3 - Comission</option>
-				<option value="2_S3_Jury"     >S3 - Jury     </option>
-				<option value="2_S4_Jury"     >S4 - Jury     </option>
-				</optgroup>
-				<optgroup label="Année 3">
-				<option value="3_S5_Comission">S5 - Comission</option>
-				<option value="3_S5_Jury"     >S5 - Jury     </option>
-				</optgroup>
-			</select>
-
-			<input type="submit" value="Consulter">
-
+        <label>Fichier à visualiser :</label>
+            <?php
+            echo "<select name=\"fichier\">";
+            foreach ($lstAnn as $annee) {
+                echo "<optgroup label=".$annee->getId_annee().">\n";
+                foreach ($lstsem as $semestre) {
+                    if ($semestre->getId_annee()==$annee)
+                    {
+                        echo "<option value='".$annee->getId_annee().$semestre->getId_semestre()."_Jury"."'>".$annee->getId_annee()."_S".$semestre->getId_semestre()."_Jury"."</option>\n";
+                        echo $semestre;
+                        if($semestre->getId_semestre()%2==1)
+                        {
+                            echo "<option value='".$annee->getId_annee().$semestre->getId_semestre()."_Comission"."'>".$annee->getId_annee()."_S".$semestre->getId_semestre()."_Comission"."</option>\n";
+                        }
+                    }
+                }
+            }
+            echo "</select><input type=\"submit\" value=\"Consulter\">";
+            ?>
 		</form>
+	</div>
+	
+	
+	<div class="visu"> 
+		
+		<?php
+
+			if (!isset($_GET['fichier'])) { echo "<p class='vide'> Aucun fichier sélectionné pour le moment </p> " ; }
+
+		?>
 
 	</div>
-
+	
+	
+	<?php
+		pied();
+	?>
 </body>
 </html>
 

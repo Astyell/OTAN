@@ -98,18 +98,24 @@ function downloadImage ($nom)
         echo "</table>\n";
     }
 
-
+    
 
     function pied() 
 	{
-        echo "<br>\n";
-        echo "<br>\n";
-        echo "<footer>\n";
-		echo "<hr><p>© 2024 par Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA</p>\n";
-        echo "</footer>\n";
-        echo "<br>\n";
-        echo "</body>\n";
-        echo "</html>\n";
+        $footer = '<footer>'.
+        '<a href="https://github.com/Astyell/OTAN"><img src="../img/icone/Github.svg" alt="github" id="git" class="github-icon"></a>'.
+        '<div class="row">'.
+            '<ul>'.
+                '<li><a class="lienGit" href="https://github.com/MatKim76">Matéo SA</a></li>'.
+                '<li><a class="lienGit" href="https://github.com/Sebeaty">Sébastien CHAMPVILLARD</a></li>'.
+                '<li><a class="lienGit" href="https://github.com/Astyell">Alizéa LEBARON</a></li>'.
+                '<li><a class="lienGit" href="https://github.com/Julia123456789037">Justine BONDU</a></li>'.
+            '</ul>'.
+        '</div>'.
+        '<p> 2024 - O.T.A.N. - All rights reserved</p>'.
+        '</footer>';
+
+        echo $footer;
 	}
 
 	function verifMDP($mdp) 
