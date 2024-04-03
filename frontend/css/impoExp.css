@@ -38,8 +38,8 @@ html, body
 }
 
 .Valid:hover{
-    color: lightslategray;
-    background-color: rgb(85, 74, 74)
+    background-color: #8f0202;
+    cursor: pointer;
 }
 
 .Valid{
@@ -48,9 +48,10 @@ html, body
     width: 80%;
     height: 50px;
     font-size: 20px;
-    color: rgb(147, 142, 150);
-    background-color: #574444;
+    color: #f59031;
+    background-color: #5a0101;
     border: 1px solid #441212;
+    transition: 1s ease;
 }
 
 /* -------------------------------------------------------- */
