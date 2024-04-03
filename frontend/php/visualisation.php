@@ -2,7 +2,7 @@
 	/** visualisation.php
 	* @author  : Alizéa Lebaron, Justine BONDU
 	* @since   : 26/03/2024
-	* @version : 1.0.4 - 29/03/2024
+	* @version : 1.0.5 - 03/02/2024
 	*/
 
 	// Affichage des erreurs
@@ -83,7 +83,19 @@
             ?>
 		</form>
 	</div>
-	<div class="visu"> </div>
+	
+	
+	<div class="visu"> 
+		
+		<?php
+
+			if (!isset($_GET['fichier'])) { echo "<p class='vide'> Aucun fichier sélectionné pour le moment </p> " ; }
+
+		?>
+
+	</div>
+	
+	
 	<?php
 		pied();
 	?>
