@@ -350,13 +350,10 @@ function creerPvJury($semestre, $annee)
         $currentCol = Coordinate::stringFromColumnIndex($col);
         $sheet->getColumnDimension($currentCol)->setAutoSize(true);
     }
-<<<<<<< HEAD
-=======
 
     //test($spreadsheet);
     //telechargerPdf("aa.pdf", $spreadsheet);
     telecharger("PV Jury S" . $semestre . "-" . $annee . ".xlsx", $spreadsheet);
->>>>>>> 454da52cff2755342e456a2472a04814b71c1b21
 }
 
 creerPvJury(1,1);
@@ -626,28 +623,20 @@ function setAdmissionComp($noteSem1, $noteSem2, $ligne, $colonne, $sheet)
 
 }
 
-<<<<<<< HEAD
-
-
-function telecharger($nomfichier)
-=======
 function telecharger($nomfichier, $spreadsheet)
->>>>>>> 454da52cff2755342e456a2472a04814b71c1b21
 {
     //Téléchargement fichier
     header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
     header('Content-Disposition: attachment;filename="'.$nomfichier.'"');
     header('Cache-Control: max-age=0');
 }
+
 function ecriture($spreadsheet)
 {
     //Téléchargement fichier
     $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Xlsx');
     $writer->save('php://output');
 }
-<<<<<<< HEAD
-?>
-=======
 
 function test($spreadsheet)
 {
@@ -672,4 +661,3 @@ function telechargerPdf($nomfichier, $spreadsheet)
 
     file_put_contents($nomfichier, $dompdf->output());
 }
->>>>>>> 454da52cff2755342e456a2472a04814b71c1b21
