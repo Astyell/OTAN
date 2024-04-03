@@ -1,9 +1,11 @@
 <?php 
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-//__DIR__ . 
+//__DIR__ .
 $chemin_du_fichier = '../DB/DB.inc.php';
-require $chemin_du_fichier;
+// require $chemin_du_fichier;
+
+require ("../../backend/php/DB/DB.inc.php");
 
 $db = DB::getInstance();
 $etudiants = $db->getAllEtudiant();
@@ -438,5 +440,3 @@ function affichePvCommission($numSemestre,$annee)
 
 	
 }
-
-affichePvCommission(3,2004);

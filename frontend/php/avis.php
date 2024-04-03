@@ -2,7 +2,7 @@
 	/** avis.php
 	* @author  : Alizéa Lebaron, Sébastien Champvillard
 	* @since   : 27/03/2024
-	* @version : 1.2.1 - 02/04/2024
+	* @version : 1.2.1 - 03/04/2024
 	*/
 
 	// Reload la page à chaque fois pour les images

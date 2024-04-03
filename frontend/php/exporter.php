@@ -16,9 +16,10 @@
 	$ID    = $_SESSION [   'id'];
 	$droit = $_SESSION ['droit'];
 
-	if ($droit != 1) 
+	// Vérification que la session existe bien
+	if (!isset($_SESSION['id'])) 
 	{
-		header('Location: visualisation.php');
+		header('Location: connexion.php');
 		exit();
 	}
 	iset();
