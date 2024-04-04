@@ -231,9 +231,10 @@ class DB
 	/* IDENTIFIANT */
 	/*-------------*/
 
+	// Utilisée dans utilisateur.php
 	public function getAllIdentifiant()
 	{
-		$requete = 'select * from identifiant';
+		$requete = 'select * from identifiant ORDER BY id';
 		return $this->execQuery($requete, null, 'Identifiant');
 	}
 
@@ -245,10 +246,34 @@ class DB
 		return $this->execQuery($requete,array($id),'Identifiant');
 	}
 
+	//Utilisée dans utilisateurs.php
+	public function getMaxID()
+	{
+		$requete = 'select MAX(id) from identifiant';
+		return $this->execMaj($requete, null);
+	}
+
+	//Utilisée dans utilisateurs.php
 	public function insertIdentifiant($id, $mdp, $estAdmin)
 	{
-		$requete = 'insert into identifiant values(?,?,?)';
+		$requete = 'insert into identifiant (identifiant, mdp, estAdmin) values(?,?,?)';
 		$tparam = array($id, $mdp, $estAdmin);
+		return $this->execMaj($requete, $tparam);
+	}
+
+	//Utilisée dans utilisateurs.php
+	public function deleteIdentifiant($id)
+	{
+		$requete = 'delete from identifiant where id = ?';
+		$tparam = array($id);
+		return $this->execMaj($requete, $tparam);
+	}
+
+	//Utilisée dans utilisateurs.php
+	public function updateIdentifiant($id, $identifiant, $mdp, $estAdmin)
+	{
+		$requete = 'UPDATE identifiant SET identifiant = ?, mdp = ?, estAdmin = ? where id = ?';
+		$tparam = array($identifiant, $mdp, $estAdmin, $id);
 		return $this->execMaj($requete, $tparam);
 	}
 

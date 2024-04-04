@@ -3,7 +3,7 @@
 /** fctAux.inc.php
 	* @author  : Alizéa Lebaron, Justine BONDU
 	* @since   : 26/03/2024
-	* @version : 1.1.3 - 03/04/2024
+	* @version : 1.1.4 - 03/04/2024
 	*/
 
 function incHeaderAdmin ()
@@ -77,15 +77,15 @@ function downloadImage ($nom)
 	{
 		echo "<!DOCTYPE html>\n";
 		echo "<html lang='fr'>\n";
-		echo "<head>\n";
-		echo "<meta charset='UTF-8'>\n";
-		echo "<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'  />\n";
+		echo "\t<head>\n";
+		echo "\t \t<meta charset='UTF-8'>\n";
+		echo "\t \t<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'  />\n";
 	}
 
 	function enTete2_2() 
 	{
-		echo "</head>\n";
-		echo "<body>\n";
+		echo "\t</head>\n";
+		echo "\t<body>\n";
 	}
 
 	function verifMDP($mdp) 

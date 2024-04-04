@@ -21,7 +21,7 @@ class identifiant
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($id, $i="",$m="",$eA=false) 
+	public function __construct($id=0, $i="",$m="",$eA=false) 
 	{
 		$this->id           = $id;
 		$this->identifiant 	= $i;

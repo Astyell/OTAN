@@ -65,26 +65,19 @@
 			$lstSem = $db->getAllSemestre();
 			sort($lstAnn);
 			sort($lstSem);
-
-			//print_r($lstAnn); //debug
-			//print_r($lstSem); //debug
-
             echo "<select name=\"fichier\">";
-
             foreach ($lstAnn as $annee) 
 			{
-
                 echo "<optgroup label=".$annee->getId_annee().">\n";
                 foreach ($lstSem as $semestre) 
 				{
-					
                     if ($semestre->getId_annee() == $annee->getId_annee())
                     {
                         echo "<option value='".$annee->getId_annee(). "_" .$semestre->getId_semestre()."_Jury"."'>".$annee->getId_annee()."_S".$semestre->getId_semestre()."_Jury"."</option>\n";
                         
                         if($semestre->getId_semestre()%2==1)
                         {
-                            echo "<option value='".$annee->getId_annee(). "_" .$semestre->getId_semestre()."_Comission"."'>".$annee->getId_annee()."_S".$semestre->getId_semestre()."_Comission"."</option>\n";
+                            echo "<option value='".$annee->getId_annee(). "_" .$semestre->getId_semestre()."_Commission"."'>".$annee->getId_annee()."_S".$semestre->getId_semestre()."_Commission"."</option>\n";
                         }
                     }
                 }
