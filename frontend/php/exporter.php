@@ -9,7 +9,8 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 	//require '../../backend/php/modele/createurFichier.php';
-	include('../../backend/php/DB/DB.inc.php');
+	//include('../../backend/php/DB/DB.inc.php');
+	require '../../backend/php/GenerationAvis.php';
 
 	// Vérification que la session existe bien
 	if (!isset($_SESSION['id'])) 
@@ -37,7 +38,7 @@
 	$lstSem = $db->getAllSemestre();
 	sort($lstAnn);
 	sort($lstSem);
-	iset($lstAnn, $lstSem);
+	iset($lstAnn, $lstSem, $db);
 	enTete1_2();
 	echo "\t \t<link rel='stylesheet' href='../css/header.css'  type='text/css' />\n";
 	echo "\t \t<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>\n";
@@ -58,13 +59,13 @@
 
 
 
-	function iset($lstAnn, $lstSem)
+	function iset($lstAnn, $lstSem, $db)
 	{
-		$anneeChoisie = 0;
 		if(isset($_POST['valider'])) {
-			$anneeChoisie = $_POST['annee'];
 
 			$anneeChoisie = isset($_POST['annee']) ? $_POST['annee'] : null;
+			echo $anneeChoisie;
+			
 			if ($anneeChoisie === null && count($lstAnn) > 0) {
 				$anneeChoisie = $lstAnn[0]->getId_annee();
 			}
@@ -102,11 +103,10 @@
 					}
 					for ($k = 0; $k < 2; $k++) {
 						if(isset($_POST['AvisPoursuiteEtude_'.$k])) {
-							//echo 'AvisPoursuiteEtude_'.$k;
-							if($j==0) { /*exportation des fichiers avis de poursuite d'étude au format word */ }
-							if($j==1) //exportation des fichiers avis de poursuite d'étude au format PDF
+							if($k==0) { /*exportation des fichiers avis de poursuite d'étude au format word */ }
+							if($k==1) //exportation des fichiers avis de poursuite d'étude au format PDF
 							{ 
-
+								AvisAllEtudiant($anneeChoisie, $db);
 							}
 						}
 					}
@@ -125,6 +125,7 @@
 		echo "\t \t \t \t<select name=\"annee\">\n";
 
 		$anneeChoisie = isset($_POST['annee']) ? $_POST['annee'] : null;
+		$ann = $anneeChoisie;
 		foreach ($lstAnn as $annee) {
 			$selected = ($annee->getId_annee() == $anneeChoisie) ? 'selected' : '';
 			echo "\t \t \t \t \t<option value='".$annee->getId_annee()."' $selected>".$annee->getId_annee()."</option>\n";
@@ -166,6 +167,17 @@
 		echo "\t \t \t \t<input type=\"submit\" class=\"Valid\" name=\"valider\" value=\"Valider\">\n";
 		echo "\t \t \t</form>\n";
 	}
+
+	function AvisAllEtudiant($annee, $db)
+	{
+		$etudiants = $db->getAllEtuSemWithSem(5, $annee);
+		
+		echo $etudiants;
+		foreach($etudiants as $etudiant)
+		{
+			genererAvis($annee, $etudiant->getN_Etud());
+		}
+	}
 	
 ?>
 <script>
@@ -192,4 +204,5 @@
 			}
 		});
 	});
+
 </script>

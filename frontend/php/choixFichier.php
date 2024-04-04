@@ -17,6 +17,7 @@
 		header('Location: connexion.php');
 		exit();
 	}
+	
 
 	// Récupération des données
 	$ID    = $_SESSION [   'id'];
@@ -38,6 +39,7 @@
 	incHeaderAdmin();
 	$db = DB::getInstance();
 	$lstAnn = $db->getAllAnnee();
+	sort($lstAnn);
 	echo "\t \t<h1>Importer</h1>\n";
 	echo "\t \t<section class=\"encad\">\n";
 	corps($lstAnn);

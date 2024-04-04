@@ -25,9 +25,9 @@ function genererAvis($annee, $netud)
 	$dompdf->render();
 
 	// Output the generated PDF to Browser
-	$dompdf->stream();
+	$dompdf->stream('Avis-' . $netud . '-' . $annee);
 }
-
+/*
 function AvisAllEtudiant($annee)
 {
 	$db = DB::getInstance();
@@ -40,4 +40,5 @@ function AvisAllEtudiant($annee)
 	}
 }
 
+//genererAvis(2024, '8860');
 //AvisAllEtudiant(2024);
