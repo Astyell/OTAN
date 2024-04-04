@@ -49,34 +49,30 @@
 
 	function corps($lstAnn)
 	{
-		echo "\t \t \t<form method=\"post\">\n";
-		echo "\t \t \t \t<label for=\"choix_fichier\">Choisir le type de fichier :</label>\n";
-		echo "\t \t \t \t<select name=\"choix_fichier\" id=\"choix_fichier\">\n";
-		echo "\t \t \t \t \t<option value=\"jury/moyenne\""; 
-		if(isset($_POST['choix_fichier']) && $_POST['choix_fichier'] == "jury/moyenne") echo " selected"; 
-		echo ">Fichier Jury/Moyenne</option>\n";
-		echo "\t \t \t \t \t<option value=\"fichier coef\""; 
-		if(isset($_POST['choix_fichier']) && $_POST['choix_fichier'] == "fichier coef") echo " selected"; 
-		echo ">Fichier Coef</option>\n";
-		echo "\t \t \t \t</select>\n";
-		echo "\t \t \t \t<input type=\"submit\" name=\"submit\" value=\"Sélectionner\">\n";
-		echo "\t \t \t</form>\n";
-		echo "\t \t \t<p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p><br><br>\n";
-
-		// Vérifier si le formulaire est soumis
-		if(isset($_POST['submit'])){
-			// Vérifier si une option est sélectionnée
-			if(isset($_POST['choix_fichier'])){
-				$choix = $_POST['choix_fichier'];
-				// Appeler la fonction appropriée en fonction de l'option sélectionnée
-				if($choix == "jury/moyenne"){
-					selectionFichier($lstAnn);
-				} elseif($choix == "fichier coef"){
-					selectionFichier2();
-				}
+        echo "\t \t \t<div class=\"envDonn\">  </div>\n";
+		echo "\t \t \t<p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p>\n";
+        echo "\t \t \t<h2>Fichier Jury/Moyenne</h2>\n";
+        selectionFichier($lstAnn);
+        if(isset($_POST['submit1']) && isset($_FILES['file'])) 
+		{
+			$chemin_fichier = $_FILES['file']['tmp_name'];
+			$annee_selectionnee = $_POST['annee'];
+			if ($annee_selectionnee == 'NouvelleAnnee') {
+				$annee_selectionnee = $_POST['nombre'];
 			}
+            echo $_FILES['file']['name'];
+			mettreDansDB($chemin_fichier, $annee_selectionnee);
 		}
-}
+        echo "<br>";
+        echo "\t \t \t<h2>Fichier Coef</h2>\n";
+        selectionFichier2();
+        if( isset($_POST['submit2']) && isset($_FILES['file']) ) 
+		{
+			$chemin_fichier = $_FILES['file']['tmp_name'];
+            echo $_FILES['file']['name'];
+			mettreCoef($chemin_fichier);
+		}
+    }
 
 	function selectionFichier($lstAnn)
 	{
@@ -90,20 +86,10 @@
 			echo "\t \t \t \t\t<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
 		}
 		echo "\t \t \t \t</select><br><br>\n";
-		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:block;\">Nouvelle année:</p>";
+		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:block;\">Nouvelle année:</p>\n";
 		echo "\t \t \t \t<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" style=\"display:block;\"required><br>\n";
-		echo "\t \t \t \t<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
+		echo "\t \t \t \t<input type=\"submit\" name=\"submit1\" class=\"Valid\" value=\"Enregistrer\">\n";
 		echo "\t \t \t</form>";
-
-		if(isset($_POST['submit']) && isset($_FILES['file'])) 
-		{
-			$chemin_fichier = $_FILES['file']['tmp_name'];
-			$annee_selectionnee = $_POST['annee'];
-			if ($annee_selectionnee == 'NouvelleAnnee') {
-				$annee_selectionnee = $_POST['nombre'];
-			}
-			mettreDansDB($chemin_fichier, $annee_selectionnee);
-		}
 	}
 
 	function selectionFichier2()
@@ -111,14 +97,10 @@
 		echo "\t \t \t<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">\n";
 		echo "\t \t \t \t<label for=\"file\">Sélectionner un fichier :</label>\n";
 		echo "\t \t \t \t<input type=\"file\" id=\"file\" name=\"file\" accept=\".xlsx\" required><br><br>\n";
-		echo "\t \t \t \t<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
+		echo "\t \t \t \t<input type=\"submit\" name=\"submit2\" class=\"Valid\" value=\"Enregistrer\" >\n";
 		echo "\t \t \t</form>\n";
 		// Vérifier si le formulaire a été soumis et si un fichier a été envoyé
-		if( isset($_POST['submit']) && isset($_FILES['file']) ) 
-		{
-			$chemin_fichier = $_FILES['file']['tmp_name'];
-			mettreCoef($chemin_fichier);
-		}
+		
 	}
 ?>
 <script type="text/javascript">
@@ -137,4 +119,3 @@
 		}
 	}
 </script>
-

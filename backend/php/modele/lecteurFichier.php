@@ -185,8 +185,7 @@ function mettreDansDB($chemin_fichier, $annee1)
 			}
 		}
 	}
-	echo "Informations ajoutés dans la base de données !";
-
+	echo " ajoutés dans la base de données !";
 }
 
 
@@ -229,7 +228,7 @@ function mettreCoef($chemin_fichier)
 		}
 	}
 
-	echo "Coef mis dans la base de donnée";
+	echo " mis dans la base de donnée";
 }
 
 ?>
