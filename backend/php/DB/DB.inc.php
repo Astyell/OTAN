@@ -170,6 +170,12 @@ class DB
 		return $this->execQuery($requete, null, 'Etudiant');
 	}
 
+	public function getEtudiantEtud($nEtud)
+	{
+		$requete = 'select * from etudiant where n_etud = \'' . $nEtud . '\'';
+		return $this->execQuery($requete, null, 'Etudiant');
+	}
+
 	public function insertEtudiant($n_etud, $n_ip, $nom_etu, $prenom_etu, $cursus, $bac)
 	{
 		$requete = 'insert into etudiant values(?,?,?,?,?,?)';
@@ -349,6 +355,13 @@ class DB
 					join semestre s on s.id_semestre = c.id_semestre 
 					where c.id_semestre = ? and c.id_annee = ?';
 		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'NoteComp');
+	}
+
+	public function getAllNoteCompOrder($annee)
+	{
+		$requete = 'select n.* from notecomp n join competence c on c.id_competence = n.id_competence where id_annee = ? order by n.id_competence, moy_ue desc';
+		$tparam = array( $annee);
 		return $this->execQuery($requete, $tparam, 'NoteComp');
 	}
 
