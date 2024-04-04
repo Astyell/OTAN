@@ -18,7 +18,7 @@ function rechercheRang($ne,$s,$annee,$comp) : ?int
 	return null;
 }
 
-function ficheAvis($annee, $nEtud)
+function ficheAvis($annee, $nEtud, $imagePath1, $imagePath2, $imagePath3)
 {
 	global $db;
 
@@ -72,7 +72,7 @@ function ficheAvis($annee, $nEtud)
 	
 	
 	
-	echo '
+	return '
 	<!DOCTYPE html>
 		<html lang="fr">
 		
@@ -87,8 +87,8 @@ function ficheAvis($annee, $nEtud)
 			
 			<div class="A4">
 			<div class="logos">
-				<h6 class="left_logo" id="logoG" > Logo 1</h6>
-				<h6 class="right_logo" id="logoD" > Logo 2</h6>
+			<img src="data:image/jpeg;base64,' . $imagePath1 . '" alt="logo 1" class="left_logo" id="logoG" >
+			<img src="data:image/jpeg;base64,' . $imagePath2 . '" alt="logo 2" class="right_logo" id="logoD" >
 			</div> 
 
 			<br><br><br>
@@ -374,15 +374,125 @@ function ficheAvis($annee, $nEtud)
 
 			<h6 class="drt"              > Signature du chef de Département        </h6>
 			<h6 class="drt" id="chefDept"> Nom du chef de Dept                     </h6>
-			<h6 class="signature" id="signDept" > Signature et cachet                     </h6>
-			
+			<h6 class="signature" id="signDept" ><img src="data:image/jpeg;base64,' . $imagePath3 . '" alt="signature dep" class="logo"></h6>			
 			</div>
 		</body>
 
-	</html>';
+	</html>
+	
+	<style>
+		html, body
+		{
+			margin: 0;
+			padding: 10px;
+			font-size: 14px;
+		}
+		#modifier 
+		{
+			width: 250mm;
+			margin: 0 auto;
+			margin-top: 2vh;
+			padding: 10px;
+			border: 1px dotted black;
+			background-color: #ffffff;
+		}
+		.modifTitre
+		{
+			text-align: center;
+		}
+		hr
+		{
+			margin-top: 0%;
+		}
+		.refTD
+		{
+			width: 250px;
+		}
+		.GrefTD
+		{
+			width: 650px;
+		}
+		table, th, td 
+		{
+			border: 1px solid black;
+			border-collapse: collapse;
+			font-size: 13px;
+		}
+		.tdGrand
+		{
+			min-width: 80px;
+		}
+		.tdPetit
+		{
+			min-width: 60px;
+		}
+		.left_logo
+		{
+			float: left;
+			width: 100px;
+			height: 100px;
+		}
+		.right_logo
+		{
+			padding-left: 30px;
+			float: right;
+			width: 50px;
+			height: 50px;
+		}
+		.drt
+		{
+			margin-bottom: 5px;
+			text-align: right;
+		}
+		.signature
+		{
+			margin: 0px;
+			float: right;
+			width: 150px;
+			height: 150px;
+		}
+		.logo
+		{
+			max-width: 100%; 
+			max-height: 100%;
+		}
+		.titre
+		{
+			text-align: center;
+			
+		}
+		h3,h5
+		{
+			margin-bottom: 0%;
+		}
+		.fantom
+		{
+			border: none;
+			min-width: 250px;
+		}
+		.grisG
+		{
+			background-color: rgb(221, 218, 218);
+			font-weight: bold;
+			text-align: center;
+		}
+		.grisP
+		{
+			background-color: rgb(221, 218, 218);
+			text-align: center;
+		}
+		.txtCent{
+			text-align: center;
+		}
+		.tableAvis{
+			text-align: center;
+			
+		}
+		.BUT12{
+			min-width: 525px;
+		}
+	</style>
+	';
 }
 
-
-
-ficheAvis(2024, '8860');
 ?>
