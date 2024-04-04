@@ -170,6 +170,12 @@ class DB
 		return $this->execQuery($requete, null, 'Etudiant');
 	}
 
+	public function getEtudiantEtud($nEtud)
+	{
+		$requete = 'select * from etudiant where n_etud = \'' . $nEtud . '\'';
+		return $this->execQuery($requete, null, 'Etudiant');
+	}
+
 	public function insertEtudiant($n_etud, $n_ip, $nom_etu, $prenom_etu, $cursus, $bac)
 	{
 		$requete = 'insert into etudiant values(?,?,?,?,?,?)';
@@ -228,7 +234,7 @@ class DB
 	// Utilisée dans utilisateur.php
 	public function getAllIdentifiant()
 	{
-		$requete = 'select * from identifiant';
+		$requete = 'select * from identifiant ORDER BY id';
 		return $this->execQuery($requete, null, 'Identifiant');
 	}
 
@@ -250,7 +256,6 @@ class DB
 	//Utilisée dans utilisateurs.php
 	public function insertIdentifiant($id, $mdp, $estAdmin)
 	{
-		echo "Coucou je suis passé ici au fait id = $id mdp = $mdp et admin = $estAdmin";
 		$requete = 'insert into identifiant (identifiant, mdp, estAdmin) values(?,?,?)';
 		$tparam = array($id, $mdp, $estAdmin);
 		return $this->execMaj($requete, $tparam);
@@ -264,7 +269,13 @@ class DB
 		return $this->execMaj($requete, $tparam);
 	}
 
-	
+	//Utilisée dans utilisateurs.php
+	public function updateIdentifiant($id, $identifiant, $mdp, $estAdmin)
+	{
+		$requete = 'UPDATE identifiant SET identifiant = ?, mdp = ?, estAdmin = ? where id = ?';
+		$tparam = array($identifiant, $mdp, $estAdmin, $id);
+		return $this->execMaj($requete, $tparam);
+	}
 
 	/*-------------*/
 	/*  SEMESTRE   */
@@ -344,6 +355,13 @@ class DB
 					join semestre s on s.id_semestre = c.id_semestre 
 					where c.id_semestre = ? and c.id_annee = ?';
 		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'NoteComp');
+	}
+
+	public function getAllNoteCompOrder($annee)
+	{
+		$requete = 'select n.* from notecomp n join competence c on c.id_competence = n.id_competence where id_annee = ? order by n.id_competence, moy_ue desc';
+		$tparam = array( $annee);
 		return $this->execQuery($requete, $tparam, 'NoteComp');
 	}
 
