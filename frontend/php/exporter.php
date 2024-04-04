@@ -9,7 +9,8 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 	//require '../../backend/php/modele/createurFichier.php';
-	include('../../backend/php/DB/DB.inc.php');
+	//include('../../backend/php/DB/DB.inc.php');
+	require '../../backend/php/GenerationAvis.php';
 
 	// Vérification que la session existe bien
 	if (!isset($_SESSION['id'])) 
@@ -35,11 +36,9 @@
 	$db = DB::getInstance();
 	$lstAnn = $db->getAllAnnee();
 	$lstSem = $db->getAllSemestre();
-	$etudiants = $db->getAllEtuSemWithSem(5, $annee);
 	sort($lstAnn);
 	sort($lstSem);
-	sort($etudiants);
-	iset($lstAnn, $lstSem, $etudiants);
+	iset($lstAnn, $lstSem, $db);
 	enTete1_2();
 	echo "\t \t<link rel='stylesheet' href='../css/header.css'  type='text/css' />\n";
 	echo "\t \t<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>\n";
@@ -60,7 +59,7 @@
 
 
 
-	function iset($lstAnn, $lstSem, $etudiants)
+	function iset($lstAnn, $lstSem, $db)
 	{
 		if(isset($_POST['valider'])) {
 
@@ -104,11 +103,10 @@
 					}
 					for ($k = 0; $k < 2; $k++) {
 						if(isset($_POST['AvisPoursuiteEtude_'.$k])) {
-							//echo 'AvisPoursuiteEtude_'.$k;
-							if($j==0) { /*exportation des fichiers avis de poursuite d'étude au format word */ }
-							if($j==1) //exportation des fichiers avis de poursuite d'étude au format PDF
+							if($k==0) { /*exportation des fichiers avis de poursuite d'étude au format word */ }
+							if($k==1) //exportation des fichiers avis de poursuite d'étude au format PDF
 							{ 
-								//AvisAllEtudiant($anneeChoisie, $etudiants);
+								AvisAllEtudiant($anneeChoisie, $db);
 							}
 						}
 					}
@@ -170,8 +168,10 @@
 		echo "\t \t \t</form>\n";
 	}
 
-	function AvisAllEtudiant($annee, $etudiants)
+	function AvisAllEtudiant($annee, $db)
 	{
+		$etudiants = $db->getAllEtuSemWithSem(5, $annee);
+		
 		echo $etudiants;
 		foreach($etudiants as $etudiant)
 		{
@@ -204,4 +204,5 @@
 			}
 		});
 	});
+
 </script>
