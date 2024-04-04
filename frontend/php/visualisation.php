@@ -9,10 +9,6 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 
-	// Importation
-	include ("fctAux.inc.php");
-	require ("../../backend/php/modele/visuFichier.php");
-
 	// Début de la session
     session_start();
 
@@ -22,6 +18,10 @@
         header('Location: connexion.php');
         exit();
     }
+
+	// Importation
+	include ("fctAux.inc.php");
+	require ("../../backend/php/modele/visuFichier.php");
 
 	// Récupération des données
 	$ID    = $_SESSION [   'id'];
