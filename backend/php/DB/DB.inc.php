@@ -330,6 +330,15 @@ class DB
 		return $this->execQuery($requete, $tparam, 'EtuSem');
 	}
 
+	public function getRangWithComp($semestre, $annee,$comp)
+	{
+		$requete = 'select e.n_etud,n.moy_ue as moy_gene from etusem e 
+		join semestre s on e.id_semestre = s.id_semestre join notecomp n on n.n_etud=e.n_etud
+		where e.id_semestre = ? and e.id_annee = ? and id_competence= ? order by n.moy_ue desc;';
+		$tparam = array($semestre, $annee,$comp);
+		return $this->execQuery($requete, $tparam, 'EtuSem');
+	}
+
 	public function insertEtuSem($n_etud, $id_sem,$id_annee, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
 	{
 		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?,?)';

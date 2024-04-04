@@ -90,6 +90,11 @@ function afficheEntete($numSemestre,$nb)
 			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 2 </b> </td>";
 			echo "\t\t<td colspan=\"3\"><b> Compétences BUT 3 </b> </td>";
 			echo "\t\t<td colspan=\"6\"><b> UEs du S5 		  </b> </td>";
+		case 6:
+			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 1 </b> </td>";
+			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 2 </b> </td>";
+			echo "\t\t<td colspan=\"3\"><b> Compétences BUT 3 </b> </td>";
+			echo "\t\t<td colspan=\"6\"><b> UEs du S6 		  </b> </td>";
 			break;
 		default:
 			break;
