@@ -2,108 +2,140 @@
 	/** choixFichier.php
 	* @author  : Justine BONDU, Matéo SA, Alizéa LEBARON
 	* @since   : 27/03/2024
-	* @version : 2.0.0 - 03/04/2024
+	* @version : 2.1.1 - 03/04/2024
 	*/
 
 	include ("fctAux.inc.php");
-    require '../../backend/php/modele/lecteurFichier.php';
+	require '../../backend/php/modele/lecteurFichier.php';
 	session_start();
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 
-    // Vérification que la session existe bien
-    if (!isset($_SESSION['id'])) 
-    {
-        header('Location: connexion.php');
-        exit();
-    }
-
-    // Récupération des données
-    $ID    = $_SESSION [   'id'];
-    $droit = $_SESSION ['droit'];
-
-    if ($droit != 1) 
-    {
-        header('Location: visualisation.php');
-        exit();
-    }
-
-?>
-
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-	<link rel='stylesheet' href='../css/header.css'  type='text/css' />
-	<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>
-	<link rel='stylesheet' href='../css/footer.css'  type='text/css' />
-
-	<title>O.T.A.N. - Importer</title>
-</head>
-<body>
-	
-	<?php
-		// Afficher le header admin (dans importer seul l'admin peut venir)
-		incHeaderAdmin();
-	?>
-
-	<h1>Importer</h1>
-
-	<section class="encad">
-
-		<?php
-			// Afficher le corps du document
-			corps();
-		?>
-
-	</section>
-
-	<?php
-		// Afficher le footer
-		pied();
-	?>
-
-</body>
-</html>
-
-<?php
-	function corps()
+	// Vérification que la session existe bien
+	if (!isset($_SESSION['id'])) 
 	{
-		selectionFichier();
+		header('Location: connexion.php');
+		exit();
+	}
 
-		// Vérifier si le formulaire a été soumis et si un fichier a été envoyé
-		if(isset($_POST['submit']) && isset($_FILES['file']) && isset($_POST['nombre'])) 
-		{
-			// Récupérer le nom du fichier
-			$file_name = $_FILES['file']['name'];
+	// Récupération des données
+	$ID    = $_SESSION [   'id'];
+	$droit = $_SESSION ['droit'];
 
-			// Appeler la méthode mettreDansDB() avec le chemin du fichier envoyé
-			$chemin_fichier = $_FILES['file']['tmp_name'];
+	if ($droit != 1) 
+	{
+		header('Location: visualisation.php');
+		exit();
+	}
 
-			mettreDansDB($chemin_fichier, $_POST['nombre']);
-            echo "<br>\n";
-            echo $file_name;
-            echo " année ";
-            echo $_POST['nombre'];
+	enTete1_2();
+	echo "\t \t<link rel='stylesheet' href='../css/header.css'  type='text/css' />\n";
+	echo "\t \t<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>\n";
+	echo "\t \t<link rel='stylesheet' href='../css/footer.css'  type='text/css' />\n";
+	echo "\t \t<title>O.T.A.N. - Importer</title>\n";
+	enTete2_2();
+	echo "\t \t";
+	incHeaderAdmin();
+	$db = DB::getInstance();
+	$lstAnn = $db->getAllAnnee();
+	echo "\t \t<h1>Importer</h1>\n";
+	echo "\t \t<section class=\"encad\">\n";
+	corps($lstAnn);
+	echo "\n\t \t</section>\n";
+	echo "\t \t";
+	pied();
+	echo "\n\t</body>\n</html>\n";
+
+
+	function corps($lstAnn)
+	{
+		echo "\t \t \t<form method=\"post\">\n";
+		echo "\t \t \t \t<label for=\"choix_fichier\">Choisir le type de fichier :</label>\n";
+		echo "\t \t \t \t<select name=\"choix_fichier\" id=\"choix_fichier\">\n";
+		echo "\t \t \t \t \t<option value=\"jury/moyenne\""; 
+		if(isset($_POST['choix_fichier']) && $_POST['choix_fichier'] == "jury/moyenne") echo " selected"; 
+		echo ">Fichier Jury/Moyenne</option>\n";
+		echo "\t \t \t \t \t<option value=\"fichier coef\""; 
+		if(isset($_POST['choix_fichier']) && $_POST['choix_fichier'] == "fichier coef") echo " selected"; 
+		echo ">Fichier Coef</option>\n";
+		echo "\t \t \t \t</select>\n";
+		echo "\t \t \t \t<input type=\"submit\" name=\"submit\" value=\"Sélectionner\">\n";
+		echo "\t \t \t</form>\n";
+		echo "\t \t \t<p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p><br><br>\n";
+
+		// Vérifier si le formulaire est soumis
+		if(isset($_POST['submit'])){
+			// Vérifier si une option est sélectionnée
+			if(isset($_POST['choix_fichier'])){
+				$choix = $_POST['choix_fichier'];
+				// Appeler la fonction appropriée en fonction de l'option sélectionnée
+				if($choix == "jury/moyenne"){
+					selectionFichier($lstAnn);
+				} elseif($choix == "fichier coef"){
+					selectionFichier2();
+				}
+			}
+		}
+}
+
+	function selectionFichier($lstAnn)
+	{
+		echo "\t \t \t<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">\n";
+		echo "\t \t \t \t<label for=\"file\">Sélectionner un fichier :</label>\n";
+		echo "\t \t \t \t<input type=\"file\" id=\"file\" name=\"file\" accept=\".xlsx\" required><br><br>\n";
+		echo "\t \t \t \t<label for=\"annee\">Entrez l'année du fichier :</label>\n";
+		echo "\t \t \t \t<select name=\"annee\" onchange=\"afficherOuCacherChamp()\">\n";
+		foreach ($lstAnn as $annee) {
+			echo "\t \t \t \t\t<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
 		}
 
-        echo "</body>\n";
-        echo "</html>\n";
+		echo "\t \t \t \t \t<option value=\"NouvelleAnnee\">Nouvelle Annee</option>\n";
+		echo "\t \t \t \t</select><br><br>\n";
+		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:none;\">Nouvelle année:</p>";
+		echo "\t \t \t \t<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" style=\"display:none;\"required><br>\n";
+		echo "\t \t \t \t<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
+		echo "\t \t \t</form>";
+
+		if(isset($_POST['submit']) && isset($_FILES['file'])) 
+		{
+			$chemin_fichier = $_FILES['file']['tmp_name'];
+			$annee_selectionnee = $_POST['annee'];
+			if ($annee_selectionnee == 'NouvelleAnnee') {
+				$annee_selectionnee = $_POST['nombre'];
+			}
+			mettreDansDB($chemin_fichier, $annee_selectionnee);
+		}
 	}
 
-
-	function selectionFichier()
+	function selectionFichier2()
 	{
-		echo '<form action="" method="post" enctype="multipart/form-data">
-			<label for="file">Sélectionner un fichier :</label>
-			<input type="file" id="file" name="file" accept=".xlsx" required><br><br>
-            <label for="nombre">Entrez l\'année du fichier :</label>
-            <input type="text" id="nombre" name="nombre" pattern="[0-9]+" required><br><br><br>
-            <p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p><br><br>
-			<input type="submit" name="submit" class="Valid" value="Enregistrer">
-		</form>';
+		echo "\t \t \t<form action=\"\" method=\"post\" enctype=\"multipart/form-data\">\n";
+		echo "\t \t \t \t<label for=\"file\">Sélectionner un fichier :</label>\n";
+		echo "\t \t \t \t<input type=\"file\" id=\"file\" name=\"file\" accept=\".xlsx\" required><br><br>\n";
+		echo "\t \t \t \t<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
+		echo "\t \t \t</form>\n";
+		// Vérifier si le formulaire a été soumis et si un fichier a été envoyé
+		if( isset($_POST['submit']) && isset($_FILES['file']) ) 
+		{
+			$chemin_fichier = $_FILES['file']['tmp_name'];
+			mettreCoef($chemin_fichier);
+		}
 	}
-
 ?>
+<script type="text/javascript">
+	function afficherOuCacherChamp() {
+		var selectElement = document.getElementsByName('annee')[0];
+		var optionSelected = selectElement.options[selectElement.selectedIndex].value;
+		var nouvelleAnneeText = document.getElementById('nouvelleAnneeText');
+		var nombreInput = document.getElementById('nombre');
+
+		if (optionSelected == 'NouvelleAnnee') {
+			nouvelleAnneeText.style.display = 'block';
+			nombreInput.style.display = 'block';
+		} else {
+			nouvelleAnneeText.style.display = 'none';
+			nombreInput.style.display = 'none';
+		}
+	}
+</script>
+

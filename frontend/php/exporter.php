@@ -1,4 +1,9 @@
 <?php
+	/** exporter.php
+	* @author  : Justine BONDU, Matéo SA, Alizéa LEBARON
+	* @since   : 29/03/2024
+	* @version : 1.0.0 - 03/04/2024
+	*/
 	include ("fctAux.inc.php");
 	session_start();
 	error_reporting(E_ALL);
@@ -29,11 +34,10 @@
 	}
 	iset();
 	enTete1_2();
-	echo "<link rel='stylesheet' href='../css/header.css'  type='text/css' />\n";
-	echo "<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>\n";
-	echo "<link rel='stylesheet' href='../css/footer.css'  type='text/css' />\n";
-	echo "<title>O.T.A.N. - Exporter</title>\n";
-	
+	echo "\t<link rel='stylesheet' href='../css/header.css'  type='text/css' />\n";
+	echo "\t<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>\n";
+	echo "\t<link rel='stylesheet' href='../css/footer.css'  type='text/css' />\n";
+	echo "\t<title>O.T.A.N. - Exporter</title>\n";
 	enTete2_2();
 
 	// Afficher le header en fonction de l'utilisateur
@@ -42,12 +46,12 @@
 
 	$db = DB::getInstance();
 	$lstAnn = $db->getAllAnnee();
-	echo "<h1>Exporter</h1>\n";
-	echo "<section class=\"encad\">\n";
+	echo "\t<h1>Exporter</h1>\n";
+	echo "\t<section class=\"encad\">\n";
 	genererTableau($lstAnn);
-	echo "</section>\n";
+	echo "\t</section>\n";
 	pied();
-	echo "</body>\n</html>\n";
+	echo "\t</body>\n</html>\n";
 
 
 
@@ -98,14 +102,14 @@
 
 	function genererTableau($lstAnn)
 	{
-		echo "<p> Veillez exporter les fichier un par un. </p>";
+		echo "\t<p> Veillez exporter les fichier un par un. </p>\n<br>\n";
 		echo "<form method='post' action=''>\n";
-		echo "<label for=\"annee\">Sélectionner une année :</label>";
-		echo "<select name=\"annee\">";
+		echo "<label for=\"annee\">Sélectionner une année :</label>\n";
+		echo "<select name=\"annee\">\n";
 		foreach ($lstAnn as $annee) {
 			echo "<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
 		}
-		echo "</select><br><br>";
+		echo "</select>\n<br><br>\n";
 
 		echo "<table >\n";
 		for ($i = 1; $i < 7; $i++) {
