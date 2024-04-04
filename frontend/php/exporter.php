@@ -123,7 +123,12 @@
 		echo "\t \t \t<form method='post' action=''>\n";
 		echo "\t \t \t \t<label for=\"annee\">Sélectionner une année :</label>\n";
 		echo "\t \t \t \t<select name=\"annee\">\n";
-		foreach ($lstAnn as $annee) { echo "\t \t \t \t \t<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n"; }
+
+		$anneeChoisie = isset($_POST['annee']) ? $_POST['annee'] : null;
+		foreach ($lstAnn as $annee) {
+			$selected = ($annee->getId_annee() == $anneeChoisie) ? 'selected' : '';
+			echo "\t \t \t \t \t<option value='".$annee->getId_annee()."' $selected>".$annee->getId_annee()."</option>\n";
+		}
 		echo "\t \t \t \t</select>\n";
 		echo "\t \t \t \t<input type=\"submit\" value=\"Consulter\">";
 		echo "\t \t \t</form><br>";
