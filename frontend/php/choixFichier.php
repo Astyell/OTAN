@@ -49,30 +49,29 @@
 
 	function corps($lstAnn)
 	{
-        echo "\t \t \t<div class=\"envDonn\">  </div>\n";
 		echo "\t \t \t<p> Attention tout enregistrement est définitif, pour modifier les données, il faudra le faire directement sur la page visualisation ou supprimer les données puis re-télécharger les données. </p>\n";
-        echo "\t \t \t<h2>Fichier Jury/Moyenne</h2>\n";
-        selectionFichier($lstAnn);
-        if(isset($_POST['submit1']) && isset($_FILES['file'])) 
+		echo "\t \t \t<h2>Fichier Jury/Moyenne</h2>\n";
+		selectionFichier($lstAnn);
+		if(isset($_POST['submit1']) && isset($_FILES['file'])) 
 		{
 			$chemin_fichier = $_FILES['file']['tmp_name'];
 			$annee_selectionnee = $_POST['annee'];
 			if ($annee_selectionnee == 'NouvelleAnnee') {
 				$annee_selectionnee = $_POST['nombre'];
 			}
-            echo $_FILES['file']['name'];
+			echo $_FILES['file']['name'];
 			mettreDansDB($chemin_fichier, $annee_selectionnee);
 		}
-        echo "<br>";
-        echo "\t \t \t<h2>Fichier Coef</h2>\n";
-        selectionFichier2();
-        if( isset($_POST['submit2']) && isset($_FILES['file']) ) 
+		echo "<br>\n";
+		echo "\t \t \t<h2>Fichier Coef</h2>\n";
+		selectionFichier2();
+		if( isset($_POST['submit2']) && isset($_FILES['file']) ) 
 		{
 			$chemin_fichier = $_FILES['file']['tmp_name'];
-            echo $_FILES['file']['name'];
+			echo $_FILES['file']['name'];
 			mettreCoef($chemin_fichier);
 		}
-    }
+	}
 
 	function selectionFichier($lstAnn)
 	{
@@ -86,8 +85,7 @@
 			echo "\t \t \t \t\t<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
 		}
 		echo "\t \t \t \t</select><br><br>\n";
-		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:block;\">Nouvelle année:</p>\n";
-		echo "\t \t \t \t<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" style=\"display:block;\"required><br>\n";
+		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:block;\">Nouvelle année:<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" required></p><br>";
 		echo "\t \t \t \t<input type=\"submit\" name=\"submit1\" class=\"Valid\" value=\"Enregistrer\">\n";
 		echo "\t \t \t</form>";
 	}
