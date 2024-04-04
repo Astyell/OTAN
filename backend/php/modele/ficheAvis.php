@@ -49,13 +49,13 @@ function ficheAvis($annee, $nEtud)
 					if ($note->getId_competence() == $oCompetences[$cpt]->getId_competence()) //Si c'est la bonne compétence
 					{
 						$resS1[$nbS1++] = $note->getMoy_UE();
-						echo "1";
+						//echo "1";
 					}			
 					
 					if ($note->getId_competence() == $competences[$cpt]->getId_competence()) //Si c'est la bonne compétence
 					{
 						$resS2[$nbS2++] = $note->getMoy_UE();
-						echo "2";
+						//echo "2";
 					}		
 				}	
 			}
@@ -67,7 +67,7 @@ function ficheAvis($annee, $nEtud)
 	for ($cpt=0;$cpt < $nbS1;$cpt++)
 	{
 		$moyUe[$cpt] = ($resS1[$cpt] + $resS2[$cpt])/2;
-		echo $moyUe[$cpt] . " | ";
+		//echo $moyUe[$cpt] . " | ";
 	}
 	
 	
