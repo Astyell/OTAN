@@ -54,8 +54,13 @@
 		selectionFichier($lstAnn);
 		if(isset($_POST['submit1']) && isset($_FILES['file'])) 
 		{
+			
 			$chemin_fichier = $_FILES['file']['tmp_name'];
-			$annee_selectionnee = $_POST['annee'];
+			$annee_selectionnee = isset($_POST['annee']) ? $_POST['annee'] : null;
+
+			if ($annee_selectionnee === null && count($lstAnn) > 0) {
+				$annee_selectionnee = $lstAnn[0]->getId_annee();
+			}
 			if ($annee_selectionnee == 'NouvelleAnnee') {
 				$annee_selectionnee = $_POST['nombre'];
 			}
@@ -85,7 +90,7 @@
 			echo "\t \t \t \t\t<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
 		}
 		echo "\t \t \t \t</select><br><br>\n";
-		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:block;\">Nouvelle année:<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" required></p><br>";
+		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:block;\">Nouvelle année:<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\"></p><br>";
 		echo "\t \t \t \t<input type=\"submit\" name=\"submit1\" class=\"Valid\" value=\"Enregistrer\">\n";
 		echo "\t \t \t</form>";
 	}
@@ -102,18 +107,20 @@
 	}
 ?>
 <script type="text/javascript">
-	function afficherOuCacherChamp() {
-		var selectElement = document.getElementsByName('annee')[0];
-		var optionSelected = selectElement.options[selectElement.selectedIndex].value;
-		var nouvelleAnneeText = document.getElementById('nouvelleAnneeText');
-		var nombreInput = document.getElementById('nombre');
+    function afficherOuCacherChamp() {
+        var selectElement = document.getElementsByName('annee')[0];
+        var optionSelected = selectElement.options[selectElement.selectedIndex].value;
+        var nouvelleAnneeText = document.getElementById('nouvelleAnneeText');
+        var nombreInput = document.getElementById('nombre');
 
-		if (optionSelected == 'NouvelleAnnee') {
-			nouvelleAnneeText.style.display = 'block';
-			nombreInput.style.display = 'block';
-		} else {
-			nouvelleAnneeText.style.display = 'none';
-			nombreInput.style.display = 'none';
-		}
-	}
+        if (optionSelected == 'NouvelleAnnee') {
+            nouvelleAnneeText.style.display = 'block';
+            nombreInput.style.display = 'block';
+            nombreInput.setAttribute('required', 'required'); // Ajout de l'attribut required
+        } else {
+            nouvelleAnneeText.style.display = 'none';
+            nombreInput.style.display = 'none';
+            nombreInput.removeAttribute('required'); // Suppression de l'attribut required
+        }
+    }
 </script>

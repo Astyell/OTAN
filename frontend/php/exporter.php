@@ -70,14 +70,11 @@
 			}
 			foreach ($lstSem as $semestre) 
 			{
-				if ($semestre->getId_annee() == $anneeChoisie)
+				if ($semestre->getId_annee() == $anneeChoisie) //exportation des fichier lier au semestre
 				{
 					for ($j = 0; $j < 3; $j++) {
-						if(isset($_POST['commission_'.$semestre->getId_semestre().'_'.$j])) {
-							//echo 'commission_'.$i.'_'.$j;
-							//echo "<br>\n";
-							//if( $j==0 ) { creerPvComm($i,$anneeChoisie); }
-							if($j==0)
+						if(isset($_POST['commission_'.$semestre->getId_semestre().'_'.$j])) { // exportation des fichiers commission
+							if($j==0) //exportation des fichiers commission  au format excel
 							{
 								setcookie('pv', 'comm', time() + 50, '/');
 								setcookie('semestre', $semestre->getId_semestre(), time() + 50, '/');
@@ -86,9 +83,11 @@
 								header('Location: ../../backend/php/modele/createurFichier.php');
 								exit();
 							}
+							if($j==1) { /*exportation des fichiers commission au format word */ }
+							if($j==2) { /*exportation des fichiers commission au format PDF*/ }
 						}
-						if(isset($_POST['jury_'.$semestre->getId_semestre().'_'.$j])) {
-							if($j==0)
+						if(isset($_POST['jury_'.$semestre->getId_semestre().'_'.$j])) {// exportation des fichiers jury
+							if($j==0) //exportation des fichiers jury au format excel
 							{
 								setcookie('pv', 'jury', time() + 50, '/');
 								setcookie('semestre', $semestre->getId_semestre(), time() + 50, '/');
@@ -97,17 +96,26 @@
 								header('Location: ../../backend/php/modele/createurFichier.php');
 								exit();
 							}
+							if($j==1) { /*exportation des fichiers jury au format word */ }
+							if($j==2) { /*exportation des fichiers jury au format PDF*/ }
 						}
 					}
 					for ($k = 0; $k < 2; $k++) {
 						if(isset($_POST['AvisPoursuiteEtude_'.$k])) {
-							echo 'AvisPoursuiteEtude_'.$k;
+							//echo 'AvisPoursuiteEtude_'.$k;
+							if($j==0) { /*exportation des fichiers avis de poursuite d'étude au format word */ }
+							if($j==1) //exportation des fichiers avis de poursuite d'étude au format PDF
+							{ 
+
+							}
 						}
 					}
 				}
 			}
 		}
 	}
+
+	
 
 	function genererTableau($lstAnn, $lstSem)
 	{
