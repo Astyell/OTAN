@@ -7,6 +7,14 @@ require 'modele/ficheAvis.php';
 
 use Dompdf\Dompdf;
 
+$argument1 = $_COOKIE['pv'];
+$argument2 = $_COOKIE['pv'];
+
+if($argument1 != null && $argument2 != null && $argument3 != null)
+{
+    genererAvis(2024, '8860');
+}
+
 function genererAvis($annee, $netud)
 {
 	//Recuperation images
@@ -38,7 +46,7 @@ function AvisAllEtudiant($annee)
 	{
 		genererAvis($annee, $etudiant->getN_Etud());
 	}
-}
+}*/
 
-//genererAvis(2024, '8860');
+
 //AvisAllEtudiant(2024);
