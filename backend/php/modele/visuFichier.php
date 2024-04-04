@@ -446,5 +446,3 @@ function affichePvCommission($numSemestre,$annee)
 	}
 	echo "</table>";
 }
-
-affichePvCommission(1,2024);
