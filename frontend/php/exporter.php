@@ -35,9 +35,11 @@
 	$db = DB::getInstance();
 	$lstAnn = $db->getAllAnnee();
 	$lstSem = $db->getAllSemestre();
+	$etudiants = $db->getAllEtuSemWithSem(5, $annee);
 	sort($lstAnn);
 	sort($lstSem);
-	iset($lstAnn, $lstSem);
+	sort($etudiants);
+	iset($lstAnn, $lstSem, $etudiants);
 	enTete1_2();
 	echo "\t \t<link rel='stylesheet' href='../css/header.css'  type='text/css' />\n";
 	echo "\t \t<link rel='stylesheet' href='../css/impoExp.css' type='text/css'/>\n";
@@ -58,13 +60,13 @@
 
 
 
-	function iset($lstAnn, $lstSem)
+	function iset($lstAnn, $lstSem, $etudiants)
 	{
-		$anneeChoisie = 0;
 		if(isset($_POST['valider'])) {
-			$anneeChoisie = $_POST['annee'];
 
 			$anneeChoisie = isset($_POST['annee']) ? $_POST['annee'] : null;
+			echo $anneeChoisie;
+			
 			if ($anneeChoisie === null && count($lstAnn) > 0) {
 				$anneeChoisie = $lstAnn[0]->getId_annee();
 			}
@@ -106,7 +108,7 @@
 							if($j==0) { /*exportation des fichiers avis de poursuite d'étude au format word */ }
 							if($j==1) //exportation des fichiers avis de poursuite d'étude au format PDF
 							{ 
-
+								//AvisAllEtudiant($anneeChoisie, $etudiants);
 							}
 						}
 					}
@@ -125,6 +127,7 @@
 		echo "\t \t \t \t<select name=\"annee\">\n";
 
 		$anneeChoisie = isset($_POST['annee']) ? $_POST['annee'] : null;
+		$ann = $anneeChoisie;
 		foreach ($lstAnn as $annee) {
 			$selected = ($annee->getId_annee() == $anneeChoisie) ? 'selected' : '';
 			echo "\t \t \t \t \t<option value='".$annee->getId_annee()."' $selected>".$annee->getId_annee()."</option>\n";
@@ -165,6 +168,15 @@
 		echo "\t \t \t \t<p>Attention, les avis de poursuite d'étude sont nominatifs et nécessitent de modifier le modèle en amont.</p><br>\n";
 		echo "\t \t \t \t<input type=\"submit\" class=\"Valid\" name=\"valider\" value=\"Valider\">\n";
 		echo "\t \t \t</form>\n";
+	}
+
+	function AvisAllEtudiant($annee, $etudiants)
+	{
+		echo $etudiants;
+		foreach($etudiants as $etudiant)
+		{
+			genererAvis($annee, $etudiant->getN_Etud());
+		}
 	}
 	
 ?>
