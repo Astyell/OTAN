@@ -177,6 +177,7 @@
 		{
 			genererAvis($annee, $etudiant->getN_Etud());
 		}
+		//genererAvis($annee, '8860');
 	}
 	
 ?>
