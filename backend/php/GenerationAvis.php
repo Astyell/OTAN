@@ -39,6 +39,6 @@ function AvisAllEtudiant($annee)
 		genererAvis($annee, $etudiant->getN_Etud());
 	}
 }
-
+*/
 //genererAvis(2024, '8860');
 //AvisAllEtudiant(2024);
