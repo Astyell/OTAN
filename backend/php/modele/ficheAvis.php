@@ -28,6 +28,10 @@ function ficheAvis($annee, $nEtud, $imagePath1, $imagePath2, $imagePath3)
 
 
 	$moyUe = array();
+
+	for($i=0;$i<20;$i++)
+		$moyUe[$i] = 0;
+
 	$resS1 = array();
 	$resS2 = array();
 	$nbS1 = 0;
@@ -73,17 +77,7 @@ function ficheAvis($annee, $nEtud, $imagePath1, $imagePath2, $imagePath3)
 	
 	
 	return '
-	<!DOCTYPE html>
-		<html lang="fr">
-		
-		<head>
-			<meta charset="UTF-8">
-			<meta name="viewport" content="width=device-width, initial-scale=1.0">
-			<link rel="stylesheet" href="../../../frontend/css/avis.css">
-			<title>O.T.A.N. - Avis de Poursuite d\'Études</title>
-		</head>
-		
-			<body>
+	
 			
 			<div class="A4">
 			<div class="logos">
@@ -376,7 +370,27 @@ function ficheAvis($annee, $nEtud, $imagePath1, $imagePath2, $imagePath3)
 			<h6 class="drt" id="chefDept"> Nom du chef de Dept                     </h6>
 			<h6 class="signature" id="signDept" ><img src="data:image/jpeg;base64,' . $imagePath3 . '" alt="signature dep" class="logo"></h6>			
 			</div>
-		</body>
+		';
+}
+
+function getTop()
+{
+	return '<!DOCTYPE html>
+	<html lang="fr">
+	
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="../../../frontend/css/avis.css">
+		<title>O.T.A.N. - Avis de Poursuite d\'Études</title>
+	</head>
+	
+		<body>';
+}
+
+function getBot()
+{
+	return '</body>
 
 	</html>
 	
@@ -494,5 +508,4 @@ function ficheAvis($annee, $nEtud, $imagePath1, $imagePath2, $imagePath3)
 	</style>
 	';
 }
-
 ?>

@@ -9,8 +9,8 @@
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
 	//require '../../backend/php/modele/createurFichier.php';
-	//include('../../backend/php/DB/DB.inc.php');
-	require '../../backend/php/GenerationAvis.php';
+	include('../../backend/php/DB/DB.inc.php');
+	//require '../../backend/php/GenerationAvis.php';
 
 	// Vérification que la session existe bien
 	if (!isset($_SESSION['id'])) 
@@ -22,6 +22,9 @@
 	setcookie('pv', 'null', time() + 50, '/');
 	setcookie('semestre', 'null', time() + 50, '/');
 	setcookie('annee', 'null', time() + 50, '/');
+
+	setcookie('annee2', 'null', time() + 50, '/');
+	setcookie('netud', 'null', time() + 50, '/');
 
 	// Récupération des données
 	$ID    = $_SESSION [   'id'];
@@ -175,8 +178,13 @@
 		echo $etudiants;
 		foreach($etudiants as $etudiant)
 		{
-			genererAvis($annee, $etudiant->getN_Etud());
+			setcookie('annee2', $annee, time() + 50, '/');
+			setcookie('netud', $etudiant->getN_Etud(), time() + 50, '/');
+
+			header('Location: ../../backend/php/GenerationAvis.php');
+			exit();
 		}
+		//genererAvis($annee, '8860');
 	}
 	
 ?>

@@ -7,12 +7,12 @@ require 'modele/ficheAvis.php';
 
 use Dompdf\Dompdf;
 
-$argument1 = $_COOKIE['pv'];
-$argument2 = $_COOKIE['pv'];
+$argument1 = $_COOKIE['annee2'];
+$argument2 = $_COOKIE['netud'];
 
-if($argument1 != null && $argument2 != null && $argument3 != null)
+if($argument1 != null && $argument2 != null && !strstr($argument2, 'null'))
 {
-    genererAvis(2024, '8860');
+    genererAvis($argument1, $argument2);
 }
 
 function genererAvis($annee, $netud)
@@ -24,7 +24,21 @@ function genererAvis($annee, $netud)
 
 	// instantiate and use the dompdf class
 	$dompdf = new Dompdf();
-	$dompdf->loadHtml(ficheAvis($annee, $netud, $imageData1, $imageData2, $imageData3) );
+
+	$html = getTop();
+
+	$db = DB::getInstance();
+
+	$etudiants = $db->getAllEtuSemWithSem(5, $annee);
+
+	foreach($etudiants as $etudiant)
+	{
+		$html .= ficheAvis($annee, $etudiant->getN_Etud(), $imageData1, $imageData2, $imageData3);
+		$html .= "<br><br><br><br><br><br>";
+	}
+	$html .= getBot();
+
+	$dompdf->loadHtml($html);
 
 	// (Optional) Setup the paper size and orientation
 	$dompdf->setPaper('A4', 'portrait');
@@ -35,18 +49,4 @@ function genererAvis($annee, $netud)
 	// Output the generated PDF to Browser
 	$dompdf->stream('Avis-' . $netud . '-' . $annee);
 }
-/*
-function AvisAllEtudiant($annee)
-{
-	$db = DB::getInstance();
 
-	$etudiants = $db->getAllEtuSemWithSem(5, $annee);
-
-	foreach($etudiants as $etudiant)
-	{
-		genererAvis($annee, $etudiant->getN_Etud());
-	}
-}*/
-
-
-//AvisAllEtudiant(2024);
