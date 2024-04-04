@@ -46,9 +46,12 @@
 
 	$db = DB::getInstance();
 	$lstAnn = $db->getAllAnnee();
+	$lstSem = $db->getAllSemestre();
+	sort($lstAnn);
+	sort($lstSem);
 	echo "\t<h1>Exporter</h1>\n";
 	echo "\t<section class=\"encad\">\n";
-	genererTableau($lstAnn);
+	genererTableau($lstAnn, $lstSem);
 	echo "\t</section>\n";
 	pied();
 	echo "\t</body>\n</html>\n";
@@ -77,9 +80,6 @@
 						}
 					}
 					if(isset($_POST['jury_'.$i.'_'.$j])) {
-						//echo 'jury_'.$i.'_'.$j;
-						//echo "<br>\n";
-					//if( $j==0 ) { /*creerPvJury($i,$anneeChoisie);*/ }
 						if($j==0)
 						{
 							setcookie('pv', 'jury', time() + 50, '/');
@@ -100,41 +100,44 @@
 		}
 	}
 
-	function genererTableau($lstAnn)
+	function genererTableau($lstAnn, $lstSem)
 	{
 		echo "\t<p> Veillez exporter les fichier un par un. </p>\n<br>\n";
 		echo "<form method='post' action=''>\n";
 		echo "<label for=\"annee\">Sélectionner une année :</label>\n";
 		echo "<select name=\"annee\">\n";
-		foreach ($lstAnn as $annee) {
-			echo "<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
+		foreach ($lstAnn as $annee) { echo "<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n"; }
+		echo "</select>\n";
+		echo "</select><input type=\"submit\" value=\"Consulter\">";
+		echo "</form>\n<br><br>";
+		$anneeSelectionnee = isset($_POST['annee']) ? $_POST['annee'] : null;
+		if ($anneeSelectionnee === null && count($lstAnn) > 0) {
+			$anneeSelectionnee = $lstAnn[0]->getId_annee();
 		}
-		echo "</select>\n<br><br>\n";
-
+		echo "<form method='post' action=''>\n";
 		echo "<table >\n";
-		for ($i = 1; $i < 7; $i++) {
-			echo "<tr>\n<th >S".$i."</th > \n<th >Excel</th > \n<th >Word</th > \n<th >PDF</th >\n</tr>\n";
-			echo "<tr>\n";
-			// Première ligne
-			echo "<td>fichier commission</td>\n";
-			for ($j = 0; $j < 3; $j++) {
-				echo "<td class='case'><input type='checkbox' class='caseC' name='commission_".$i."_".$j."'></td>\n";
-			}
-			// Deuxième ligne
-			echo "</tr>\n<tr>\n";
-			echo "<td>fichier jury</td>\n";
-			for ($k = 0; $k < 3; $k++) {
-				echo "<td class='case'><input type='checkbox' class='caseC' name='jury_".$i."_".$k."'></td>\n";
-			}
-			echo "</tr>\n";
-		}
 
+		foreach ($lstSem as $semestre) 
+		{
+			if ($semestre->getId_annee() == $anneeSelectionnee)
+			{
+				echo "<tr>\n<th >S".$semestre->getId_semestre()."</th > \n<th >Excel</th > \n<th >Word</th > \n<th >PDF</th >\n</tr>\n";
+				echo "<tr>\n";
+				echo "<td>fichier commission</td>\n";
+				echo "<td class='case'><input type='checkbox' class='caseC' name='commission_".$semestre->getId_semestre()."_0'></td>\n";
+				for ($j = 1; $j < 3; $j++) { echo "<td class='case'><input type='checkbox' class='caseInnac' name='commission_".$semestre->getId_semestre()."_".$j."' disabled></td>\n"; }
+				echo "</tr>\n<tr>\n";
+				echo "<td>fichier jury</td>\n";
+				echo "<td class='case'><input type='checkbox' class='caseC' name='jury_".$semestre->getId_semestre()."_0'></td>\n";
+				for ($k = 1; $k < 3; $k++) { echo "<td class='case'><input type='checkbox' class='caseInnac' name='jury_".$semestre->getId_semestre()."_".$k."' disabled></td>\n"; }
+				echo "</tr>\n";
+			}
+		}
 		echo "<tr>\n";
 		echo "<tr >\n<th COLSPAN=2>Autre</th >  \n<th >Word</th > \n<th >PDF</th >\n</tr>\n";
 		echo "<td COLSPAN=2>Avis de poursuite d'étude</td>\n";
-		for ($k = 0; $k < 2; $k++) {
-			echo "<td class='case'><input type='checkbox' class='caseC' name='AvisPoursuiteEtude_".$k."'></td>\n";
-		}
+		echo "<td class='case'><input type='checkbox' class='caseInnac' name='AvisPoursuiteEtude_0' disabled></td>\n";
+		echo "<td class='case'><input type='checkbox' class='caseC' name='AvisPoursuiteEtude_1'></td>\n";
 		echo "</tr>\n";
 		echo "</table>\n<br>\n";
 		echo "Attention, les avis de poursuite d'étude sont nominatifs et nécessitent de modifier le modèle en amont.\n<br><br>\n";
@@ -144,6 +147,7 @@
 	
 ?>
 <script>
+	
 	const checkboxes = document.querySelectorAll('.caseC');
 
 	checkboxes.forEach(checkbox => {
@@ -166,5 +170,4 @@
 			}
 		});
 	});
-
 </script>
