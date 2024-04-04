@@ -225,6 +225,7 @@ class DB
 	/* IDENTIFIANT */
 	/*-------------*/
 
+	// Utilisée dans utilisateur.php
 	public function getAllIdentifiant()
 	{
 		$requete = 'select * from identifiant';
@@ -239,12 +240,31 @@ class DB
 		return $this->execQuery($requete,array($id),'Identifiant');
 	}
 
+	//Utilisée dans utilisateurs.php
+	public function getMaxID()
+	{
+		$requete = 'select MAX(id) from identifiant';
+		return $this->execMaj($requete, null);
+	}
+
+	//Utilisée dans utilisateurs.php
 	public function insertIdentifiant($id, $mdp, $estAdmin)
 	{
-		$requete = 'insert into identifiant values(?,?,?)';
+		echo "Coucou je suis passé ici au fait id = $id mdp = $mdp et admin = $estAdmin";
+		$requete = 'insert into identifiant (identifiant, mdp, estAdmin) values(?,?,?)';
 		$tparam = array($id, $mdp, $estAdmin);
 		return $this->execMaj($requete, $tparam);
 	}
+
+	//Utilisée dans utilisateurs.php
+	public function deleteIdentifiant($id)
+	{
+		$requete = 'delete from identifiant where id = ?';
+		$tparam = array($id);
+		return $this->execMaj($requete, $tparam);
+	}
+
+	
 
 	/*-------------*/
 	/*  SEMESTRE   */

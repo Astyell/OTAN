@@ -47,7 +47,7 @@ CREATE TABLE identifiant
    identifiant VARCHAR(50),
    mdp VARCHAR(50) NOT NULL,
    estAdmin BOOL NOT NULL,
-   PRIMARY KEY(identifiant)
+   PRIMARY KEY(id)
 );
 
 CREATE TABLE ressource(

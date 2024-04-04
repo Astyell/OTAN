@@ -5,6 +5,9 @@
 	* @version : 1.0.0 - 03/04/2024
 	*/
 
+	// Reload la page à chaque fois pour les images
+	header("Cache-Control: no-cache, must-revalidate");
+
 	// Affichage des erreurs
 	error_reporting(E_ALL);
 	ini_set('display_errors', 1);
@@ -50,6 +53,44 @@
 
 <body>
 	<?php
+		// On se connecte à la BDD
+		$DB = DB::getInstance();
+
+		//On vérifie ce que l'on a à supprimer
+
+		if (isset($_GET['delete']))
+		{
+			$DB->deleteIdentifiant($_GET['delete']);
+		}
+
+		// On vérifie si l'on doit ajouter ou modifier quelque chose
+		if (isset($_POST['type']))
+		{
+			if ($_POST['type'] == "ajout")
+			{
+				$identifiant= $_POST['identifiant'];
+				$mdp  = verifMDP($_POST['mdp' ]);
+				$estAdmin = isset($_POST['admin']) ? $_POST['admin'] : 0;
+				
+				$DB->insertIdentifiant($identifiant, $mdp, $estAdmin);
+			}
+			if ($_POST['type'] == "modifier")
+			{
+				if (isset($_POST['valider'])) 
+				{
+					$identifiant= $_POST['identifiant'];
+					$mdp  = verifMDP($_POST['mdp' ]);
+					$estAdmin = isset($_POST['admin']) ? $_POST['admin'] : 0;
+					
+					$DB->updateIdentifiant($identifiant);
+					$DB->updateMDP($MDP);
+					$DB->updateIdentifiant($identifiant); //TODO
+				}
+				
+			}
+			
+		}
+
 		// Afficher le header admin (dans importer seul l'admin peut venir)
 		incHeaderAdmin();
 	?>
@@ -58,7 +99,14 @@
 
 		<h1>Listes des utilisateurs</h1>
 
+		<?php
+			// On récupère les users
+			$user = $DB->getAllIdentifiant();
 
+			// On génère un tableau avec leurs informations
+			genererTableau($user);
+
+		?>
 
 	</div>
 
@@ -75,24 +123,53 @@
 
 	function genererTableau ($user)
 	{
+		$DB = DB::getInstance();
+
 		echo "<table>";
 
 			echo "<tr>
+					<th>Numéro</th>
 					<th>Identifiant</th>
+					<th>Mot de passe</th>
+					<th>est Administrateur</th>
 					<th colspan=2>Gestion</th>
 				
 				</tr>";
 			
 			foreach ($user as $u) 
 			{
+				$estAdmin = $u->getEstAdmin	() == 1 ? "<input type='checkbox' name='estAdmin' disabled checked>" : "<input type='checkbox' name='estAdmin' disabled>";
+
 				echo "<tr>";
 
-					echo "<td>" . $u->getIdCli()   ."</td>";
-					echo "<td> <a href='?delete=". $u->getIdCli() ."'>Supprimer</a> </td>";
-					echo "<td> <a href='?modifier=". $u->getIdCli() ."'>Modifier</a> </td>";
+					echo "<td>" . $u->getId	()   ."</td>";
+					echo "<td>" . $u->getIdentifiant	()   ."</td>";
+					echo "<td> &nbsp </td>";
+					echo "<td>" . $estAdmin   ."</td>";
+					echo "<td> <a href='?delete=". $u->getId	() ."'>Supprimer</a> </td>";
+					echo "<td> <a href='?modifier=". $u->getId	() ."'>Modifier</a> </td>";
 
 				echo "</tr>";
 			}
+
+			$IdMax = $DB->getMaxId() + 1;
+
+			echo "<form action=\"utilisateur.php\" method=\"post\">";
+
+				echo 
+				"<tr>
+					<input type='hidden' name='type' value='ajout'>
+					<td><input type='number' name='id' min=0 disabled value=$IdMax></td>
+					<td><input type='text' name='identifiant'  required pattern = '^[A-Za-z0-9]+$'></td>
+					<td><input type='text' name='mdp'  required></td>
+					<td><input type='checkbox' name='admin'></td>
+					<td><input type='reset' value='Annuler D:'></td>
+					<td><input type='submit' value='Ajouter	 :D'></td>
+				</tr>";
+
+			echo "</form>";
+
+		echo "</table>";
 			
 	}
 
