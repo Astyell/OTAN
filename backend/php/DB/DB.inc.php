@@ -228,7 +228,7 @@ class DB
 	// Utilisée dans utilisateur.php
 	public function getAllIdentifiant()
 	{
-		$requete = 'select * from identifiant';
+		$requete = 'select * from identifiant ORDER BY id';
 		return $this->execQuery($requete, null, 'Identifiant');
 	}
 
@@ -250,7 +250,6 @@ class DB
 	//Utilisée dans utilisateurs.php
 	public function insertIdentifiant($id, $mdp, $estAdmin)
 	{
-		echo "Coucou je suis passé ici au fait id = $id mdp = $mdp et admin = $estAdmin";
 		$requete = 'insert into identifiant (identifiant, mdp, estAdmin) values(?,?,?)';
 		$tparam = array($id, $mdp, $estAdmin);
 		return $this->execMaj($requete, $tparam);
@@ -264,7 +263,13 @@ class DB
 		return $this->execMaj($requete, $tparam);
 	}
 
-	
+	//Utilisée dans utilisateurs.php
+	public function updateIdentifiant($id, $identifiant, $mdp, $estAdmin)
+	{
+		$requete = 'UPDATE identifiant SET identifiant = ?, mdp = ?, estAdmin = ? where id = ?';
+		$tparam = array($identifiant, $mdp, $estAdmin, $id);
+		return $this->execMaj($requete, $tparam);
+	}
 
 	/*-------------*/
 	/*  SEMESTRE   */

@@ -76,15 +76,15 @@
 			}
 			if ($_POST['type'] == "modifier")
 			{
+
 				if (isset($_POST['valider'])) 
 				{
-					$identifiant= $_POST['identifiant'];
-					$mdp  = verifMDP($_POST['mdp' ]);
-					$estAdmin = isset($_POST['admin']) ? $_POST['admin'] : 0;
+					$id = $_POST['idModif'];
+					$identifiant= $_POST['identifiantModif'];
+					$mdp  = verifMDP($_POST['mdpModif' ]);
+					$estAdmin = isset($_POST['estAdminModif']) ? $_POST['estAdminModif'] : 0;
 					
-					$DB->updateIdentifiant($identifiant);
-					$DB->updateMDP($MDP);
-					$DB->updateIdentifiant($identifiant); //TODO
+					$DB->updateIdentifiant($id, $identifiant, $mdp, $estAdmin);
 				}
 				
 			}
@@ -125,31 +125,64 @@
 	{
 		$DB = DB::getInstance();
 
+		$npModif = -1;
+
+		if (isset($_GET['modifier']))
+		{
+			$npModif = $_GET['modifier'];
+		}
+
 		echo "<table>";
 
 			echo "<tr>
 					<th>Numéro</th>
 					<th>Identifiant</th>
 					<th>Mot de passe</th>
-					<th>est Administrateur</th>
+					<th>Administrateur</th>
 					<th colspan=2>Gestion</th>
 				
 				</tr>";
 			
 			foreach ($user as $u) 
 			{
-				$estAdmin = $u->getEstAdmin	() == 1 ? "<input type='checkbox' name='estAdmin' disabled checked>" : "<input type='checkbox' name='estAdmin' disabled>";
+				if ($u->getId() == $npModif)
+				{
+					$estAdmin = $u->getEstAdmin	() == 1 ? "<input type='checkbox' name='estAdminModif' checked>" : "<input type='checkbox' name='estAdminModif'>";
+					$idAct = $u->getId();
+					$idenAct = $u->getIdentifiant();
 
-				echo "<tr>";
+					echo "<form action=\"utilisateur.php\" method=\"post\">";
 
-					echo "<td>" . $u->getId	()   ."</td>";
-					echo "<td>" . $u->getIdentifiant	()   ."</td>";
-					echo "<td> &nbsp </td>";
-					echo "<td>" . $estAdmin   ."</td>";
-					echo "<td> <a href='?delete=". $u->getId	() ."'>Supprimer</a> </td>";
-					echo "<td> <a href='?modifier=". $u->getId	() ."'>Modifier</a> </td>";
+					echo "<tr>
 
-				echo "</tr>";
+						<input type='hidden' name='type' value='modifier'>
+						<input type='hidden' name='idModif' value=$idAct>
+						<td>$idAct</td>
+						<td><input type='text' name='identifiantModif' value='$idenAct'  required pattern = '^[A-Za-z0-9]+$'></td>
+						<td><input type='password' name='mdpModif'  required></td>
+						<td>$estAdmin</td>
+						<td><input type='reset' name='annuler' value='Annuler'></td>
+						<td><input type='submit'name='valider' value='Modifier'></td>
+
+					</tr>";
+
+					echo "</form>";
+				}
+				else
+				{
+					$estAdmin = $u->getEstAdmin	() == 1 ? "<input type='checkbox' name='estAdmin' disabled checked>" : "<input type='checkbox' name='estAdmin' disabled>";
+
+					echo "<tr>";
+
+						echo "<td>" . $u->getId	()   ."</td>";
+						echo "<td>" . $u->getIdentifiant	()   ."</td>";
+						echo "<td> &nbsp </td>";
+						echo "<td>" . $estAdmin   ."</td>";
+						echo "<td> <a href='?delete=". $u->getId	() ."'>Supprimer</a> </td>";
+						echo "<td> <a href='?modifier=". $u->getId	() ."'>Modifier</a> </td>";
+
+					echo "</tr>";
+				}
 			}
 
 			$IdMax = $DB->getMaxId() + 1;
@@ -159,12 +192,12 @@
 				echo 
 				"<tr>
 					<input type='hidden' name='type' value='ajout'>
-					<td><input type='number' name='id' min=0 disabled value=$IdMax></td>
+					<td>&nbsp</td>
 					<td><input type='text' name='identifiant'  required pattern = '^[A-Za-z0-9]+$'></td>
-					<td><input type='text' name='mdp'  required></td>
+					<td><input type='password' name='mdp'  required></td>
 					<td><input type='checkbox' name='admin'></td>
-					<td><input type='reset' value='Annuler D:'></td>
-					<td><input type='submit' value='Ajouter	 :D'></td>
+					<td><input type='reset' value='Annuler'></td>
+					<td><input type='submit' value='Ajouter'></td>
 				</tr>";
 
 			echo "</form>";
