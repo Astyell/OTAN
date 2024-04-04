@@ -85,14 +85,13 @@
 		echo "\t \t \t \t<input type=\"file\" id=\"file\" name=\"file\" accept=\".xlsx\" required><br><br>\n";
 		echo "\t \t \t \t<label for=\"annee\">Entrez l'année du fichier :</label>\n";
 		echo "\t \t \t \t<select name=\"annee\" onchange=\"afficherOuCacherChamp()\">\n";
+		echo "\t \t \t \t \t<option value=\"NouvelleAnnee\">Nouvelle Annee</option>\n";
 		foreach ($lstAnn as $annee) {
 			echo "\t \t \t \t\t<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
 		}
-
-		echo "\t \t \t \t \t<option value=\"NouvelleAnnee\">Nouvelle Annee</option>\n";
 		echo "\t \t \t \t</select><br><br>\n";
-		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:none;\">Nouvelle année:</p>";
-		echo "\t \t \t \t<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" style=\"display:none;\"required><br>\n";
+		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:block;\">Nouvelle année:</p>";
+		echo "\t \t \t \t<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" style=\"display:block;\"required><br>\n";
 		echo "\t \t \t \t<input type=\"submit\" name=\"submit\" class=\"Valid\" value=\"Enregistrer\">\n";
 		echo "\t \t \t</form>";
 

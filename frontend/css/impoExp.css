@@ -12,7 +12,6 @@ html, body
 {
 	margin: 0;
 	padding: 0;
-	letter-spacing: 1px;
 }
 
 /* -------------------------------------------------------- */
@@ -102,9 +101,17 @@ table td
     margin: 0;
     padding: 0;
 }
+
 caseC:checked {
 	opacity: 0.5; /* Opacité à 50% pour les cases cochées */
 }
 .checked {
 	background-color: #5a0101; /* Fond en orange pour la case cochée */
+}
+
+.caseInnac{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }

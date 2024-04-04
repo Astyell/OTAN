@@ -396,6 +396,17 @@ function affichePvCommission($numSemestre,$annee)
 	}
 	echo "\t  </tr>\n";
 
+
+	echo "\t <tr><td></td><td></td><td></td><td></td><td></td><td></td>";
+	
+    foreach($nomColonne as $nom)
+    {					
+ 
+        echo "\t\t<td><b>".$nom->getCoef()	."</b></td>"; 
+        
+	}
+	echo "\t  </tr>\n";
+
 	$vueComm = $db->getVueCommission($numSemestre,$annee);
 	
 
@@ -433,9 +444,7 @@ function affichePvCommission($numSemestre,$annee)
 		echo "\t  </tr>\n";
 
 	}
-
 	echo "</table>";
-
-
-	
 }
+
+affichePvCommission(1,2024);

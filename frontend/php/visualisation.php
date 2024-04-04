@@ -65,12 +65,7 @@
 			$lstSem = $db->getAllSemestre();
 			sort($lstAnn);
 			sort($lstSem);
-
-			//print_r($lstAnn); //debug
-			//print_r($lstSem); //debug
-
             echo "<select name=\"fichier\">";
-
             foreach ($lstAnn as $annee) 
 			{
                 echo "<optgroup label=".$annee->getId_annee().">\n";
