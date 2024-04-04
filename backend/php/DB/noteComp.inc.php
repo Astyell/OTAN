@@ -33,7 +33,7 @@ class noteComp
 
 	public function getN_Etud		() { return $this->n_etud; }
 	public function getId_competence() { return $this->id_competence;}
-	public function getMoy_UE		() { return $this->moy_ue; }
+	public function getMoy_ue		() { return $this->moy_ue; }
 
 	/* -------------------------------------- */
 	/*                 Méthode                */

@@ -6,117 +6,71 @@ $chemin = (__DIR__ . "/../DB/DB.inc.php");
 require $chemin;
 
 
-ficheAvis(2024, '8860');
+$db = DB::getInstance();
 
+function rechercheRang($ne,$s,$annee,$comp) : ?int
+{
+	global $db;
+	$etus = $db -> getRangWithComp($s,$annee,$comp);
+	for ($i=0; $i < count($etus) ; $i++) { 
+		if ($etus[$i]->getN_Etud() == $ne) { return $i+1;}
+	}
+	return null;
+}
 
 function ficheAvis($annee, $nEtud)
 {
-	$db = DB::getInstance();
+	global $db;
 
 	$noteComp = $db->getAllNoteCompOrder($annee);
 
 	$etudiant = $db->getEtudiantEtud($nEtud)[0];
 
-	$info = array(array());
-	
-	
-	$comp = 'hello';
-	$nbComp = 0;
-	$i = null;
-	foreach ($noteComp as $note) 
-	{
-		if( !strstr($comp, $note->getId_competence()) )
-		{
-			if($i != null)
-			{
-				$info[$nbComp][3] = $i;//total gens
-				$nbComp++;
-			}
 
-			$comp = $note->getId_competence();
-			$info[$nbComp][0] = $comp;//nom comp
-
-			$i=1;
-			
-		}
+	$moyUe = array();
+	$resS1 = array();
+	$resS2 = array();
+	$nbS1 = 0;
+	$nbS2 = 0;
+	for ($s=2; $s < 7; $s+=2) 
+	{ 
+		$competences = $db->getCompetencesForSemestre($s);
+		$oCompetences= $db->getCompetencesForSemestre($s-1);
 		
-		if( strstr($nEtud, $note->getN_Etud() ))
-		{
-			$info[$nbComp][1] = $note->getMoy_UE();//moy
-			$info[$nbComp][2] = $i;//rank
-		}
-		$i++;
-	}//maque dernier tt gens
-
-
-
-
-	$moyUe = array(array());
-	$numEtud = 'hello';
-	$nbEtu = -1;
-
-	for($s=1; $s<7; $s++)
-	{
-		$vueMoyComp = $db->getVueMoyCompetence($s, $annee);
 		
-		foreach($vueMoyComp as $etud)
+		
+		foreach ($noteComp as $note) 
 		{
-			if( !strstr($numEtud, $etud->getNetud()) )
+			if ($note->getN_Etud() == $nEtud) //Si c'est le bon etudiant
 			{
-				$nbEtu++;
-				$numEtud = $etud->getNetud();
-				
-				if( empty($moyUe[$nbEtu][0]))
+				for($cpt=0;$cpt < count($competences);$cpt++)
 				{
-					$moyUe[$nbEtu][0] = $numEtud;
-					for($i=1; $i<19; $i++)
-					{
-						$moyUe[$nbEtu][$i] = 0;
-					}
-				}
-			}
-
-			for($e=0; $e<count($moyUe); $e++)
-			{
-				if(!empty($moyUe[$e][0]) && strstr($moyUe[$e][0], $etud->getNetud()))
-				{
-					//echo  $moyUe[$e][0]. "  ". $etud->getNetud() . "   <br> ";
 					
-					switch (substr($etud->getCompetence(), 4, 1) ) 
+					if ($note->getId_competence() == $oCompetences[$cpt]->getId_competence()) //Si c'est la bonne compétence
 					{
-						case '1' : $moyUe[$nbEtu][1 + (ceil($s/2)-1) * 6] += $etud->getMoy(); break;
-						case '2' : $moyUe[$nbEtu][2 + (ceil($s/2)-1) * 6] += $etud->getMoy(); break;
-						case '3' : $moyUe[$nbEtu][3 + (ceil($s/2)-1) * 6] += $etud->getMoy(); break;
-						case '4' : $moyUe[$nbEtu][4 + (ceil($s/2)-1) * 6] += $etud->getMoy(); break;
-						case '5' : $moyUe[$nbEtu][5 + (ceil($s/2)-1) * 6] += $etud->getMoy(); break;
-						case '6' : $moyUe[$nbEtu][6 + (ceil($s/2)-1) * 6] += $etud->getMoy(); break;
-						
-						//default: $moyUe[$nbEtu][1] = 0; break;
-					}
-				} 
+						$resS1[$nbS1++] = $note->getMoy_UE();
+						echo "1";
+					}			
+					
+					if ($note->getId_competence() == $competences[$cpt]->getId_competence()) //Si c'est la bonne compétence
+					{
+						$resS2[$nbS2++] = $note->getMoy_UE();
+						echo "2";
+					}		
+				}	
 			}
 		}
+		
 
-		$nbEtu = -1;
 	}
 
-
-
-
-	for($i=0;$i<count($moyUe);$i++)
+	for ($cpt=0;$cpt < $nbS1;$cpt++)
 	{
-		echo $moyUe[$i][0] . "  ";
-		for($j=1;$j<count($moyUe[$i]);$j++)
-		{
-			//$moyUe[$i][$j] = $moyUe[$i][$j];
-			
-			echo $moyUe[$i][$j] . "  ";
-		}
-		echo '<br>';
+		$moyUe[$cpt] = ($resS1[$cpt] + $resS2[$cpt])/2;
+		echo $moyUe[$cpt] . " | ";
 	}
 	
 	
-
 	
 	echo '
 	<!DOCTYPE html>
@@ -205,50 +159,50 @@ function ficheAvis($annee, $nEtud)
 					<tr>
 						<td>UE1 - Réaliser des applications</td>
 
-						<td class="tdPetit"> ' . $info[0][1] .' </td>
-						<td class="tdPetit"> ' . $info[0][2] . '/' . $info[0][3] .' </td>
-						<td class="tdPetit">' . $info[6][1] .'</td>
-						<td class="tdPetit">' . $info[6][2] . '/' . $info[6][3] .'</td>
+						<td class="tdPetit"> ' 	. $moyUe[0].' </td>
+						<td class="tdPetit"> ' 	. rechercheRang($nEtud,2,$annee,"BIN11") . '/' . count($db->getAllEtuSemWithSem(2,$annee)) .' </td>
+						<td class="tdPetit">' 	. $moyUe[0] .'</td>
+						<td class="tdPetit">' 	. rechercheRang($nEtud,4,$annee,"BIN21") . '/' . count($db->getAllEtuSemWithSem(4,$annee)) .' </td>
 					</tr>
 					<tr>
 						<td>UE2 - Optimiser des applications</td>
 
-						<td>' . $info[1][1] .'</td>
-						<td>' . $info[1][2] . '/' . $info[1][3] .'</td>
-						<td>' . $info[7][1] .'</td>
-						<td>' . $info[7][2] . '/' . $info[7][3] .'</td>
+						<td>' . $moyUe[0].'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN12") . '/' . count($db->getAllEtuSemWithSem(2,$annee)) .'</td>
+						<td>' . $moyUe[6] .'</td>
+						<td>' . rechercheRang($nEtud,4,$annee,"BIN22") . '/' . count($db->getAllEtuSemWithSem(4,$annee)) .'</td>
 					</tr>
 					<tr>
 						<td>UE3 - Administrer des systèmes</td>
 
-						<td>' . $info[2][1] .'</td>
-						<td>' . $info[2][2] . '/' . $info[2][3] .'</td>
-						<td>' . $info[8][1] .'</td>
-						<td>' . $info[8][2] . '/' . $info[8][3] .'</td>
+						<td>' . $moyUe[1].'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN13") . '/' . count($db->getAllEtuSemWithSem(2,$annee)) .'</td>
+						<td>' . $moyUe[7] .'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN23") . '/' . count($db->getAllEtuSemWithSem(4,$annee)) .'</td>
 					</tr>
 					<tr>
 						<td>UE4 - Gérer des données</td>
 
-						<td>' . $info[3][1] .'</td>
-						<td>' . $info[3][2] . '/' . $info[3][3] .'</td>
-						<td>' . $info[9][1] .'</td>
-						<td>' . $info[9][2] . '/' . $info[9][3] .'</td>
+						<td>' . $moyUe[2].'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN14") . '/' . count($db->getAllEtuSemWithSem(2,$annee)) .'</td>
+						<td>' . $moyUe[8] .'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN24") . '/' . count($db->getAllEtuSemWithSem(4,$annee)) .'</td>
 					</tr>
 					<tr>
 						<td>UE5 - Conduire des projets</td>
 
-						<td>' . $info[4][1] .'</td>
-						<td>' . $info[4][2] . '/' . $info[4][3] .'</td>
-						<td>' . $info[10][1] .'</td>
-						<td>' . $info[10][2] . '/' . $info[10][3] .'</td>
+						<td>' . $moyUe[4].'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN15") . '/' . count($db->getAllEtuSemWithSem(2,$annee)) .'</td>
+						<td>' . $moyUe[10] .'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN25") . '/' . count($db->getAllEtuSemWithSem(4,$annee)) .'</td>
 					</tr>
 					<tr>
 						<td>UE6 - Collaborer</td>
 
-						<td>' . $info[5][1] .'</td>
-						<td>' . $info[5][2] . '/' . $info[5][3] .'</td>
-						<td>' . $info[11][1] .'</td>
-						<td>' . $info[11][2] . '/' . $info[11][3] .'</td>
+						<td>' . $moyUe[5].'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN16") . '/' . count($db->getAllEtuSemWithSem(2,$annee)) .'</td>
+						<td>' . $moyUe[11] .'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN26") . '/' . count($db->getAllEtuSemWithSem(4,$annee)) .'</td>
 					</tr>
 					<tr>
 						<td>Maths</td>
@@ -298,43 +252,44 @@ function ficheAvis($annee, $nEtud)
 					<tr>
 						<td>UE1 - Réaliser des applications</td>
 
-						<td class="tdGrand">' . $info[12][1] .'</td> 
-						<td class="tdGrand">' . $info[12][2] . '/' . $info[12][3] .'</td>
+						<td class="tdGrand">' .$moyUe[12].'</td> 
+						<td class="tdGrand">' .rechercheRang($nEtud,2,$annee,"BIN51") . '/' . count($db->getAllEtuSemWithSem(5,$annee)) .'</td>
 						
 					</tr>
 					<tr>
 						<td>UE2 - Optimiser des applications</td>
 
-						<td>' . $info[12][1] .'</td>
-						<td>' . $info[12][2] . '/' . $info[12][3] .'</td>
+						<td>' . $moyUe[13].'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN52") . '/' . count($db->getAllEtuSemWithSem(5,$annee)) .'</td>
+						
 						
 					</tr>
 					<tr>
 						<td>UE3 - Administrer des systèmes</td>
 
-						<td>' . $info[12][1] .'</td>
-						<td>' . $info[12][2] . '/' . $info[12][3] .'</td>
+						<td>' .'</td>
+						<td>'  .'</td>
 						
 					</tr>
 					<tr>
 						<td>UE4 - Gérer des données</td>
 
-						<td>' . $info[12][1] .'</td>
-						<td>' . $info[12][2] . '/' . $info[12][3] .'</td>
+						<td>'  .'</td>
+						<td>'  .'</td>
 						
 					</tr>
 					<tr>
 						<td>UE5 - Conduire des projets</td>
 
-						<td>' . $info[12][1] .'</td>
-						<td>' . $info[12][2] . '/' . $info[12][3] .'</td>
+						<td>'  .'</td>
+						<td>'  .'</td>
 						
 					</tr>
 					<tr>
 						<td>UE6 - Collaborer</td>
 
-						<td>' . $info[12][1] .'</td>
-						<td>' . $info[12][2] . '/' . $info[12][3] .'</td>
+						<td>' . $moyUe[14] .'</td>
+						<td>' . rechercheRang($nEtud,2,$annee,"BIN56") . '/' . count($db->getAllEtuSemWithSem(5,$annee)) .'</td>
 						
 					</tr>
 					<tr>
@@ -428,5 +383,6 @@ function ficheAvis($annee, $nEtud)
 }
 
 
+
+ficheAvis(2024, '8860');
 ?>
-		
