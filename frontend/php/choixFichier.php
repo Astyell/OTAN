@@ -90,7 +90,7 @@
 			echo "\t \t \t \t\t<option value='".$annee->getId_annee()."'>".$annee->getId_annee()."</option>\n";
 		}
 		echo "\t \t \t \t</select><br><br>\n";
-		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:block;\">Nouvelle année:<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\"></p><br>";
+		echo "\t \t \t \t<p id=\"nouvelleAnneeText\" style=\"display:block;\">Nouvelle année:<input type=\"text\" id=\"nombre\" name=\"nombre\" pattern=\"[0-9]+\" required></p><br>";
 		echo "\t \t \t \t<input type=\"submit\" name=\"submit1\" class=\"Valid\" value=\"Enregistrer\">\n";
 		echo "\t \t \t</form>";
 	}
