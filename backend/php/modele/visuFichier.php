@@ -13,6 +13,7 @@ $noteComp  = $db->getAllNoteComp();
 $etuSem    = $db->getAllEtuSem();
 $competences = $db->getAllCompetence();
 $etuRes  = $db->getAllEtuRes();
+$etuAnn = $db->getAllEtuAnn();
 
 function afficheEtudiants(){
 	global $etudiants;
@@ -23,6 +24,15 @@ function afficheEtudiants(){
 	} else {
 		echo "No students found.";
 	}
+}
+function rechercheEtuAnn($ne,$ann) : ?etuAnn
+{
+	global $etuAnn;
+	foreach ($etuAnn as $e) 
+	{
+		if($e->getN_Etud() == $ne && $e->getId_annee() == $ann ){return $e;}
+	}
+	return null;
 }
 function rechercheEtuRess($ne,$ress) : ?etuRes
 {
@@ -89,12 +99,13 @@ function afficheEntete($numSemestre,$nb)
 			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 1 </b> </td>";
 			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 2 </b> </td>";
 			echo "\t\t<td colspan=\"3\"><b> Compétences BUT 3 </b> </td>";
-			echo "\t\t<td colspan=\"6\"><b> UEs du S5 		  </b> </td>";
+			echo "\t\t<td colspan=\"5\"><b> UEs du S5 		  </b> </td>";
+			break;
 		case 6:
 			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 1 </b> </td>";
 			echo "\t\t<td colspan=\"6\"><b> Compétences BUT 2 </b> </td>";
 			echo "\t\t<td colspan=\"3\"><b> Compétences BUT 3 </b> </td>";
-			echo "\t\t<td colspan=\"6\"><b> UEs du S6 		  </b> </td>";
+			echo "\t\t<td colspan=\"5\"><b> UEs du S6 		  </b> </td>";
 			break;
 		default:
 			break;
@@ -259,7 +270,7 @@ function afficheCompetences($competences)
 
 function enteteAnnee($numSemestre) 
 {
-	for ($i=2; $i <= $numSemestre; $i+=2) 
+	for ($i=2; $i <= $numSemestre && $i <6; $i+=2) 
 	{ 
 		echo "\t\t<td><b>C1</b></td>"; 
 		echo "\t\t<td><b>C2</b></td>"; 
@@ -279,7 +290,7 @@ function enteteAnnee($numSemestre)
 		echo "\t\t<td><b>C6</b></td>";  
 	}
 
-	if ($numSemestre == 5) 
+	if ($numSemestre >= 5) 
 	{
 		echo "\t\t<td><b>C1</b></td>"; 
 		echo "\t\t<td><b>C2</b></td>";
@@ -298,8 +309,15 @@ function afficheJury($numSemestre,$annee)
 	if ($pair) { $oCompetences = $db->getCompetencesForSemestre($numSemestre-1);} // 2-1 = 1 
 	else 	   { $oCompetences = $db->getCompetencesForSemestre($numSemestre+1);} // 1+1 = 2
 
+	echo "<div class=\"Titre\">";
+	echo "<h2> BUT - ". $annee .					"</h2>";
+	echo "<h2> Semestre $numSemestre - BUT INFO		 </h2>";
+	echo "<h2> $annee - ".($annee+1).				"</h2>";
+	echo "<h2> Jury du DATE 						 </h2>";
+	echo "</div>";
     
     echo "<table class=\"tableJury\">";
+	echo "";
 
 	if ($numSemestre > 1)
 	{
@@ -336,7 +354,7 @@ function afficheJury($numSemestre,$annee)
         echo "\t\t<td>". ($i + 1) ."/" .count($vueComm) ."</td>\n";
         echo "\t\t<td>". $etudiant->getNom() ."</td>\n";
         echo "\t\t<td>". $etudiant->getPrenom() ."</td>\n";
-        echo "\t\t<td>". "A" ."</td>\n";
+        echo "\t\t<td>". rechercheEtuAnn($etu->getN_Etud(),$annee)->getParcours() ."</td>\n";
         echo "\t\t<td>". $etudiant->getCursus() ."</td>\n";
 
 		afficheAnnee($numSemestre,$pair,$etu);
@@ -349,6 +367,16 @@ function afficheJury($numSemestre,$annee)
 
         echo "\t\t<td>". $etudiant->getUE() ."</td>\n";
         echo "\t\t<td>". $etudiant->getMoy() ."</td>\n";
+		
+		if ($pair) 
+		{
+			if (rechercheEtuAnn($etu->getN_Etud(),$annee)->getAdmission() == null ) 
+			{
+				//echo "NA";
+			}
+			echo "\t\t<td>". rechercheEtuAnn($etu->getN_Etud(),$annee)->getAdmission() ."</td>\n";
+		}
+		
         echo "\t  </tr>\n";
     }
     echo "</table>";
