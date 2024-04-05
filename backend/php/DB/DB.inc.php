@@ -170,6 +170,12 @@ class DB
 		return $this->execQuery($requete, null, 'Etudiant');
 	}
 
+	public function getEtudiantEtud($nEtud)
+	{
+		$requete = 'select * from etudiant where n_etud = \'' . $nEtud . '\'';
+		return $this->execQuery($requete, null, 'Etudiant');
+	}
+
 	public function insertEtudiant($n_etud, $n_ip, $nom_etu, $prenom_etu, $cursus, $bac)
 	{
 		$requete = 'insert into etudiant values(?,?,?,?,?,?)';
@@ -225,9 +231,10 @@ class DB
 	/* IDENTIFIANT */
 	/*-------------*/
 
+	// Utilisée dans utilisateur.php
 	public function getAllIdentifiant()
 	{
-		$requete = 'select * from identifiant';
+		$requete = 'select * from identifiant ORDER BY id';
 		return $this->execQuery($requete, null, 'Identifiant');
 	}
 
@@ -239,10 +246,34 @@ class DB
 		return $this->execQuery($requete,array($id),'Identifiant');
 	}
 
+	//Utilisée dans utilisateurs.php
+	public function getMaxID()
+	{
+		$requete = 'select MAX(id) from identifiant';
+		return $this->execMaj($requete, null);
+	}
+
+	//Utilisée dans utilisateurs.php
 	public function insertIdentifiant($id, $mdp, $estAdmin)
 	{
-		$requete = 'insert into identifiant values(?,?,?)';
+		$requete = 'insert into identifiant (identifiant, mdp, estAdmin) values(?,?,?)';
 		$tparam = array($id, $mdp, $estAdmin);
+		return $this->execMaj($requete, $tparam);
+	}
+
+	//Utilisée dans utilisateurs.php
+	public function deleteIdentifiant($id)
+	{
+		$requete = 'delete from identifiant where id = ?';
+		$tparam = array($id);
+		return $this->execMaj($requete, $tparam);
+	}
+
+	//Utilisée dans utilisateurs.php
+	public function updateIdentifiant($id, $identifiant, $mdp, $estAdmin)
+	{
+		$requete = 'UPDATE identifiant SET identifiant = ?, mdp = ?, estAdmin = ? where id = ?';
+		$tparam = array($identifiant, $mdp, $estAdmin, $id);
 		return $this->execMaj($requete, $tparam);
 	}
 
@@ -299,6 +330,15 @@ class DB
 		return $this->execQuery($requete, $tparam, 'EtuSem');
 	}
 
+	public function getRangWithComp($semestre, $annee,$comp)
+	{
+		$requete = 'select e.n_etud,n.moy_ue as moy_gene from etusem e 
+		join semestre s on e.id_semestre = s.id_semestre join notecomp n on n.n_etud=e.n_etud
+		where e.id_semestre = ? and e.id_annee = ? and id_competence= ? order by n.moy_ue desc;';
+		$tparam = array($semestre, $annee,$comp);
+		return $this->execQuery($requete, $tparam, 'EtuSem');
+	}
+
 	public function insertEtuSem($n_etud, $id_sem,$id_annee, $tp, $td, $nbAbsInjust, $nbAbsJust, $moy, $nb_UE, $altern)
 	{
 		$requete = 'insert into etusem values(?,?,?,?,?,?,?,?,?,?,?)';
@@ -324,6 +364,13 @@ class DB
 					join semestre s on s.id_semestre = c.id_semestre 
 					where c.id_semestre = ? and c.id_annee = ?';
 		$tparam = array($semestre, $annee);
+		return $this->execQuery($requete, $tparam, 'NoteComp');
+	}
+
+	public function getAllNoteCompOrder($annee)
+	{
+		$requete = 'select n.* from notecomp n join competence c on c.id_competence = n.id_competence where id_annee = ? order by n.id_competence, moy_ue desc';
+		$tparam = array( $annee);
 		return $this->execQuery($requete, $tparam, 'NoteComp');
 	}
 
@@ -398,6 +445,13 @@ class DB
 		return $this->execMaj($requete, $tparam);
 	}
 
+	public function updateResCom($id_res, $id_com, $coef)
+	{
+		$requete = 'update rescom set coefr = ? where id_ressource = ? and id_competence = ?';
+		$tparam = array($coef, $id_res, $id_com);
+		return $this->execMaj($requete, $tparam);
+	}
+
 	/*-------------*/
 	/*  VUES       */
 	/*-------------*/
@@ -415,7 +469,7 @@ class DB
 
 	public function getVueNomColonne($semestre, $annee)
 	{
-		$requete = 'select id_competence, r.id_ressource
+		$requete = 'select id_competence, r.id_ressource, coefr
 					from rescom r join ressource c on r.id_ressource = c.id_ressource 
 					join semestre a on a.id_semestre = c.id_semestre 
 					where c.id_semestre = ? and a.id_annee = ?

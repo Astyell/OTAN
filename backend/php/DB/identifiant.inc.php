@@ -12,6 +12,7 @@ class identifiant
 	/*               Attributs                */
 	/* -------------------------------------- */
 
+	private int 		$id;
 	private string		$identifiant;
 	private string		$mdp;
     private bool 		$estadmin;
@@ -20,8 +21,9 @@ class identifiant
 	/*              Constructeur              */
 	/* -------------------------------------- */
 	
-	public function __construct($i="",$m="",$eA=false) 
+	public function __construct($id=0, $i="",$m="",$eA=false) 
 	{
+		$this->id           = $id;
 		$this->identifiant 	= $i;
 		$this->mdp 			= $m;
 		$this->estadmin 	= $eA;
@@ -31,6 +33,7 @@ class identifiant
 	/*                Accesseur               */
 	/* -------------------------------------- */
 
+	public function getId	        () { return $this->id; }
 	public function getIdentifiant	() { return $this->identifiant; }
 	public function getMdp			() { return $this->mdp;}
 	public function getEstAdmin		() { return $this->estadmin; }

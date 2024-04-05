@@ -1,0 +1,104 @@
+/** 
+ * @author  : Alizéa LEBARON
+ * @since   : 03/02/2024
+ * @version : V1.0.0 - 03/02/2024
+ */
+
+/* -------------------------------------------------------- */
+/*                Réinitialisation des marges               */
+/* -------------------------------------------------------- */
+
+html, body
+{
+    margin: 0;
+    padding: 0;
+}
+
+/* -------------------------------------------------------- */
+/*                          Titre                           */
+/* -------------------------------------------------------- */
+
+h1
+{
+    text-align: center;
+}
+
+/* -------------------------------------------------------- */
+/*                 Tableau des utilisateurs                 */
+/* -------------------------------------------------------- */
+
+table
+{
+    margin: 0 auto;
+    border: 1px solid black;
+    min-height: 65vh;
+    max-height: 65vh;
+    overflow-y: auto; /* Défilement horizontal */
+    border-collapse: collapse;
+}
+
+th, tr, td
+{
+    border: 1px solid black;
+    padding: 10px;
+}
+
+th
+{
+    text-align: center;
+    background-color: #830000;
+    color: #fbca9b;
+}
+
+td
+{
+    background-color: #ffd7b4;
+}
+
+input
+{
+    display: block; /* Mettre l'input en tant qu'élément de type bloc */
+    margin: 0 auto; /* Marge automatique pour centrer horizontalement */
+}
+
+/* Masquer la case à cocher par défaut */
+input[type="checkbox"] 
+{
+    width: 20px;
+    height: 20px;
+    border: 2px solid #333;
+    border-radius: 3px;
+}
+  
+  /* Style pour la case cochée */
+input[type="checkbox"]:checked
+{
+    content: "\2713"; /* Unicode pour le symbole de coche */
+    width: 20px;
+    height: 20px;
+    background-color: #830000;
+    color: #f59031;
+}
+
+input[type="submit"], input[type="reset"]
+{
+    background-color: #830000;
+    color: #f7c294;
+    border: 1px black solid ;
+    border-radius: 4px;
+    padding: 5px 7px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: ease 1s;
+}
+
+input[type="submit"]:hover, input[type="reset"]:hover
+{
+    background-color: #6b0000;
+    color: #eba669;
+    border: 1px black solid ;
+    border-radius: 4px;
+    padding: 5px 7px;
+    font-weight: 700;
+    cursor: pointer;
+}

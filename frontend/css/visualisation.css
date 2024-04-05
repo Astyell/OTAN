@@ -36,8 +36,8 @@ html, body
 {
     max-width: 100%; /* Largeur maximale de la div */
     max-height: 85vh;
-    overflow-x: auto; /* Défilement horizontal */
-    overflow-y: auto; /* Défilement horizontal */
+    overflow-x: scroll; /* Défilement horizontal */
+    overflow-y: scroll; /* Défilement horizontal */
 }
 
 .visu

@@ -3,23 +3,24 @@
 /** fctAux.inc.php
 	* @author  : Alizéa Lebaron, Justine BONDU
 	* @since   : 26/03/2024
-	* @version : 1.1.3 - 03/04/2024
+	* @version : 1.1.4 - 03/04/2024
 	*/
 
 function incHeaderAdmin ()
 {
-	$sRet = '<header>' .
-	'<nav class="navbar">' .
-		'<ul>' .
-			'<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>' .
-			'<li><img src="../img/icone/import.png" alt="import">         <a href="choixFichier.php">Importer</a></li>' . 
-			'<li><img src="../img/icone/export.png" alt="export">         <a href="exporter.php">Exporter</a></li>' .
-			'<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude"><a href="avis.php">Fiche poursuite d\'étude</a></li>' .
-			'<li><img src="../img/icone/power.png"  alt="deconnexion">    <a href="deconnexion.php">Déconnexion</a></li>' .
-		'</ul>' .
-	'</nav>' .
-	'</header>';
-	echo $sRet;
+    $sRet = '<header>' .
+    '<nav class="navbar">' .
+        '<ul>' .
+            '<li><a href="visualisation.php" class="accueil"><img src="../img/icone/OTAN.png"   alt="import" class="icon"> </a></li>' .
+            '<li><img src="../img/icone/import.png" alt="import">         <a href="choixFichier.php">Importer</a></li>' . 
+            '<li><img src="../img/icone/export.png" alt="export">         <a href="exporter.php">Exporter</a></li>' .
+            '<li><img src="../img/icone/user.png" alt="user">         <a href="utilisateur.php">Utilisateurs</a></li>' .
+            '<li class="center"><img src="../img/icone/doc.png"    alt="poursuite etude"><a href="avis.php">Fiche poursuite d\'étude</a></li>' .
+            '<li><img src="../img/icone/power.png"  alt="deconnexion">    <a href="deconnexion.php">Déconnexion</a></li>' .
+        '</ul>' .
+    '</nav>' .
+    '</header>';
+    echo $sRet;
 }
 
 function incHeaderUser ()
@@ -76,15 +77,15 @@ function downloadImage ($nom)
 	{
 		echo "<!DOCTYPE html>\n";
 		echo "<html lang='fr'>\n";
-		echo "<head>\n";
-		echo "<meta charset='UTF-8'>\n";
-		echo "<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'  />\n";
+		echo "\t<head>\n";
+		echo "\t \t<meta charset='UTF-8'>\n";
+		echo "\t \t<meta name='Author' lang='fr' content='Justine BONDU Sébastien CHAMPVILLARD Alizéa LEBARON Matéo SA'  />\n";
 	}
 
 	function enTete2_2() 
 	{
-		echo "</head>\n";
-		echo "<body>\n";
+		echo "\t</head>\n";
+		echo "\t<body>\n";
 	}
 
 	function verifMDP($mdp) 

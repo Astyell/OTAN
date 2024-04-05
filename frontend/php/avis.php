@@ -5,6 +5,16 @@
 	* @version : 1.2.1 - 03/04/2024
 	*/
 
+	// Début de la session
+    session_start();
+
+	// Vérification que la session existe bien
+	if (!isset($_SESSION['id'])) 
+	{
+        header('Location: connexion.php');
+        exit();
+    }
+
 	// Reload la page à chaque fois pour les images
 	header("Cache-Control: no-cache, must-revalidate");
 
@@ -15,16 +25,6 @@
 	// Importation
 	include ("fctAux.inc.php");
 	require ("../../backend/php/DB/DB.inc.php");
-
-	// Début de la session
-    session_start();
-
-	// Vérification que la session existe bien
-	if (!isset($_SESSION['id'])) 
-	{
-        header('Location: connexion.php');
-        exit();
-    }
 
 	// Récupération des données
 	$ID    = $_SESSION [   'id'];
