@@ -367,7 +367,7 @@ function ficheAvis($annee, $nEtud, $imagePath1, $imagePath2, $imagePath3)
 			</table>
 
 			<h6 class="drt"              > Signature du chef de Département        </h6>
-			<h6 class="drt" id="chefDept"> Nom du chef de Dept                     </h6>
+			<h6 class="drt" id="chefDept"> Jean Paul                     </h6>
 			<h6 class="signature" id="signDept" ><img src="data:image/jpeg;base64,' . $imagePath3 . '" alt="signature dep" class="logo"></h6>			
 			</div>
 		';
