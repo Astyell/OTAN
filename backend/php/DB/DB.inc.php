@@ -391,6 +391,13 @@ class DB
 	/*  ETU/RES    */
 	/*-------------*/
 
+	public function getAllEtuResWithEtu($netud, $res, $ann)
+	{
+		$requete = 'select e.* from etures e join ressource r on r.id_ressource = e.id_ressource where n_etud = ? and e.id_ressource = ? and id_annee = ?';
+		$tparam = array($netud, $res, $ann);
+		return $this->execQuery($requete, $tparam, 'EtuRes');
+	}
+
 	public function getAllEtuRes()
 	{
 		$requete = 'select * from etures';

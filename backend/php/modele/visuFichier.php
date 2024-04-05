@@ -387,11 +387,11 @@ function affichePvCommission($numSemestre,$annee)
 {
 	global $db;
 	
-	if ($numSemestre != 1 && $numSemestre !=3 && $numSemestre !=5) 
+	/*if ($numSemestre != 1 && $numSemestre !=3 && $numSemestre !=5) 
 	{
 		echo "<b>Erreur : Il faut choisir le semestre 1,3 ou 5</b>";
 		return;
-	}	
+	}	*/
 
 	echo "<div class=\"Titre\">";
 	echo "<h1> Semestre $numSemestre - BUT INFO</h1>";

@@ -75,10 +75,10 @@
                     {
                         echo "<option value='".$annee->getId_annee(). "_" .$semestre->getId_semestre()."_Jury"."'>".$annee->getId_annee()."_S".$semestre->getId_semestre()."_Jury"."</option>\n";
                         
-                        if($semestre->getId_semestre()%2==1)
-                        {
+                        //if($semestre->getId_semestre()%2==1)
+                        //{
                             echo "<option value='".$annee->getId_annee(). "_" .$semestre->getId_semestre()."_Commission"."'>".$annee->getId_annee()."_S".$semestre->getId_semestre()."_Commission"."</option>\n";
-                        }
+                        //}
                     }
                 }
             }
