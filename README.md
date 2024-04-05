@@ -23,3 +23,8 @@ Voici la commande à exécuter une fois le `git clone` fait :
 
 `chmod -R 777 OTAN`
 
+## Accéder au site depuis un des serveurs de l'IUT
+
+Pour avoir accès au site hébergé sur nos sessions à l'IUT vous pouvez taper cette URL :
+
+http://woody.iut.univ-lehavre.fr/~la221049/s4/OTAN/frontend/php/connexion.php
