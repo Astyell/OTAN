@@ -32,11 +32,11 @@ class DB
 	private function __construct()
 	{
 		// Connexion à la base de données
-		$connStr = 'pgsql:host=localhost port=5432 dbname=sm220306'; // A MODIFIER ! 
+		$connStr = 'pgsql:host=localhost port=5432 dbname=dbname'; // A MODIFIER ! 
 		try 
 		{
 			// Connexion à la base
-			$this->connect = new PDO($connStr, 'sm220306', 'mateo2705'); //A MODIFIER !
+			$this->connect = new PDO($connStr, 'identifiant', 'mdp'); //A MODIFIER !
 			// Configuration facultative de la connexion
 			$this->connect->setAttribute(PDO::ATTR_CASE, PDO::CASE_LOWER);
 			$this->connect->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
